@@ -57,6 +57,12 @@ jobs:
           node examples/raptor-engine/build.mjs
           node examples/raptor-engine/build.mjs --light
 
+      - name: Biology kit and neuron
+        run: |
+          node kit/smoke.mjs
+          node examples/neuron/build.mjs
+          node examples/neuron/build.mjs --light
+
       - name: Committed pages are unchanged
         run: |
           git status --short

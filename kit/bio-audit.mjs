@@ -49,10 +49,24 @@ function intersectionsOf(a, b, tolerance, same = false) {
   return hits;
 }
 
-export function bioAudit({ membranes = [], labels = [], parts = [], unitsPerMicron, measurements = [], tolerance = 0.05 } = {}) {
+export function bioAudit({
+  membranes = [],
+  labels = [],
+  parts = [],
+  unitsPerMicron,
+  measurements = [],
+  intersectionTolerance = 1e-6,
+  scaleTolerance = 0.05,
+} = {}) {
   const errors = [];
   if (!Number.isFinite(unitsPerMicron) || unitsPerMicron <= 0) {
     errors.push("unitsPerMicron must be a finite positive number");
+  }
+  if (!Number.isFinite(intersectionTolerance) || intersectionTolerance < 0) {
+    errors.push("intersectionTolerance must be a finite non-negative number");
+  }
+  if (!Number.isFinite(scaleTolerance) || scaleTolerance < 0 || scaleTolerance >= 1) {
+    errors.push("scaleTolerance must be a finite number greater than or equal to zero and less than one");
   }
 
   const validMembranes = membranes.filter((membrane) => {
@@ -66,11 +80,11 @@ export function bioAudit({ membranes = [], labels = [], parts = [], unitsPerMicr
 
   for (let i = 0; i < validMembranes.length; i++) {
     const a = boundaryOf(validMembranes[i]);
-    const ownHits = intersectionsOf(a, a, tolerance, true);
+    const ownHits = intersectionsOf(a, a, intersectionTolerance, true);
     if (ownHits.length) errors.push(`membrane ${validMembranes[i].id ?? i} self-intersects`);
     for (let j = i + 1; j < validMembranes.length; j++) {
       const b = boundaryOf(validMembranes[j]);
-      if (intersectionsOf(a, b, tolerance).length) {
+      if (intersectionsOf(a, b, intersectionTolerance).length) {
         errors.push(`membranes ${validMembranes[i].id ?? i} and ${validMembranes[j].id ?? j} intersect`);
       }
     }
@@ -82,7 +96,6 @@ export function bioAudit({ membranes = [], labels = [], parts = [], unitsPerMicr
     if (!target || !partIds.has(String(target))) errors.push(`label ${label.text ?? label.id ?? "(unnamed)"} references missing part ${target ?? "(none)"}`);
   }
 
-  if (!Number.isFinite(tolerance) || tolerance < 0) errors.push("tolerance must be a finite non-negative number");
   for (const measurement of measurements) {
     if (!Number.isFinite(unitsPerMicron) || unitsPerMicron <= 0) break;
     const { name = "(unnamed)", worldUnits, microns } = measurement;
@@ -92,7 +105,7 @@ export function bioAudit({ membranes = [], labels = [], parts = [], unitsPerMicr
     }
     const actual = worldUnits / microns;
     const relativeError = Math.abs(actual - unitsPerMicron) / unitsPerMicron;
-    if (relativeError > tolerance) {
+    if (relativeError > scaleTolerance) {
       errors.push(`measurement ${name} disagrees with unitsPerMicron by ${(relativeError * 100).toFixed(1)}%`);
     }
   }

@@ -1,4 +1,4 @@
-# Contributing to Anatomy
+# Contributing to Biology Anatomy
 
 Thank you for helping. Anatomy is judged by how its figures look at 4× zoom, so most of this guide is about checking your work before anyone else does.
 
@@ -13,14 +13,14 @@ You need:
 - **Claude Code**, to try the skill itself.
 
 ```sh
-git clone https://github.com/wheresryan22/anatomy.git
-cd anatomy
+git clone https://github.com/Garinmckayl/biology-anatomy.git
+cd biology-anatomy
 ```
 
 To use your working copy as the skill while you change it, link it into your personal skills folder (move any installed copy out of the way first):
 
 ```sh
-ln -s "$PWD" ~/.claude/skills/anatomy
+ln -s "$PWD" ~/.claude/skills/biology-anatomy
 ```
 
 ## Building the examples
@@ -42,6 +42,9 @@ node examples/turning-dial/build.mjs
 node examples/turning-dial/build.mjs --light
 node examples/turning-dial/build.mjs --light --verify
 node examples/turning-dial/stress.mjs --light
+node kit/smoke.mjs
+node examples/neuron/build.mjs
+node examples/neuron/build.mjs --light
 ```
 
 The Raptor builds take a few minutes each; the rest take seconds. `examples/test-rig/` and `examples/spot-plate/` are React components with no build script.
@@ -119,12 +122,13 @@ These come from [`SKILL.md`](SKILL.md) and [`references/`](references). A pull r
 - **No overlaps.** No pipe or cable passes through anything, at rest, apart or in any frame of a motion. Every crossing is drawn in true depth order, proved by the audit, never tuned by eye. Fix an interlock in the geometry, never with a key bias, and record the true shape of what you draw: a stand-in shape that quiets the audit is a bug.
 - **Lines resolve and textures fade.** Every line ends on something. A rib row, bolt circle, seam or rule line ends on a real edge or fades out; it never stops in the middle of a surface. Curved surfaces shade smoothly, with no tone staircase.
 - **Shaders never pop.** Every uniform rides an envelope with an attack and a decay, a phase change is a crossfade, and every term reaches zero before any bound or canvas edge. The effect lives in world space in the figure's own camera, and the SVG still reads without WebGL.
-- **Every number is true.** The readout, the motion and the caption come from one model with the real numbers. Docs follow the same rule: never write a number or a feature you have not checked.
+- **Sources first.** Every number shown in a biological figure (including size, concentration, membrane potential, rate and dose) has a citation in its caption or sources block. Figures are educational, not medical advice, especially for drugs and dosing.
+- **Biological accuracy.** State species, tissue and conditions where relevant; distinguish schematic from measured scale; do not invent unsupported anatomy or imply that a metaphor is literal.
 - **Read every PNG.** Look at 4× close-ups of every joint in both themes before you ask for a review.
 
 ## Changing the skill's text
 
-`SKILL.md` and `references/` are instructions Claude follows, so keep them short, exact and in the same plain voice. When you change a kit API, update [`references/kit.md`](references/kit.md) in the same pull request. When you add an example, give it a folder under `examples/` with a `build.mjs` that writes `<name>.html` and, with `--light`, `<name>-light.html`; add it to the list in `SKILL.md`, the table in the README and the build list in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+`SKILL.md` and `references/` are instructions Claude follows, so keep them short, exact and in the same plain voice. When you change a kit API, update the relevant reference in the same pull request. When you add an example, give it a folder under `examples/` with a `build.mjs` that writes `<name>.html` and, with `--light`, `<name>-light.html`; add it to the list in `SKILL.md`, the table in the README and the build list in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Pull requests
 

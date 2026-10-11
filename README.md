@@ -34,7 +34,7 @@ The skill supports two representations: **literal anatomy**, which depicts biolo
 
 | Neuron | Heart | Drug–receptor |
 |---|---|---|
-| [Preview](examples/neuron/neuron.html) | Placeholder | Placeholder |
+| [Open the interactive neuron](examples/neuron/neuron.html) · [light theme](examples/neuron/neuron-light.html) | Coming soon | Coming soon |
 
 ## Examples
 

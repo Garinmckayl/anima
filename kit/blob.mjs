@@ -1,5 +1,4 @@
 import { depthOf, iso } from "./iso-kit.mjs";
-import { pathOf } from "./iso-kit.mjs";
 
 const number = (value) => Number(value.toFixed(1));
 
@@ -48,7 +47,7 @@ export function membraneOf(outer, inner, projection, options = {}) {
 }
 
 export function blobSvg(blob) {
-  const id = blob.id ? ` id="${String(blob.id).replaceAll("&", "&amp;").replaceAll('"', "&quot;")}"` : "";
+  const id = blob.id ? ` id="${String(blob.id).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}"` : "";
   return `<g${id} class="bio-blob" data-tone="${blob.tone}"><path class="bio-blob-base" d="${blob.d}"/><path class="bio-blob-shade" d="${blob.shade}"/><path class="bio-blob-highlight" d="${blob.highlight}"/><path class="iso-line bio-blob-edge" data-tone="${blob.tone}" d="${blob.d}"/></g>`;
 }
 
@@ -57,5 +56,18 @@ export function membraneSvg(membrane) {
 }
 
 export function blobPath(points, projection) {
-  return pathOf(points.map((point) => iso(point, projection)), true);
+  return curvePath(points.map((point) => iso(point, projection)));
 }
+
+export const BIO_CSS = `
+.bio-blob-base,.bio-membrane-base{fill:var(--anatomy-shade-2)}
+.bio-blob-shade{fill:var(--anatomy-shade-0);opacity:.58}
+.bio-blob-highlight{fill:var(--anatomy-top);opacity:.62}
+.bio-blob-edge{fill:none}
+.bio-membrane-base{fill-rule:evenodd}
+.bio-bond{fill:none;stroke:var(--anatomy-mid);stroke-linecap:round}
+.bio-atom circle:first-child{fill:var(--anatomy-paper);stroke:var(--anatomy-hi);stroke-width:.6}
+.bio-atom .bio-atom-highlight{fill:var(--anatomy-lit);stroke:none;opacity:.65}
+.bio-helix-rung{stroke-width:.65}
+.bio-ribbon{fill:var(--anatomy-shade-2);stroke:var(--anatomy-hi);stroke-width:.55;stroke-linejoin:round}
+`;
