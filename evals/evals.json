@@ -1,0 +1,25 @@
+{
+  "skill_name": "biology-anatomy",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a standalone interactive figure showing an action potential traveling along a myelinated axon, including the soma, dendrites, myelin internodes, nodes of Ranvier and a synaptic terminal. Show a live membrane-potential readout near -70 mV at rest and about +40 mV at the peak, and cite sources for both values in the caption. Include a reduced-motion still frame.",
+      "expected_output": "An accessible, standalone figure with anatomically recognizable neuron structures and a saltatory action-potential animation. The readout and all numeric values are driven from one model and explicitly identified as representative, with citations and context in a caption or sources block. Myelin internodes and nodes are spatially distinct, the synaptic terminal is not depicted as electrical continuity, and reduced motion shows a useful still frame. No unsourced biological numbers or medical claims."
+    },
+    {
+      "id": 2,
+      "prompt": "Visualize a drug binding a GPCR and show a dose-versus-receptor-occupancy readout. Use a clearly labeled lock-and-key metaphor only as a secondary analogy, distinguish binding from receptor activation, cite the data/model and every numeric value, and make clear this is educational rather than dosing advice.",
+      "expected_output": "A figure that depicts the GPCR and ligand as biological structures while marking any mechanical metaphor as an analogy. Dose, occupancy, affinity and efficacy are not conflated; the displayed relationship is sourced and its model and conditions are stated. The figure includes an educational-not-medical-advice notice and makes no prescribing recommendation."
+    },
+    {
+      "id": 3,
+      "prompt": "Build a cutaway visualization of the cardiac cycle with atria, ventricles, valves and directional blood flow. Show the sequence of valve opening and closing, and cite any pressure, volume, timing or rate values in the figure caption. Use a light theme and a live phase readout.",
+      "expected_output": "An anatomically recognizable heart cutaway with the atrioventricular and semilunar valves represented in the correct sequence, clear chamber flow direction, and a live phase readout driven by the same model as the motion. Each quantitative value is cited with its conditions, no extra unsupported values are introduced, and the rendering remains legible without animation."
+    },
+    {
+      "id": 4,
+      "prompt": "Make an interactive cell-membrane explainer showing a ligand-gated ion channel opening and ions passing through the membrane. Include a labeled bilayer, extracellular and intracellular sides, and cite every displayed concentration or potential. Explain the mechanism without implying that the membrane or channel is a literal valve.",
+      "expected_output": "A biologically grounded membrane figure with a coherent bilayer, a channel spanning it, named compartments, and ions moving only through the open channel. Any valve analogy is explicitly secondary. All quantitative values have citations, and the figure discloses schematic scale or declares a sourced scale consistently."
+    }
+  ]
+}
