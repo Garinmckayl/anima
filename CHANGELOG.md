@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Adapted the skill for sourced visualizations of anatomy, neurobiology, pharmacology, cell biology and molecular biology.
+- Added organic, branching and molecular drawing primitives, a biology-specific audit, domain references and a neuron action-potential example.
+- Added biology-focused evaluation prompts and documented educational and medical-advice limits.
+
+### Changed
+
+- Renamed the skill to `biology-anatomy` and retained upstream Anatomy attribution and MIT license notices.
+
 All notable changes to Anatomy are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The skill has no version numbers yet, so entries are dated.
 
 ## [Unreleased]
