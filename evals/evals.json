@@ -20,6 +20,26 @@
       "id": 4,
       "prompt": "Make an interactive cell-membrane explainer showing a ligand-gated ion channel opening and ions passing through the membrane. Include a labeled bilayer, extracellular and intracellular sides, and cite every displayed concentration or potential. Explain the mechanism without implying that the membrane or channel is a literal valve.",
       "expected_output": "A biologically grounded membrane figure with a coherent bilayer, a channel spanning it, named compartments, and ions moving only through the open channel. Any valve analogy is explicitly secondary. All quantitative values have citations, and the figure discloses schematic scale or declares a sourced scale consistently."
+    },
+    {
+      "id": 5,
+      "prompt": "Show how cocaine and amphetamine act differently at a dopamine synapse, with a none, cocaine and amphetamine selector. Cite the mechanisms and any number shown, take structures from a structure record, and make clear this explains mechanism only.",
+      "expected_output": "A presynaptic terminal with vesicles, VMAT2, the dopamine transporter, a cleft and postsynaptic receptors. Cocaine blocks reuptake; amphetamine is transported in, disturbs vesicular storage and drives reverse efflux. Skeletal formulas come from a cited structure record and match their molecular formulas. No doses, routes, purity, synthesis or effect descriptions, an educational-not-medical-advice note, and a readout from one model."
+    },
+    {
+      "id": 6,
+      "prompt": "Visualize D1-like and D2-like dopamine receptor signalling in a striatal neuron, including the G-protein cycle, with a dopamine slider and a generic receptor-antagonist toggle. Cite the couplings and state what is simplified.",
+      "expected_output": "D1-like receptors couple Gs/olf and raise cAMP; D2-like receptors couple Gi/o and lower it, with GDP and GTP exchange and the alpha and beta-gamma subunits shown in the right order. The antagonist blocks binding rather than being shown as activation. Simplifications such as shared membrane, omitted subtypes and arrestin signalling are disclosed, and no unsourced numbers appear."
+    },
+    {
+      "id": 7,
+      "prompt": "Make a schematic mid-sagittal brain showing the mesolimbic dopamine pathway and one model of how it changes with repeated drug exposure, with a cue sequence. Frame every claim as established or model-level and cite it.",
+      "expected_output": "A labelled schematic brain with VTA, nucleus accumbens, prefrontal cortex, amygdala and hippocampus and directional pathways. The repeated-exposure state is clearly presented as one leading model, with qualitative levels and sources for lower D2 availability, incentive sensitisation and weaker prefrontal control. It says addiction is multifactorial, gives no use instructions, and includes an educational note and a pointer to local help."
+    },
+    {
+      "id": 8,
+      "prompt": "Visualize how semaglutide works on a pancreatic beta cell, with a glucose slider and a native GLP-1 versus semaglutide selector. Use official label numbers only, cite them, and keep preclinical brain findings separate from clinical evidence.",
+      "expected_output": "A beta cell with the GLP-1 receptor, Gs, adenylyl cyclase, cAMP, PKA and Epac2, and the separate glucose-sensing pathway, showing that insulin release is glucose dependent. Label-derived numbers such as sequence homology, half-life and albumin binding are cited with their population. Brain and reward findings are marked preclinical or early, and no dose, schedule, weight-loss amount or recommendation appears."
     }
   ]
 }
