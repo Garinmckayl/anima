@@ -10,6 +10,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Four pharmacology and neuroscience figures: `dopamine-receptors` (D1 and D2 signalling), `stimulants-dat` (cocaine and amphetamine at the dopamine transporter), `reward-addiction` (the mesolimbic pathway and a repeated-exposure model) and `semaglutide-glp1` (a GLP-1 receptor agonist on a pancreatic beta cell).
 - `estrogen-aggression`, which follows testosterone through aromatase to estrogen receptor α and states the weak human evidence plainly.
 - A `record` action in `scripts/drive.mjs` that writes evenly spaced frames, and `scripts/make-demo.mjs`, which records every figure and encodes `assets/demo.mp4` and `assets/demo.gif`.
+- A 35-second launch video (`assets/anima-launch.mp4`), rendered with HyperFrames from recordings of the figures.
 - A landing page (`index.html`), thumbnails and a social preview image in `assets/`.
 - Evaluation prompts for the new figures, and pharmacology guidance for drugs of abuse and incretin figures.
 

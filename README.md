@@ -9,7 +9,8 @@ A [Claude Code](https://claude.com/claude-code) skill that turns "show me how co
 </p>
 
 <p align="center">
-  <a href="assets/demo.mp4">Watch the demo (MP4)</a> ·
+  <a href="assets/anima-launch.mp4">Watch the 35-second launch video</a> ·
+  <a href="assets/demo.mp4">Full demo (MP4)</a> ·
   <a href="https://anima.arcumet.com">Try every figure live</a>
 </p>
 
