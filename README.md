@@ -1,4 +1,4 @@
-# Biology Anatomy
+# Anima
 
 **Ask Claude for a biology figure. Get an interactive, sourced, isometric one.**
 
@@ -10,7 +10,7 @@ A [Claude Code](https://claude.com/claude-code) skill that turns "show me how co
 
 <p align="center">
   <a href="assets/demo.mp4">Watch the demo (MP4)</a> ·
-  <a href="https://garinmckayl.github.io/biology-anatomy/">Try every figure live</a>
+  <a href="https://anima.arcumet.com">Try every figure live</a>
 </p>
 
 ## Why it exists
@@ -26,7 +26,7 @@ Most science graphics are either static diagrams or confident-looking animations
 ## Install
 
 ```sh
-npx skills add Garinmckayl/biology-anatomy -g -a claude-code
+npx skills add Garinmckayl/anima -g -a claude-code
 ```
 
 Requires Claude Code and Node.js 20.10 or later. The drawing kit uses only Node built-ins and has zero runtime dependencies. Chrome or Chromium is needed only for the capture and verification scripts.
@@ -36,19 +36,19 @@ Requires Claude Code and Node.js 20.10 or later. The drawing kit uses only Node 
 In Claude Code:
 
 ```text
-/biology-anatomy show how cocaine and amphetamine act differently at the dopamine transporter, with a drug selector and sourced mechanisms; standalone HTML
+/anima show how cocaine and amphetamine act differently at the dopamine transporter, with a drug selector and sourced mechanisms; standalone HTML
 ```
 
 ```text
-/biology-anatomy visualize semaglutide acting on a pancreatic beta cell, with glucose-dependent insulin release, cited label numbers and an educational-use note
+/anima visualize semaglutide acting on a pancreatic beta cell, with glucose-dependent insulin release, cited label numbers and an educational-use note
 ```
 
 ```text
-/biology-anatomy show D1 and D2 receptor signalling in a striatal neuron, with the G-protein cycle and a receptor-antagonist toggle
+/anima show D1 and D2 receptor signalling in a striatal neuron, with the G-protein cycle and a receptor-antagonist toggle
 ```
 
 ```text
-/biology-anatomy make a mid-sagittal brain showing the mesolimbic pathway and one model of how it changes with repeated drug exposure; cite every claim
+/anima make a mid-sagittal brain showing the mesolimbic pathway and one model of how it changes with repeated drug exposure; cite every claim
 ```
 
 Name the biological subject, the mechanism to explain, the audience and the output format. The skill sizes the job first (Figure, Hero or Epic), collects sources before drawing, builds the page, then checks it the way a reviewer would: zoomed in, in both themes, at phone width.
@@ -102,4 +102,4 @@ If you or someone you know is struggling with substance use, a local health serv
 
 ## License
 
-MIT. Built on the MIT-licensed [Anatomy skill](https://github.com/wheresryan22/anatomy); the upstream copyright notice is retained in [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).

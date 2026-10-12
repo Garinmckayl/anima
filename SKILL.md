@@ -1,9 +1,9 @@
 ---
-name: biology-anatomy
+name: anima
 description: Create crafted, accurate visualizations of anatomy, neurobiology, pharmacology, drugs, cells, and molecular biology. Show real biological structures and make their mechanisms visible, using literal anatomy or a clearly identified mechanical metaphor. Build interactive isometric SVG figures with sourced numbers, accessible motion, optional WebGL, a framed card and live readout. Use for biological explainers, educational illustrations, documentation and interactive figures.
 ---
 
-# Biology Anatomy
+# Anima
 
 This skill makes visual explanations of biological structure and function. Show the real structure accurately and make its mechanism visible. Use literal anatomy for structures such as neurons, hearts, cells and organs; use a clearly identified mechanical metaphor for processes when it improves understanding (for example, a receptor and ligand as lock and key, or an ion channel as a gated valve). Never let a metaphor imply that it is the literal biology.
 

@@ -229,7 +229,7 @@ const style = `
 @media(prefers-reduced-motion:reduce){.neuron-figure .synapse-detail{transition:none}}
 `;
 const html = pageHtml({
-  title: "A myelinated neuron | Biology Anatomy",
+  title: "A myelinated neuron | Anima",
   theme: light ? "light" : "dark",
   width: WIDTH + 40,
   body: `<style>${BIO_CSS}${style}</style>${framed}${sources}`,

@@ -1,4 +1,4 @@
-# Contributing to Biology Anatomy
+# Contributing to Anima
 
 Thank you for helping. Anatomy is judged by how its figures look at 4× zoom, so most of this guide is about checking your work before anyone else does.
 
@@ -13,14 +13,14 @@ You need:
 - **Claude Code**, to try the skill itself.
 
 ```sh
-git clone https://github.com/Garinmckayl/biology-anatomy.git
-cd biology-anatomy
+git clone https://github.com/Garinmckayl/anima.git
+cd anima
 ```
 
 To use your working copy as the skill while you change it, link it into your personal skills folder (move any installed copy out of the way first):
 
 ```sh
-ln -s "$PWD" ~/.claude/skills/biology-anatomy
+ln -s "$PWD" ~/.claude/skills/anima
 ```
 
 ## Building the examples
