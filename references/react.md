@@ -13,7 +13,7 @@ components/figures/rig/
   rig.css        scoped tokens and styles (e.g. .rig { … })
   figure.tsx     <Plate fig title hint readout keys caption><RigArt /></Plate>
 ```
-`examples/test-rig/` follows this layout. It uses `rig.ts`, `view.ts`, `geometry.ts`, `pose.ts`, `art.tsx`, `live.tsx` and `figure.tsx`.
+the upstream [`test-rig`](https://github.com/wheresryan22/anatomy/tree/main/examples/test-rig) example follows this layout. It uses `rig.ts`, `view.ts`, `geometry.ts`, `pose.ts`, `art.tsx`, `live.tsx` and `figure.tsx`.
 
 ## The server/client split
 - Geometry is pure TypeScript, so it runs on the server and the client receives finished path strings. No geometry code is shipped unless a moving part needs to rebuild per frame. Then `frame.ts` is imported by `live.tsx` and ships to the client.

@@ -25,43 +25,15 @@ jobs:
         with:
           node-version: 22
 
-      - name: Dial indicator
-        run: |
-          node examples/dial-indicator/build.mjs
-          node examples/dial-indicator/build.mjs --light
+      - name: Kit smoke test
+        run: node kit/smoke.mjs
 
-      - name: Desk computer
+      - name: Build every example (dark and light)
         run: |
-          node examples/desk-computer/build.mjs
-          node examples/desk-computer/build.mjs --light
-
-      - name: Arcade cabinet
-        run: |
-          node examples/arcade-cabinet/build.mjs
-          node examples/arcade-cabinet/build.mjs --light
-
-      - name: Ripple tank
-        run: |
-          node examples/ripple-tank/build.mjs
-          node examples/ripple-tank/build.mjs --light
-
-      - name: Turning dial
-        run: |
-          node examples/turning-dial/build.mjs
-          node examples/turning-dial/build.mjs --light
-          node examples/turning-dial/build.mjs --light --verify
-          node examples/turning-dial/stress.mjs --light
-
-      - name: Raptor engine
-        run: |
-          node examples/raptor-engine/build.mjs
-          node examples/raptor-engine/build.mjs --light
-
-      - name: Biology kit and neuron
-        run: |
-          node kit/smoke.mjs
-          node examples/neuron/build.mjs
-          node examples/neuron/build.mjs --light
+          for dir in examples/*/; do
+            node "${dir}build.mjs"
+            node "${dir}build.mjs" --light
+          done
 
       - name: Committed pages are unchanged
         run: |

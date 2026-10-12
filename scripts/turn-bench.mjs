@@ -6,7 +6,7 @@ const argv = process.argv.slice(2);
 if (!argv.length || argv.includes("--help")) {
   console.log(`Time a 3D figure's runtime in Node: emit and order over 360 angles, CPU time, median of 7 rounds.
 
-  node scripts/turn-bench.mjs examples/turning-dial/build.mjs [--rounds 7] [--unit 1]
+  node scripts/turn-bench.mjs <your-3d-example>/build.mjs [--rounds 7] [--unit 1]
 
 The build module must export T (from turning()); if it also exports follow(values), every angle is mapped through it.`);
   process.exit(argv.length ? 0 : 1);

@@ -28,26 +28,11 @@ ln -s "$PWD" ~/.claude/skills/biology-anatomy
 Each framework-free example is one script that writes standalone pages next to itself. The built pages are committed.
 
 ```sh
-node examples/dial-indicator/build.mjs
-node examples/dial-indicator/build.mjs --light
-node examples/desk-computer/build.mjs
-node examples/desk-computer/build.mjs --light
-node examples/arcade-cabinet/build.mjs
-node examples/arcade-cabinet/build.mjs --light
-node examples/ripple-tank/build.mjs
-node examples/ripple-tank/build.mjs --light
-node examples/raptor-engine/build.mjs
-node examples/raptor-engine/build.mjs --light
-node examples/turning-dial/build.mjs
-node examples/turning-dial/build.mjs --light
-node examples/turning-dial/build.mjs --light --verify
-node examples/turning-dial/stress.mjs --light
 node kit/smoke.mjs
-node examples/neuron/build.mjs
-node examples/neuron/build.mjs --light
+for dir in examples/*/; do node "${dir}build.mjs"; node "${dir}build.mjs" --light; done
 ```
 
-The Raptor builds take a few minutes each; the rest take seconds. `examples/test-rig/` and `examples/spot-plate/` are React components with no build script.
+Every example builds in seconds.
 
 After a build, `git status --short` must show nothing unless you meant to change a figure. CI runs exactly these commands and then `git diff --exit-code`.
 
@@ -55,60 +40,42 @@ After a build, `git status --short` must show nothing unless you meant to change
 
 Run the ones that match what you touched, and read every PNG they write: open it and look. Put screenshots in `shots/`, which is ignored.
 
-**Geometry audit.** For figures with pipes, cables or round parts. It must end `audit passed`, with every failing line at 0.
-
-```sh
-node examples/raptor-engine/build.mjs --audit
-```
+**Geometry audit.** For figures built from pipes, cables or round parts with `A.recorder`. It must end `audit passed`, with every failing line at 0. The biology examples are organic and do not use it; `kit/bio-audit.mjs` checks membrane intersections, label targets and declared scale instead.
 
 **Line ends.** Every seam, rib, tick and pointer must end on a stroke, a dot or an outline. It must print `line ends: 0`; `--out` rings the failures.
 
 ```sh
-node scripts/lines.mjs examples/dial-indicator/dial-indicator-light.html --out shots/lines-light.png
-node scripts/lines.mjs examples/dial-indicator/dial-indicator.html --out shots/lines.png
+node scripts/lines.mjs examples/neuron/neuron-light.html --out shots/lines-light.png
+node scripts/lines.mjs examples/neuron/neuron.html --out shots/lines.png
 ```
 
 **Capture.** Stills, phone width, hover, keys and 4× close-ups, with WebGL on.
 
 ```sh
-node scripts/capture.mjs examples/ripple-tank/ripple-tank-light.html --out shots/desk.png
-node scripts/capture.mjs examples/ripple-tank/ripple-tank-light.html --out shots/phone.png --width 390
-node scripts/capture.mjs examples/ripple-tank/ripple-tank-light.html --out shots/joint.png --zoom 200,80,220,170
-node scripts/capture.mjs examples/ripple-tank/ripple-tank-light.html --out shots/still.png --reduced
+node scripts/capture.mjs examples/neuron/neuron-light.html --out shots/desk.png
+node scripts/capture.mjs examples/neuron/neuron-light.html --out shots/phone.png --width 390
+node scripts/capture.mjs examples/neuron/neuron-light.html --out shots/joint.png --zoom 200,80,220,170
+node scripts/capture.mjs examples/neuron/neuron-light.html --out shots/still.png --reduced
 ```
 
 **Drive.** Scripted sessions: move, click, key, wait for a phase, and contact sheets slowed down to catch pops in a shader. `--no-webgl` checks the SVG fallback.
 
 ```sh
-node scripts/drive.mjs examples/raptor-engine/raptor-engine-light.html '[["wait",1500],["key","i"],["wait",3000],["shot","shots/firing.png"]]'
-node scripts/drive.mjs examples/raptor-engine/raptor-engine.html '[["wait",1500],["shot","shots/no-webgl.png"]]' --no-webgl
-node scripts/drive.mjs examples/raptor-engine/raptor-engine-light.html --actions ignite.json
+node scripts/drive.mjs examples/estrogen-aggression/estrogen-aggression.html --actions block.json
 ```
 
-Anything with `until` or `eval` goes in an actions file. This `ignite.json` waits for the engine to rest, then films the start of ignition at 20× slow motion:
+Anything with `until` or `eval` goes in an actions file. This `block.json` blocks aromatase, waits, and shoots the state:
 
 ```json
 [
-  ["key", "Escape"],
-  ["until", "document.querySelector('[data-readout]').textContent.includes('cold')", 15000],
-  ["slow", 0.05],
-  ["key", "i"],
-  ["sheet", "shots/ignite.png", 100, 16],
-  ["slow", 1]
+  ["wait", 1500],
+  ["eval", "document.getElementById('block').click()"],
+  ["wait", 3500],
+  ["shot", "shots/blocked.png"]
 ]
 ```
 
-**3D figures.** The orbit audit is slow (budget 30 to 40 s per part for a full run), so iterate with `--quick` and run the full audit in the background. Only a full run's `turn audit passed` counts.
-
-```sh
-node examples/turning-dial/build.mjs --light --audit --quick
-node examples/turning-dial/build.mjs --light --audit > audit.txt 2>&1 &
-node scripts/turn-check.mjs examples/turning-dial/build.mjs --fidelity
-node scripts/turn-check.mjs examples/turning-dial/turning-dial-verify-light.html --order --step 1
-node scripts/turn-check.mjs examples/turning-dial/turning-dial-light.html --lines
-node scripts/turn-check.mjs examples/turning-dial/turning-dial-light.html --perf --width 390 --throttle 4
-node scripts/turn-bench.mjs examples/turning-dial/build.mjs
-```
+**3D figures.** The 3D mode is optional and none of the shipped biology examples use it. If you build one, `scripts/turn-check.mjs` and `scripts/turn-bench.mjs` check fidelity, order, pops, line ends and frame timing. The orbit audit is slow, so iterate with `--quick` and run the full audit in the background; only a full run's `turn audit passed` counts.
 
 [`references/verify.md`](references/verify.md) has every option, the review checklist and the common faults. [`references/3d.md`](references/3d.md) covers the 3D checks.
 

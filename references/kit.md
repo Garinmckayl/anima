@@ -337,7 +337,7 @@ A detailed figure fails in ways the eye misses until a reviewer zooms in: a pipe
 
 **`report(result)`** formats everything; **`failures(result)`** counts what should fail the build.
 
-The Raptor wires it like this (`examples/raptor-engine/build.mjs`): its `put`, `tubeItems` and `record` are thin wrappers over `R.put`, `R.route` and `R.solid`, and the end of the build is
+The Raptor wires it like this (the upstream [`raptor-engine`](https://github.com/wheresryan22/anatomy/tree/main/examples/raptor-engine) example): its `put`, `tubeItems` and `record` are thin wrappers over `R.put`, `R.route` and `R.solid`, and the end of the build is
 ```js
 A.settle(R, P);
 items.sort((a, b) => a.key - b.key);

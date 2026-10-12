@@ -66,8 +66,8 @@ body:
       label: How to reproduce
       description: The prompt you gave Claude, or the exact command you ran.
       placeholder: |
-        /anatomy explain how a token bucket rate limiter works, interactive
-        node examples/raptor-engine/build.mjs --audit
+        /biology-anatomy show a ligand binding a GPCR with a live occupancy readout
+        node examples/neuron/build.mjs
     validations:
       required: true
   - type: textarea
