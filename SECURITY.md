@@ -12,6 +12,6 @@ Only the latest commit on `main` is supported.
 
 ## Reporting a vulnerability
 
-Please don't open a public issue for a security problem. Report it privately through GitHub's [private vulnerability reporting](https://github.com/wheresryan22/anatomy/security/advisories/new) for this repository. If that link does not work, send a direct message to [@wheresryan22](https://x.com/wheresryan22) on X asking for a private channel, without the details.
+Please don't open a public issue for a security problem. Report it privately through GitHub's [private vulnerability reporting](https://github.com/Garinmckayl/anima/security/advisories/new) for this repository. If that link does not work, open an issue asking for a private channel, without the details.
 
 Include what you found, how to reproduce it, and what it could let someone do.

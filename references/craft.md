@@ -218,7 +218,7 @@ A `Solid` with `lit` gets a white edge and a lighter top. Use it for the moving 
 
 ## 8. Round parts and pipes
 
-Engines, pumps, valves, lamps and instruments are mostly turned parts and pipes. `kit/lathe.mjs` and `kit/tube.mjs` build them along any axis (`references/kit.md`, sections 10 and 11). the upstream [`raptor-engine`](https://github.com/wheresryan22/anatomy/tree/main/examples/raptor-engine) example has every recipe below in working form.
+Engines, pumps, valves, lamps and instruments are mostly turned parts and pipes. `kit/lathe.mjs` and `kit/tube.mjs` build them along any axis (`references/kit.md`, sections 10 and 11). the mechanical `raptor-engine` reference figure has every recipe below in working form.
 
 ### Turned parts: think in meridians
 Write a part as its half-section: a list of `[s, r]` from one end to the other, and turn it with `G.solidOf(profile, F, P)`.
@@ -314,7 +314,7 @@ An exploded view earns its place when the parts are the explanation (what feeds 
 - Springs, staggering and per-frame depth re-sorting are in `references/motion.md`.
 
 ## 10. Screens and things on faces
-A screen, a dial face or a display is drawn in the plane of the face it sits on (the upstream [`desk-computer`](https://github.com/wheresryan22/anatomy/tree/main/examples/desk-computer) example):
+A screen, a dial face or a display is drawn in the plane of the face it sits on (the mechanical `desk-computer` reference figure):
 - **The face plane.** `sideMatrix([0, y], 0, P, "left")` maps a group's local `(x, −z)` coordinates onto the vertical face at `y`. Draw everything on the screen (the glow, scanlines, a mark, `<text>` and a cursor) in those flat coordinates inside that `<g transform>`.
 - **A recess.** Clip the screen to its rounded outline with a `clipPath` in the same plane, and draw the recess's inner sides as quads between the face and the face moved `depth` back. Shade the sides by facing (tops `iso-top`, sides by shade). Draw the outline `lo` on the face and `faint` at the back.
 - **Motion on the face** is a transform in face coordinates. The CRT power-off scales the picture about the screen centre to a line, then to a dot, with a beam line and a fading dot.

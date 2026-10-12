@@ -40,7 +40,7 @@ function tick(now) {
 const run = () => { if (!frame && visible) { last = 0; frame = requestAnimationFrame(tick); } };
 new IntersectionObserver((entries) => { visible = entries[entries.length - 1].isIntersecting; if (visible) run(); }, { rootMargin: "120px 0px" }).observe(stage);
 ```
-the upstream [`dial-indicator`](https://github.com/wheresryan22/anatomy/tree/main/examples/dial-indicator) example contains a complete version, with the tour, pointer mapping and keyboard stops.
+the mechanical `dial-indicator` reference figure contains a complete version, with the tour, pointer mapping and keyboard stops.
 
 ## React loop
 Keep static art in props built on the server and move only `<g>` wrappers and the paths that change shape:
@@ -74,7 +74,7 @@ export function RigLive(props: { base: React.ReactNode; carriage: React.ReactNod
   );
 }
 ```
-the upstream [`test-rig`](https://github.com/wheresryan22/anatomy/tree/main/examples/test-rig) example is the full production version, with springs, a tour, press and pull, keyboard handling and aria.
+the mechanical `test-rig` reference figure is the full production version, with springs, a tour, press and pull, keyboard handling and aria.
 
 ## Shapes that change
 When a part changes shape rather than position (a swelling capsule, a compressing spring, a needle turning), rebuild only its paths each frame with the kit, using `slabOf`, `coil` or `lineOnTop`, and write them to its paths: `fill`, `shades[0..3]`, `top`, `crease`, `bevel`, `outline`. One solid costs well under 0.1 ms. Measure it: a frame should stay under about 1 ms of script.
@@ -104,7 +104,7 @@ The ripple tank runs its frequency (0.625 s) and dipper spacing (0.4 s) through 
 - **Changing a spring changes its neighbours.** Damping one spring critically slows every phase that relied on its old overshoot, so recheck all of them.
 
 ## Exploded views
-Taking a machine apart on hover is a strong way to show its parts (the upstream [`raptor-engine`](https://github.com/wheresryan22/anatomy/tree/main/examples/raptor-engine) example):
+Taking a machine apart on hover is a strong way to show its parts (the mechanical `raptor-engine` reference figure):
 - **Build every piece at its assembled position**, tagged with an assembly name, and give each assembly a world move vector (`PIECES.nozzle.move = [0, 0, -120]`). Moves follow the real assembly: the nozzle drops furthest, side units slide out radially (`out(deg, r, z)`), and the stand doesn't move.
 - **One spring per assembly**, with value 0 for assembled and 1 for apart. The Raptor uses stiffness 64 and drag 14.2, just under critical, so the parts settle with a hint of weight, and sub-steps 4 times per frame.
 - **Stagger the springs.** Opening, each assembly's target changes 35 ms after the previous one, in an order that lets nothing pass through anything (the Raptor: `nozzle, downcomer, controller, plumbing, lox, ftp, hotgas, chamber, orpb, otp, gimbal, stand`, see "Order the stagger" below). Closing uses the reverse order, so the machine folds back together from the inside out. Keep pending targets as `{ value, at }` and apply them when `clock >= at`.

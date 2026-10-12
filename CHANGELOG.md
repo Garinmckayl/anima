@@ -16,7 +16,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 
 ### Changed
 
-- The example set is now biology only. The mechanical examples of the upstream kit are linked from the reference guides instead of shipped.
+- The example set is now biology only. The mechanical examples are no longer shipped; the reference guides describe them instead.
 - CI builds every example in both themes and checks that the committed pages are unchanged.
 - The README, CONTRIBUTING guide and issue template describe the biology examples.
 

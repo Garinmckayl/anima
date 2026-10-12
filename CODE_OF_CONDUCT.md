@@ -59,10 +59,10 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement by direct message
-to [@wheresryan22](https://x.com/wheresryan22) on X, or, when the report does
+reported to the community leaders responsible for enforcement by contacting
+the maintainer, [Garinmckayl](https://github.com/Garinmckayl), through GitHub, or, when the report does
 not need to be private, through an issue on the
-[GitHub repository](https://github.com/wheresryan22/anatomy/issues).
+[GitHub repository](https://github.com/Garinmckayl/anima/issues).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

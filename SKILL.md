@@ -18,7 +18,7 @@ Six biology examples ship with the skill. Open the closest one before you start.
 
 Each example has a sources block, an educational-not-medical-advice note, a live readout driven by one small model, a pause control, hover or focus explanations and a reduced-motion still frame. Copy the closest one as a template.
 
-The mechanical examples that the craft references cite (a rocket engine, a ripple tank, an arcade cabinet and others) live in the upstream kit and are linked from those references.
+The mechanical examples that the craft references cite (a rocket engine, a ripple tank, an arcade cabinet and others) are not shipped here; the references describe them.
 
 ## The one idea that matters
 
@@ -123,7 +123,7 @@ Use a shader only for what lines can't draw: fire and exhaust, water and caustic
 - **No hard cut-offs.** Every term reaches zero before any `if`, bound or canvas edge, and before any cell edge of a cell noise.
 - **Seen through an opening, masked twice.** Content behind a window or a recess is masked in its own plane and by the opening in the face plane, multiplied (`references/webgl.md`, section 5).
 - **Blending.** Use `tonemap()` and dither. In dark, a canvas that only adds light uses premultiplied output with `mix-blend-mode: screen`, and one that must also darken (the ripple tank's water) stays normal-blended.
-- **Light theme ships, and its shaders are designed for paper.** Use normal premultiplied alpha, never screen. Write the colour the paper should show and solve for the ink. A glow is a saturated body with a pale core, a coloured rim and an alpha floor, never a darkened dark-theme colour: that gave the upstream rocket-engine example's "red ink smoke".
+- **Light theme ships, and its shaders are designed for paper.** Use normal premultiplied alpha, never screen. Write the colour the paper should show and solve for the ink. A glow is a saturated body with a pale core, a coloured rim and an alpha floor, never a darkened dark-theme colour: that gave the rocket-engine reference figure's "red ink smoke".
   - What the light falls on takes a tint, and the cavity that holds it gets a darker physical ground (soot, refractory, water depth).
   - Hot bodies follow one blackbody ink table shared with the fallback.
   - Ink only grows with light: fade the finished ink once, never one term at a time.
