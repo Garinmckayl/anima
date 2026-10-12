@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biology Anatomy: interactive, sourced biology figures from Claude</title>
+<meta name="description" content="A Claude Code skill that turns a biology idea into an interactive, sourced, isometric figure. Dopamine receptors, stimulants, addiction circuits, semaglutide.">
+<meta property="og:title" content="Biology Anatomy">
+<meta property="og:description" content="Ask Claude for a biology figure. Get an interactive, sourced, isometric one.">
+<meta property="og:image" content="assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--page:#0b0b0b;--card:#131313;--text:#a3a3a3;--strong:#f0f0f0;--muted:#6e6e6e;--line:#2a2a2a;--accent:#fff;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+@media (prefers-color-scheme:light){:root{--page:#f2f2ef;--card:#fbfbfa;--text:#57575a;--strong:#18181a;--muted:#8c8c90;--line:#d4d4d6;--accent:#000}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--text);font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+main{width:min(1080px,100% - 32px);margin:0 auto;padding:64px 0 96px}
+h1{font:700 clamp(32px,6vw,56px)/1.05 var(--mono);color:var(--strong);margin:0 0 16px;letter-spacing:-.02em}
+.lede{font-size:clamp(18px,2.6vw,24px);color:var(--strong);margin:0 0 8px;max-width:30em}
+.sub{margin:0 0 28px;max-width:40em}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 40px}
+.cta a{font:14px var(--mono);color:var(--strong);border:1px solid var(--line);padding:10px 16px;text-decoration:none;background:var(--card)}
+.cta a:first-child{border-color:var(--accent)}
+.cta a:hover,.cta a:focus-visible{border-color:var(--accent);outline:none}
+code.install{display:block;font:14px var(--mono);background:var(--card);border:1px solid var(--line);padding:14px 16px;margin:0 0 40px;color:var(--strong);overflow-x:auto;white-space:nowrap}
+video{display:block;width:100%;height:auto;border:1px solid var(--line);background:var(--card);margin:0 0 56px}
+h2{font:600 14px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin:0 0 56px}
+.card{border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column}
+.card img{display:block;width:100%;height:auto;border-bottom:1px solid var(--line)}
+.card div{padding:16px}
+.card h3{font:600 16px var(--mono);color:var(--strong);margin:0 0 6px}
+.card p{margin:0 0 12px;font-size:14px}
+.card a{font:13px var(--mono);color:var(--strong);margin-right:14px}
+ul.rules{padding-left:20px;margin:0 0 56px;max-width:46em}
+ul.rules li{margin:8px 0}
+ul.rules strong{color:var(--strong)}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
+footer a{color:var(--text)}
+</style>
+</head>
+<body>
+<main>
+  <h1>biology-anatomy</h1>
+  <p class="lede">Ask Claude for a biology figure. Get an interactive, sourced, isometric one.</p>
+  <p class="sub">A Claude Code skill. Real structures, a mechanism you can toggle, and a citation for every number on screen.</p>
+  <div class="cta">
+    <a href="https://github.com/Garinmckayl/biology-anatomy">View on GitHub</a>
+    <a href="examples/stimulants-dat/stimulants-dat.html">Open a live figure</a>
+  </div>
+  <code class="install">npx skills add Garinmckayl/biology-anatomy -g -a claude-code</code>
+  <video src="assets/demo.mp4" poster="assets/thumbs/stimulants-dat.png" autoplay muted loop playsinline controls></video>
+
+  <h2>Live figures</h2>
+  <div class="grid">
+    <article class="card"><img src="assets/thumbs/dopamine-receptors.png" alt="D1 and D2 dopamine receptor signalling" loading="lazy"><div><h3>Dopamine receptors</h3><p>D1 raises cAMP, D2 lowers it. Full G-protein cycle, dopamine slider, generic D2 antagonist.</p><a href="examples/dopamine-receptors/dopamine-receptors.html">dark</a><a href="examples/dopamine-receptors/dopamine-receptors-light.html">light</a></div></article>
+    <article class="card"><img src="assets/thumbs/stimulants-dat.png" alt="Cocaine and amphetamine at the dopamine transporter" loading="lazy"><div><h3>Stimulants at the transporter</h3><p>Reuptake, cocaine blockade, amphetamine transport and reverse efflux.</p><a href="examples/stimulants-dat/stimulants-dat.html">dark</a><a href="examples/stimulants-dat/stimulants-dat-light.html">light</a></div></article>
+    <article class="card"><img src="assets/thumbs/reward-addiction.png" alt="The mesolimbic reward pathway in a sagittal brain" loading="lazy"><div><h3>Reward and addiction</h3><p>The mesolimbic pathway and one leading model of what changes with repeated exposure.</p><a href="examples/reward-addiction/reward-addiction.html">dark</a><a href="examples/reward-addiction/reward-addiction-light.html">light</a></div></article>
+    <article class="card"><img src="assets/thumbs/semaglutide-glp1.png" alt="Semaglutide acting on a pancreatic beta cell" loading="lazy"><div><h3>Semaglutide and GLP-1</h3><p>Glucose-dependent insulin release, the engineered molecule, and what is still preclinical.</p><a href="examples/semaglutide-glp1/semaglutide-glp1.html">dark</a><a href="examples/semaglutide-glp1/semaglutide-glp1-light.html">light</a></div></article>
+    <article class="card"><img src="assets/thumbs/estrogen-aggression.png" alt="Testosterone to estradiol by aromatase in a neuron" loading="lazy"><div><h3>Estrogen and aggression</h3><p>Aromatase, estradiol and receptor α in a neuron. The human evidence is weak, and the figure says so.</p><a href="examples/estrogen-aggression/estrogen-aggression.html">dark</a><a href="examples/estrogen-aggression/estrogen-aggression-light.html">light</a></div></article>
+    <article class="card"><img src="assets/thumbs/neuron.png" alt="A myelinated neuron with a travelling action potential" loading="lazy"><div><h3>A myelinated neuron</h3><p>Saltatory conduction and a hoverable synapse.</p><a href="examples/neuron/neuron.html">dark</a><a href="examples/neuron/neuron-light.html">light</a></div></article>
+  </div>
+
+  <h2>The rules it works to</h2>
+  <ul class="rules">
+    <li><strong>Real structure first.</strong> A metaphor is allowed only when labelled as one.</li>
+    <li><strong>Every number is cited,</strong> with species, conditions and units. Unverified numbers are left out.</li>
+    <li><strong>Honest about certainty.</strong> Established biology, one leading model, rodent work and human work are kept apart.</li>
+    <li><strong>Mechanism only for drugs.</strong> No doses, routes, schedules or recommendations. Educational, not medical advice.</li>
+  </ul>
+
+  <footer>MIT licensed. <a href="https://github.com/Garinmckayl/biology-anatomy">Source on GitHub</a>.</footer>
+</main>
+</body>
+</html>

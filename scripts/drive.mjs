@@ -52,6 +52,9 @@ Fractions are 0..1 across the element.
                                           a contact sheet across angles of a 3D figure: each frame is turned, waits two
                                           animation frames, is captured and labelled with its angle
   ["sheet", out.png, every, count, sel?, scale?, [x,y,w,h]?, columns?]
+  ["record", dir, count, step, sel?, scale?, start?]   write count JPEG frames, one every step ms of page time, to dir/frame-00000.jpg ...; the page
+                                          clock is frozen while each frame is captured, so frames are evenly spaced; start continues the numbering
+                                          across several record actions, with clicks and keys in between
                                           take count frames every ms and tile them into one PNG, to catch pops and seams;
                                           each capture also takes 60-200 ms (more on heavy WebGL pages), so combine with ["slow", 0.05] for transitions
 
@@ -254,6 +257,19 @@ async function main() {
         const tiled = await evaluate(`(async()=>{const frames=${JSON.stringify(frames)};const cols=${columns ?? Math.min(count, 6)};const images=await Promise.all(frames.map(src=>new Promise(done=>{const image=new Image();image.onload=()=>done(image);image.src="data:image/png;base64,"+src})));const w=images[0].width,h=images[0].height,rows=Math.ceil(images.length/cols);const canvas=document.createElement("canvas");canvas.width=w*cols;canvas.height=h*rows;const ctx=canvas.getContext("2d");ctx.fillStyle="#808080";ctx.fillRect(0,0,canvas.width,canvas.height);images.forEach((image,index)=>{ctx.drawImage(image,(index%cols)*w,Math.floor(index/cols)*h);ctx.fillStyle="#ff00aa";ctx.font="bold 12px monospace";ctx.fillText(String(index),(index%cols)*w+6,Math.floor(index/cols)*h+16)});return canvas.toDataURL("image/png").split(",")[1]})()`);
         save(out, tiled);
         console.log(`sheet ${out} · ${count} frames every ${every} ms · readouts ${texts.map((text, index) => `${index}:"${text}"`).join(" ")}`);
+      } else if (kind === "record") {
+        const [dir, count, step, selector, scale, start] = args;
+        mkdirSync(resolve(dir), { recursive: true });
+        for (let index = 0; index < count; index++) {
+          await evaluate("window.__driveSpeed=1");
+          await sleep(step);
+          await evaluate("window.__driveSpeed=0");
+          const box = await boxOf(selector);
+          const clip = { x: box.x + box.sx, y: box.y + box.sy, width: box.w, height: box.h, scale: scale ?? 1 };
+          const shot = await send("Page.captureScreenshot", { format: "jpeg", quality: 92, clip, captureBeyondViewport: true });
+          writeFileSync(join(resolve(dir), `frame-${String((start ?? 0) + index).padStart(5, "0")}.jpg`), Buffer.from(shot.result.data, "base64"));
+        }
+        console.log(`record ${dir} · ${count} frames every ${step} ms`);
       } else if (kind === "turn") {
         const [value, group] = args;
         const call = group ? `window.__isoTurn.set(${JSON.stringify({ [group]: value })})` : `window.__isoTurn.set(${typeof value === "object" ? JSON.stringify(value) : Number(value)})`;
