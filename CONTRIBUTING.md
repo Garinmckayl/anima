@@ -1,6 +1,6 @@
 # Contributing to Anima
 
-Thank you for helping. Anatomy is judged by how its figures look at 4× zoom, so most of this guide is about checking your work before anyone else does.
+Thank you for helping. Anima is judged by how its figures look at 4× zoom, so most of this guide is about checking your work before anyone else does.
 
 By taking part you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 

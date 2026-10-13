@@ -2,7 +2,13 @@
 
 **Ask Claude for a biology figure. Get an interactive, sourced, isometric one.**
 
-> **If Anima is useful to you, [star the repo](https://github.com/Garinmckayl/anima) so others can find it.**
+<p>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/github/license/Garinmckayl/anima"></a>
+  <a href="https://github.com/Garinmckayl/anima/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Garinmckayl/anima/ci.yml?branch=main&label=CI"></a>
+  <a href="https://github.com/Garinmckayl/anima/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Garinmckayl/anima?include_prereleases"></a>
+  <a href="https://github.com/Garinmckayl/anima/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Garinmckayl/anima?style=flat"></a>
+  <img alt="Zero runtime dependencies" src="https://img.shields.io/badge/runtime%20dependencies-0-brightgreen">
+</p>
 
 A [Claude Code](https://claude.com/claude-code) skill that turns "show me how cocaine and amphetamine act differently at a dopamine synapse" into a live, standalone page: real structures, a mechanism you can toggle, a readout driven by one small model, and a citation for every number on screen.
 
@@ -11,17 +17,10 @@ A [Claude Code](https://claude.com/claude-code) skill that turns "show me how co
 </p>
 
 <p align="center">
-  <a href="assets/anima-launch.mp4">Watch the 35-second launch video</a> ·
+  <a href="https://anima.arcumet.com"><b>Try every figure live (no install)</b></a> ·
+  <a href="assets/anima-launch.mp4">35-second launch video</a> ·
   <a href="assets/demo.mp4">Full demo (MP4)</a> ·
-  <a href="https://anima.arcumet.com">Try every figure live</a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/Garinmckayl/anima"><b>&#9733; Star on GitHub</b></a> ·
-  <a href="https://anima.arcumet.com">Live site</a> ·
-  <a href="https://github.com/Garinmckayl/anima/issues/new">Request a figure</a> ·
-  <a href="https://www.reddit.com/submit?url=https%3A%2F%2Fanima.arcumet.com%2F&title=Anima%3A%20a%20Claude%20Code%20skill%20that%20makes%20interactive%2C%20sourced%20biology%20figures">Share on Reddit</a> ·
-  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fanima.arcumet.com%2F&text=Anima%3A%20ask%20Claude%20for%20a%20biology%20figure%2C%20get%20an%20interactive%2C%20sourced%20one">Share on X</a>
+  <a href="https://github.com/Garinmckayl/anima/issues/new?template=figure_request.yml">Request a figure</a>
 </p>
 
 ## Why it exists
@@ -62,17 +61,27 @@ In Claude Code:
 /anima make a mid-sagittal brain showing the mesolimbic pathway and one model of how it changes with repeated drug exposure; cite every claim
 ```
 
+More to try:
+
+```text
+/anima show how CRISPR-Cas9 finds and cuts a target sequence, with a guide-mismatch toggle and cited cleavage numbers
+```
+
+```text
+/anima animate the mitochondrial electron transport chain with a proton-gradient readout and an inhibitor toggle
+```
+
 Name the biological subject, the mechanism to explain, the audience and the output format. The skill sizes the job first (Figure, Hero or Epic), collects sources before drawing, builds the page, then checks it the way a reviewer would: zoomed in, in both themes, at phone width.
 
 ## Gallery
 
-Each figure builds to a standalone HTML page in dark and light themes. Open the pages straight from the repo, or live on GitHub Pages.
+Each figure builds to a standalone HTML page in dark and light themes. The links open the live pages, so they run in your browser. To open them from a clone, use the files in `examples/`.
 
 | | |
 |---|---|
-| **[Dopamine receptors](examples/dopamine-receptors/dopamine-receptors.html)** ([light](examples/dopamine-receptors/dopamine-receptors-light.html))<br>D1-like receptors couple Gαs/olf and raise cAMP; D2-like receptors couple Gαi/o and lower it. Full G-protein cycle, a dopamine-level slider and a generic D2-antagonist toggle.<br><img src="assets/thumbs/dopamine-receptors.png" width="420"> | **[Stimulants at the transporter](examples/stimulants-dat/stimulants-dat.html)** ([light](examples/stimulants-dat/stimulants-dat-light.html))<br>None, cocaine or amphetamine. Reuptake, blockade, and amphetamine's transport, vesicle leak and reverse efflux. Skeletal formulas from PubChem.<br><img src="assets/thumbs/stimulants-dat.png" width="420"> |
-| **[Reward and addiction](examples/reward-addiction/reward-addiction.html)** ([light](examples/reward-addiction/reward-addiction-light.html))<br>The mesolimbic pathway, a cue sequence, and one leading model of what changes after repeated exposure. Framed as a model, with sources.<br><img src="assets/thumbs/reward-addiction.png" width="420"> | **[Semaglutide and GLP-1](examples/semaglutide-glp1/semaglutide-glp1.html)** ([light](examples/semaglutide-glp1/semaglutide-glp1-light.html))<br>A GLP-1 receptor agonist on a beta cell: glucose-dependent insulin release, the molecule's engineered features, and the preclinical-versus-clinical state of the appetite and reward evidence.<br><img src="assets/thumbs/semaglutide-glp1.png" width="420"> |
-| **[Estrogen and aggression](examples/estrogen-aggression/estrogen-aggression.html)** ([light](examples/estrogen-aggression/estrogen-aggression-light.html))<br>Testosterone to estradiol by aromatase, then estrogen receptor α, in an amygdala-type neuron. States that the human evidence is weak (pooled Fisher z 0.16 across 14 studies).<br><img src="assets/thumbs/estrogen-aggression.png" width="420"> | **[A myelinated neuron](examples/neuron/neuron.html)** ([light](examples/neuron/neuron-light.html))<br>Saltatory conduction along a myelinated axon with a hoverable synapse.<br><img src="assets/thumbs/neuron.png" width="420"> |
+| **[Dopamine receptors](https://anima.arcumet.com/examples/dopamine-receptors/dopamine-receptors.html)** ([light](https://anima.arcumet.com/examples/dopamine-receptors/dopamine-receptors-light.html))<br>D1-like receptors couple Gαs/olf and raise cAMP; D2-like receptors couple Gαi/o and lower it. Full G-protein cycle, a dopamine-level slider and a generic D2-antagonist toggle.<br><a href="https://anima.arcumet.com/examples/dopamine-receptors/dopamine-receptors.html"><img src="assets/thumbs/dopamine-receptors.png" width="420" alt="dopamine receptors"></a> | **[Stimulants at the transporter](https://anima.arcumet.com/examples/stimulants-dat/stimulants-dat.html)** ([light](https://anima.arcumet.com/examples/stimulants-dat/stimulants-dat-light.html))<br>None, cocaine or amphetamine. Reuptake, blockade, and amphetamine's transport, vesicle leak and reverse efflux. Skeletal formulas from PubChem.<br><a href="https://anima.arcumet.com/examples/stimulants-dat/stimulants-dat.html"><img src="assets/thumbs/stimulants-dat.png" width="420" alt="stimulants dat"></a> |
+| **[Reward and addiction](https://anima.arcumet.com/examples/reward-addiction/reward-addiction.html)** ([light](https://anima.arcumet.com/examples/reward-addiction/reward-addiction-light.html))<br>The mesolimbic pathway, a cue sequence, and one leading model of what changes after repeated exposure. Framed as a model, with sources.<br><a href="https://anima.arcumet.com/examples/reward-addiction/reward-addiction.html"><img src="assets/thumbs/reward-addiction.png" width="420" alt="reward addiction"></a> | **[Semaglutide and GLP-1](https://anima.arcumet.com/examples/semaglutide-glp1/semaglutide-glp1.html)** ([light](https://anima.arcumet.com/examples/semaglutide-glp1/semaglutide-glp1-light.html))<br>A GLP-1 receptor agonist on a beta cell: glucose-dependent insulin release, the molecule's engineered features, and the preclinical-versus-clinical state of the appetite and reward evidence.<br><img src="assets/thumbs/semaglutide-glp1.png" width="420"> |
+| **[Estrogen and aggression](https://anima.arcumet.com/examples/estrogen-aggression/estrogen-aggression.html)** ([light](https://anima.arcumet.com/examples/estrogen-aggression/estrogen-aggression-light.html))<br>Testosterone to estradiol by aromatase, then estrogen receptor α, in an amygdala-type neuron. States that the human evidence is weak (pooled Fisher z 0.16 across 14 studies).<br><a href="https://anima.arcumet.com/examples/estrogen-aggression/estrogen-aggression.html"><img src="assets/thumbs/estrogen-aggression.png" width="420" alt="estrogen aggression"></a> | **[A myelinated neuron](https://anima.arcumet.com/examples/neuron/neuron.html)** ([light](https://anima.arcumet.com/examples/neuron/neuron-light.html))<br>Saltatory conduction along a myelinated axon with a hoverable synapse.<br><a href="https://anima.arcumet.com/examples/neuron/neuron.html"><img src="assets/thumbs/neuron.png" width="420" alt="neuron"></a> |
 
 ## What every figure has
 
@@ -111,11 +120,11 @@ These are educational figures. They are not medical advice, not a validated anat
 
 If you or someone you know is struggling with substance use, a local health service or helpline can help.
 
-## Support the project
+## Contribute
 
-- **[Star the repo](https://github.com/Garinmckayl/anima).** It is the single biggest help.
-- **Share it** on [Reddit](https://www.reddit.com/submit?url=https%3A%2F%2Fanima.arcumet.com%2F&title=Anima%3A%20a%20Claude%20Code%20skill%20that%20makes%20interactive%2C%20sourced%20biology%20figures) or [X](https://twitter.com/intent/tweet?url=https%3A%2F%2Fanima.arcumet.com%2F&text=Anima%3A%20ask%20Claude%20for%20a%20biology%20figure%2C%20get%20an%20interactive%2C%20sourced%20one), or send a figure to a friend.
-- **[Request a figure](https://github.com/Garinmckayl/anima/issues/new)** or send a PR with one of your own.
+Anima grows by figures. If a subject you know well is missing, [request it](https://github.com/Garinmckayl/anima/issues/new?template=figure_request.yml) or send a pull request with one. Issues labelled [good first issue](https://github.com/Garinmckayl/anima/labels/good%20first%20issue) are a place to start, and [`CONTRIBUTING.md`](CONTRIBUTING.md) lists every check.
+
+If Anima saved you time, a [star](https://github.com/Garinmckayl/anima) helps others find it.
 
 ## License
 

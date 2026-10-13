@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Anatomy explains an idea as a real machine, instrument, tool or piece of furniture. It is not a chart library, and it does not draw people or exact maps.
+        Anima makes interactive, sourced biology figures. It is not a chart library, a validated anatomy atlas or a medical tool. Drug figures explain mechanism only.
   - type: dropdown
     id: request
     attributes:
@@ -22,8 +22,8 @@ body:
     id: idea
     attributes:
       label: The idea
-      description: For a figure, name the idea it should explain and its real numbers (sizes, counts, rates, thresholds), or the object you have in mind and what should move. For anything else, describe the change.
-      placeholder: A connection pool of 10 connections; requests borrow one and give it back, and wait in a queue when all 10 are busy.
+      description: For a figure, name the biological subject, the mechanism to explain and any numbers you want cited (with their sources, if you have them). For anything else, describe the change.
+      placeholder: How CRISPR-Cas9 finds and cuts a target sequence, with a guide-mismatch toggle.
     validations:
       required: true
   - type: dropdown

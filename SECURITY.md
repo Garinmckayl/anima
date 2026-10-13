@@ -2,7 +2,7 @@
 
 ## What is in scope
 
-Anatomy is a set of instructions, a drawing kit and local Node scripts. The scripts that start Chrome (`capture.mjs`, `drive.mjs`, `lines.mjs`, `turn-check.mjs`) run it headless with a throwaway profile and `--allow-file-access-from-files`, and `drive.mjs` runs JavaScript you pass it in the page. Point them only at pages you trust.
+Anima is a set of instructions, a drawing kit and local Node scripts. The scripts that start Chrome (`capture.mjs`, `drive.mjs`, `lines.mjs`, `turn-check.mjs`) run it headless with a throwaway profile and `--allow-file-access-from-files`, and `drive.mjs` runs JavaScript you pass it in the page. Point them only at pages you trust.
 
 A security problem is anything in this repository that could let a page, a prompt or a file run code, read files or reach the network in a way the user did not ask for: in the kit, in the scripts, in the built example pages, or in instructions in `SKILL.md` and `references/` that would lead Claude to do something unsafe.
 

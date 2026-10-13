@@ -4,6 +4,8 @@ All notable changes to this project are recorded here. The format follows [Keep 
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-13
+
 ### Added
 
 - Renamed the project to Anima (skill `anima`, command `/anima`), with the landing page served from `anima.arcumet.com`.
@@ -19,6 +21,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - The example set is now biology only. The mechanical examples are no longer shipped; the reference guides describe them instead.
 - CI builds every example in both themes and checks that the committed pages are unchanged.
 - The README, CONTRIBUTING guide and issue template describe the biology examples.
+- The README gallery links to the live pages, adds badges and more prompts, and tones down the star calls to action.
 
 ### Removed
 
