@@ -2,6 +2,8 @@
 
 **Ask Claude for a biology figure. Get an interactive, sourced, isometric one.**
 
+> **If Anima is useful to you, [star the repo](https://github.com/Garinmckayl/anima) so others can find it.**
+
 A [Claude Code](https://claude.com/claude-code) skill that turns "show me how cocaine and amphetamine act differently at a dopamine synapse" into a live, standalone page: real structures, a mechanism you can toggle, a readout driven by one small model, and a citation for every number on screen.
 
 <p align="center">
@@ -12,6 +14,14 @@ A [Claude Code](https://claude.com/claude-code) skill that turns "show me how co
   <a href="assets/anima-launch.mp4">Watch the 35-second launch video</a> ·
   <a href="assets/demo.mp4">Full demo (MP4)</a> ·
   <a href="https://anima.arcumet.com">Try every figure live</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Garinmckayl/anima"><b>&#9733; Star on GitHub</b></a> ·
+  <a href="https://anima.arcumet.com">Live site</a> ·
+  <a href="https://github.com/Garinmckayl/anima/issues/new">Request a figure</a> ·
+  <a href="https://www.reddit.com/submit?url=https%3A%2F%2Fanima.arcumet.com%2F&title=Anima%3A%20a%20Claude%20Code%20skill%20that%20makes%20interactive%2C%20sourced%20biology%20figures">Share on Reddit</a> ·
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fanima.arcumet.com%2F&text=Anima%3A%20ask%20Claude%20for%20a%20biology%20figure%2C%20get%20an%20interactive%2C%20sourced%20one">Share on X</a>
 </p>
 
 ## Why it exists
@@ -100,6 +110,12 @@ Every displayed number, including sizes, concentrations, potentials, rates and d
 These are educational figures. They are not medical advice, not a validated anatomy atlas, and not a diagnostic or prescribing tool. Drug figures explain mechanism only. Biology varies between species, tissues and individuals, and a 2D or isometric illustration cannot capture every spatial relationship.
 
 If you or someone you know is struggling with substance use, a local health service or helpline can help.
+
+## Support the project
+
+- **[Star the repo](https://github.com/Garinmckayl/anima).** It is the single biggest help.
+- **Share it** on [Reddit](https://www.reddit.com/submit?url=https%3A%2F%2Fanima.arcumet.com%2F&title=Anima%3A%20a%20Claude%20Code%20skill%20that%20makes%20interactive%2C%20sourced%20biology%20figures) or [X](https://twitter.com/intent/tweet?url=https%3A%2F%2Fanima.arcumet.com%2F&text=Anima%3A%20ask%20Claude%20for%20a%20biology%20figure%2C%20get%20an%20interactive%2C%20sourced%20one), or send a figure to a friend.
+- **[Request a figure](https://github.com/Garinmckayl/anima/issues/new)** or send a PR with one of your own.
 
 ## License
 

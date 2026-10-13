@@ -36,9 +36,18 @@ h2{font:600 14px var(--mono);color:var(--muted);text-transform:uppercase;letter-
 ul.rules{padding-left:20px;margin:0 0 56px;max-width:46em}
 ul.rules li{margin:8px 0}
 ul.rules strong{color:var(--strong)}
+.cta a.star{background:var(--strong);color:var(--page);border-color:var(--strong);font-weight:700}
+.cta button{font:14px var(--mono);color:var(--strong);border:1px solid var(--line);padding:10px 16px;background:var(--card);cursor:pointer}
+.cta button:hover,.cta button:focus-visible{border-color:var(--accent);outline:none}
+.band{border:1px solid var(--line);background:var(--card);padding:28px 24px;margin:0 0 56px;text-align:center}
+.band h2{color:var(--strong);font-size:18px;text-transform:none;letter-spacing:0;margin:0 0 8px}
+.band p{margin:0 0 20px}
+.band .cta{justify-content:center;margin:0}
 footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
 footer a{color:var(--text)}
 </style>
+<script data-goatcounter="https://natnaelgetenew.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <main>
@@ -46,9 +55,11 @@ footer a{color:var(--text)}
   <p class="lede">Ask Claude for a biology figure. Get an interactive, sourced, isometric one.</p>
   <p class="sub">A Claude Code skill. Real structures, a mechanism you can toggle, and a citation for every number on screen.</p>
   <div class="cta">
-    <a href="https://github.com/Garinmckayl/anima">View on GitHub</a>
+    <a class="star" href="https://github.com/Garinmckayl/anima" data-gc="star">&#9733; Star on GitHub</a>
     <a href="examples/stimulants-dat/stimulants-dat.html">Open a live figure</a>
+    <a href="https://github.com/Garinmckayl/anima#readme">Read the README</a>
   </div>
+  <p class="sub">Free and open source (MIT). If it's useful, a star helps other people find it.</p>
   <code class="install">npx skills add Garinmckayl/anima -g -a claude-code</code>
   <video src="assets/anima-launch.mp4" poster="assets/thumbs/stimulants-dat.png" autoplay muted loop playsinline controls></video>
 
@@ -62,6 +73,17 @@ footer a{color:var(--text)}
     <article class="card"><img src="assets/thumbs/neuron.png" alt="A myelinated neuron with a travelling action potential" loading="lazy"><div><h3>A myelinated neuron</h3><p>Saltatory conduction and a hoverable synapse.</p><a href="examples/neuron/neuron.html">dark</a><a href="examples/neuron/neuron-light.html">light</a></div></article>
   </div>
 
+  <section class="band">
+    <h2>Like what you see?</h2>
+    <p>Star the repo so more people find it, and send a figure to someone who'd enjoy it.</p>
+    <div class="cta">
+      <a class="star" href="https://github.com/Garinmckayl/anima" data-gc="star">&#9733; Star on GitHub</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Fanima.arcumet.com%2F&amp;title=Anima%3A%20a%20Claude%20Code%20skill%20that%20makes%20interactive%2C%20sourced%20biology%20figures" target="_blank" rel="noopener">Share on Reddit</a>
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fanima.arcumet.com%2F&amp;text=Anima%3A%20ask%20Claude%20for%20a%20biology%20figure%2C%20get%20an%20interactive%2C%20sourced%20one" target="_blank" rel="noopener">Share on X</a>
+    <button type="button" class="copy-link">Copy link</button>
+    </div>
+  </section>
+
   <h2>The rules it works to</h2>
   <ul class="rules">
     <li><strong>Real structure first.</strong> A metaphor is allowed only when labelled as one.</li>
@@ -70,7 +92,28 @@ footer a{color:var(--text)}
     <li><strong>Mechanism only for drugs.</strong> No doses, routes, schedules or recommendations. Educational, not medical advice.</li>
   </ul>
 
+  <section class="band">
+    <h2>Try it in 30 seconds</h2>
+    <p>Install the skill, then ask Claude for any biology figure.</p>
+    <code class="install" style="margin:0 0 20px">npx skills add Garinmckayl/anima -g -a claude-code</code>
+    <div class="cta">
+      <a class="star" href="https://github.com/Garinmckayl/anima" data-gc="star">&#9733; Star on GitHub</a>
+      <a href="https://github.com/Garinmckayl/anima#readme">Read the README</a>
+      <a href="https://github.com/Garinmckayl/anima/issues/new">Request a figure</a>
+      <a href="https://www.reddit.com/submit?url=https%3A%2F%2Fanima.arcumet.com%2F&amp;title=Anima%3A%20a%20Claude%20Code%20skill%20that%20makes%20interactive%2C%20sourced%20biology%20figures" target="_blank" rel="noopener">Share on Reddit</a>
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fanima.arcumet.com%2F&amp;text=Anima%3A%20ask%20Claude%20for%20a%20biology%20figure%2C%20get%20an%20interactive%2C%20sourced%20one" target="_blank" rel="noopener">Share on X</a>
+    <button type="button" class="copy-link">Copy link</button>
+    </div>
+  </section>
+
   <footer>MIT licensed. <a href="https://github.com/Garinmckayl/anima">Source on GitHub</a>.</footer>
 </main>
+<script>
+document.querySelectorAll('.copy-link').forEach(function(b){b.addEventListener('click',function(){
+  var u='https://anima.arcumet.com/';
+  (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){b.textContent='Copied!'},function(){window.prompt('Copy this link',u)});
+  setTimeout(function(){b.textContent='Copy link'},2000);
+});});
+</script>
 </body>
 </html>
