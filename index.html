@@ -43,6 +43,11 @@ ul.rules strong{color:var(--strong)}
 .band h2{color:var(--strong);font-size:18px;text-transform:none;letter-spacing:0;margin:0 0 8px}
 .band p{margin:0 0 20px}
 .band .cta{justify-content:center;margin:0}
+.shorts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,300px));gap:20px;justify-content:center;margin:0 0 56px}
+.shorts figure{margin:0;border:1px solid var(--line);background:var(--card)}
+.shorts video{display:block;width:100%;height:auto;aspect-ratio:9/16;background:#0b0b0b}
+.shorts figcaption{padding:12px 14px;font-size:14px}
+.shorts figcaption b{display:block;color:var(--strong);font:600 14px var(--mono);margin-bottom:4px}
 footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
 footer a{color:var(--text)}
 </style>
@@ -62,6 +67,18 @@ footer a{color:var(--text)}
   <p class="sub">Free and open source (MIT). If it's useful, a star helps other people find it.</p>
   <code class="install">npx skills add Garinmckayl/anima -g -a claude-code</code>
   <video src="assets/anima-launch.mp4" poster="assets/thumbs/stimulants-dat.png" autoplay muted loop playsinline controls></video>
+
+  <h2>Two questions, answered in 15 seconds</h2>
+  <div class="shorts">
+    <figure>
+      <video src="assets/shorts/stim.mp4" poster="assets/shorts/stim.jpg" controls muted playsinline preload="none"></video>
+      <figcaption><b>Cocaine vs amphetamine</b>Both raise dopamine in the synapse. They do it in very different ways. Mechanism only.</figcaption>
+    </figure>
+    <figure>
+      <video src="assets/shorts/dopa.mp4" poster="assets/shorts/dopa.jpg" controls muted playsinline preload="none"></video>
+      <figcaption><b>When dopamine signaling changes</b>D1 raises cAMP, D2 lowers it. Block one and watch the signal flip.</figcaption>
+    </figure>
+  </div>
 
   <h2>Live figures</h2>
   <div class="grid">
