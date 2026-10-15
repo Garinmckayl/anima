@@ -1,0 +1,330 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sunflower seedling bending toward light | Anima</title><style>
+.iso{
+  --anatomy-page:#0b0b0b;--anatomy-card:#131313;--anatomy-text:#a3a3a3;--anatomy-strong:#e6e6e6;--anatomy-muted:#6e6e6e;
+  --anatomy-paper:#131313;--anatomy-face:#1b1b1b;--anatomy-top:#1c1c1c;
+  --anatomy-shade-0:#0f0f0f;--anatomy-shade-1:#121212;--anatomy-shade-2:#151515;--anatomy-shade-3:#181818;
+  --anatomy-lit-top:#262626;--anatomy-lit-shade:#1d1d1d;
+  --anatomy-hi:#d4d4d4;--anatomy-mid:#6a6a6a;--anatomy-lo:#3e3e3e;--anatomy-faint:#2a2a2a;--anatomy-lit:#ffffff;
+  --anatomy-halo:#050505;--anatomy-halo-opacity:.9;--anatomy-dot:#e6e6e6;
+  --anatomy-red:#ff6b6b;--anatomy-green:#6be0a0;--anatomy-blue:#6b9bff;
+  --anatomy-weight:.6px;--anatomy-ease:cubic-bezier(.32,.72,0,1);
+  --anatomy-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --anatomy-lift:inset 0 1px 0 0 #ffffff0a,inset 0 0 0 1px #ffffff06,0 0 0 1px #00000026,0 1px 1px -.5px #00000014,0 3px 3px -1.5px #00000014,0 6px 6px -3px #00000014,0 12px 12px -6px #00000014;
+}
+.iso[data-theme="light"]{
+  --anatomy-page:#f2f2ef;--anatomy-card:#fbfbfa;--anatomy-text:#57575a;--anatomy-strong:#18181a;--anatomy-muted:#8c8c90;
+  --anatomy-paper:#fbfbfa;--anatomy-face:#ffffff;--anatomy-top:#ffffff;
+  --anatomy-shade-0:#dcdcd9;--anatomy-shade-1:#e5e5e2;--anatomy-shade-2:#ededea;--anatomy-shade-3:#f4f4f1;
+  --anatomy-lit-top:#ffffff;--anatomy-lit-shade:#eeeeeb;
+  --anatomy-hi:#26262a;--anatomy-mid:#8a8a8f;--anatomy-lo:#b4b4b8;--anatomy-faint:#d4d4d6;--anatomy-lit:#000000;
+  --anatomy-halo:#8a8a80;--anatomy-halo-opacity:.32;--anatomy-dot:#3a3a3e;
+  --anatomy-red:#e5484d;--anatomy-green:#30a46c;--anatomy-blue:#3e63dd;
+  --anatomy-lift:inset 0 1px 0 0 #ffffff,0 0 0 1px #0000000f,0 1px 1px -.5px #0000000a,0 3px 3px -1.5px #0000000a,0 6px 6px -3px #0000000a,0 12px 12px -6px #0000000a;
+}
+.iso-svg{display:block;width:100%;height:auto;overflow:visible}
+.iso-svg path,.iso-svg circle{vector-effect:non-scaling-stroke}
+.iso-fill{fill:var(--anatomy-paper);stroke:none}
+.iso-solid[data-lit]>.iso-fill{fill:var(--anatomy-face)}
+.iso-shade,.iso-top{stroke:none}
+.iso-shade[data-shade="0"]{fill:var(--anatomy-shade-0)}
+.iso-shade[data-shade="1"]{fill:var(--anatomy-shade-1)}
+.iso-shade[data-shade="2"]{fill:var(--anatomy-shade-2)}
+.iso-shade[data-shade="3"]{fill:var(--anatomy-shade-3)}
+.iso-top{fill:var(--anatomy-top)}
+.iso-solid[data-lit]>.iso-top{fill:var(--anatomy-lit-top)}
+.iso-solid[data-lit]>.iso-shade{fill:var(--anatomy-lit-shade)}
+.iso-solid[data-seamless]>.iso-shade,.iso-solid[data-seamless]>.iso-top{stroke-width:.4;stroke-linejoin:round}
+.iso-solid[data-seamless]>.iso-shade[data-shade="0"]{stroke:var(--anatomy-shade-0)}
+.iso-solid[data-seamless]>.iso-shade[data-shade="1"]{stroke:var(--anatomy-shade-1)}
+.iso-solid[data-seamless]>.iso-shade[data-shade="2"]{stroke:var(--anatomy-shade-2)}
+.iso-solid[data-seamless]>.iso-shade[data-shade="3"]{stroke:var(--anatomy-shade-3)}
+.iso-solid[data-seamless]>.iso-top{stroke:var(--anatomy-top)}
+.iso-solid[data-seamless][data-lit]>.iso-top{stroke:var(--anatomy-lit-top)}
+.iso-solid[data-seamless][data-lit]>.iso-shade{stroke:var(--anatomy-lit-shade)}
+.iso-solid[data-lit]>.iso-edge{stroke:var(--anatomy-lit)}
+.iso-halo{fill:var(--anatomy-halo);stroke:none;filter:blur(9px);opacity:var(--anatomy-halo-opacity);transform:translateY(3px)}
+.iso-line{fill:none;stroke:var(--anatomy-lo);stroke-width:var(--anatomy-weight);stroke-linecap:round;stroke-linejoin:round}
+.iso-line[data-tone="hi"]{stroke:var(--anatomy-hi)}
+.iso-line[data-tone="mid"]{stroke:var(--anatomy-mid)}
+.iso-line[data-tone="lo"]{stroke:var(--anatomy-lo)}
+.iso-line[data-tone="faint"]{stroke:var(--anatomy-faint)}
+.iso-line[data-tone="lit"]{stroke:var(--anatomy-lit)}
+.iso-line[data-tone="red"]{stroke:var(--anatomy-red)}
+.iso-line[data-tone="green"]{stroke:var(--anatomy-green)}
+.iso-line[data-tone="blue"]{stroke:var(--anatomy-blue)}
+.iso-line[data-dotted]{stroke-dasharray:.01 3.5;stroke-width:1}
+.iso-line[data-dashed]{stroke-dasharray:3 3}
+.iso-line[data-flow]{stroke-dasharray:2 6}
+.iso-wire-end{fill:var(--anatomy-paper);stroke:var(--anatomy-lo);stroke-width:var(--anatomy-weight)}
+.iso-wire[data-tone="hi"] .iso-wire-end{stroke:var(--anatomy-hi)}
+.iso-wire[data-tone="mid"] .iso-wire-end{stroke:var(--anatomy-mid)}
+.iso-wire[data-tone="faint"] .iso-wire-end{stroke:var(--anatomy-faint)}
+.iso-wire[data-tone="lit"] .iso-wire-end{stroke:var(--anatomy-lit)}
+.iso-dots circle{fill:var(--anatomy-dot);stroke:none;opacity:.32}
+.iso-dots[data-tone="hi"] circle{opacity:.85}
+.iso-dots[data-tone="mid"] circle{opacity:.45}
+.iso-dots[data-tone="lo"] circle{opacity:.22}
+.iso-dots[data-tone="faint"] circle{opacity:.12}
+.iso-face-text{fill:var(--anatomy-mid);font-family:var(--anatomy-mono);letter-spacing:.04em}
+.iso-face-text[data-tone="hi"]{fill:var(--anatomy-hi)}
+.iso-face-text[data-tone="lo"]{fill:var(--anatomy-lo)}
+.iso-face-text[data-tone="faint"]{fill:var(--anatomy-faint)}
+.tb-body{fill:var(--anatomy-shade-2);stroke:none}
+.tb-shine{fill:var(--anatomy-top);stroke:none}
+.tb-shade{fill:var(--anatomy-shade-0);stroke:none}
+.tb-ring{fill:none;stroke:var(--anatomy-lo);stroke-width:.45;stroke-linecap:butt;stroke-linejoin:round}
+.tb-ring[data-tone="mid"]{stroke:var(--anatomy-mid)}
+.tb-ring[data-tone="faint"]{stroke:var(--anatomy-faint)}
+.tb-ring[data-tone="hi"]{stroke:var(--anatomy-hi)}
+@keyframes iso-flow{to{stroke-dashoffset:-32}}
+@keyframes iso-pulse{0%,100%{opacity:.18}12%{opacity:1}40%{opacity:.18}}
+.iso-line[data-flow]{animation:iso-flow 1600ms linear infinite}
+.iso-dots circle[data-pulse]{animation:iso-pulse 1600ms steps(1,end) infinite;animation-delay:var(--pulse-at,0ms)}
+.iso-figure{margin:32px 0 36px}
+.iso-plate{position:relative;padding:52px 24px;border-radius:0;background:var(--anatomy-card);box-shadow:0 0 0 1px var(--anatomy-mid);--anatomy-paper:var(--anatomy-card)}
+.iso-plate-corners{position:absolute;inset:18px 20px;pointer-events:none}
+.iso-plate-corner{position:absolute;color:var(--anatomy-muted);font-family:var(--anatomy-mono);font-size:10.5px;line-height:1;letter-spacing:.04em;white-space:nowrap}
+.iso-plate-corner[data-corner="fig"]{top:0;left:0;color:var(--anatomy-text)}
+.iso-plate-corner[data-corner="title"]{top:0;right:0;text-transform:uppercase;letter-spacing:.1em}
+.iso-plate-corner[data-corner="hint"]{bottom:0;left:0;text-transform:uppercase;letter-spacing:.1em}
+.iso-plate-corner[data-corner="readout"]{right:0;bottom:0;color:var(--anatomy-text);font-variant-numeric:tabular-nums}
+.iso-plate .iso-svg{margin:0 auto}
+.iso-legend{display:grid;gap:8px;margin-top:12px;color:var(--anatomy-muted);font-size:13px;line-height:1.55}
+.iso-keys{display:flex;flex-wrap:wrap;gap:6px 18px}
+.iso-key{display:inline-flex;align-items:center;gap:7px}
+.iso-swatch{width:16px;height:10px;flex:none;overflow:visible}
+.iso-swatch path{fill:none;stroke:var(--anatomy-hi);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+.iso-swatch[data-mark="raised"] path,.iso-swatch[data-mark="flat"] path{stroke:var(--anatomy-mid)}
+.iso-swatch[data-mark="lit"] path{stroke:var(--anatomy-lit)}
+.iso-swatch[data-mark="dim"] path{stroke:var(--anatomy-lo)}
+.iso-swatch[data-mark="dotted"] path{stroke-dasharray:.01 3;stroke-width:1.4}
+.iso-swatch[data-mark="dashed"] path{stroke-dasharray:3 2.5}
+.iso-swatch[data-mark="red"] path{stroke:var(--anatomy-red)}
+.iso-swatch[data-mark="green"] path{stroke:var(--anatomy-green)}
+.iso-swatch[data-mark="blue"] path{stroke:var(--anatomy-blue)}
+.iso-swatch-crease{stroke:var(--anatomy-lo)!important}
+@media (max-width:560px){.iso-plate{padding:48px 12px 70px}.iso-plate-corner[data-corner="hint"]{bottom:18px}}
+@media (prefers-reduced-motion:reduce){.iso-line[data-flow],.iso-dots circle[data-pulse]{animation:none}}
+
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body[data-theme="light"]{color-scheme:light}
+body{margin:0;background:var(--anatomy-page);color:var(--anatomy-text);font:14px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.iso-page{width:min(800px,100% - 32px);margin:64px auto 96px}
+</style></head><body class="iso" data-theme="light"><main class="iso-page"><style>
+.bio-blob-base,.bio-membrane-base{fill:var(--anatomy-shade-2)}
+.bio-blob-shade{fill:var(--anatomy-shade-0);opacity:.58}
+.bio-blob-highlight{fill:var(--anatomy-top);opacity:.62}
+.bio-blob-edge{fill:none}
+.bio-membrane-base{fill-rule:evenodd}
+.bio-bond{fill:none;stroke:var(--anatomy-mid);stroke-linecap:round}
+.bio-atom circle:first-child{fill:var(--anatomy-paper);stroke:var(--anatomy-hi);stroke-width:.6}
+.bio-atom .bio-atom-highlight{fill:var(--anatomy-lit);stroke:none;opacity:.65}
+.bio-helix-rung{stroke-width:.65}
+.bio-ribbon{fill:var(--anatomy-shade-2);stroke:var(--anatomy-hi);stroke-width:.55;stroke-linejoin:round}
+
+.bend-figure .bio-blob-base{fill:var(--anatomy-shade-2)}
+.bend-figure .bio-blob-shade{fill:var(--anatomy-shade-0);opacity:.62}
+.bend-figure .bio-blob-highlight{fill:var(--anatomy-top);opacity:.5}
+.bend-figure .bio-blob-edge{fill:none}
+.bend-figure .stem-edge{stroke:var(--anatomy-paper);stroke-linecap:round}
+.bend-figure .stem-body{stroke:var(--anatomy-green);stroke-linecap:round;opacity:.92}
+.bend-figure .stem-shine{stroke:var(--anatomy-lit);stroke-linecap:round;opacity:.28}
+.bend-figure .leaf{fill:var(--anatomy-green);stroke:var(--anatomy-paper);stroke-width:1;opacity:.95}
+.bend-figure .bud{fill:var(--anatomy-lit);stroke:var(--anatomy-paper);stroke-width:1}
+.bend-figure .beam{fill:var(--anatomy-lit);opacity:.07}
+.bend-figure .lamp{fill:var(--anatomy-lit);stroke:var(--anatomy-paper);stroke-width:1.2}
+.bend-figure .lamp-halo{fill:var(--anatomy-lit);opacity:.22;filter:blur(5px)}
+.bend-figure .bio-label{fill:var(--anatomy-text);font:9px var(--anatomy-mono);letter-spacing:.015em}
+.bend-figure .bio-label-line{fill:none;stroke:var(--anatomy-faint);stroke-width:.65}
+.bend-figure .lead-dot{fill:var(--anatomy-text)}
+.bend-controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 22px;margin:12px 0 4px;font:12px var(--anatomy-mono);color:var(--anatomy-text)}
+.bend-controls label{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center}
+.bend-controls label input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--anatomy-green)}
+.bend-controls output{color:var(--anatomy-strong)}
+.bend-controls .check{grid-template-columns:auto 1fr;justify-content:start}
+.bend-controls input:focus-visible,.motion-toggle:focus-visible{outline:2px solid var(--anatomy-lit);outline-offset:3px}
+.motion-toggle{justify-self:end;border:1px solid var(--anatomy-faint);background:transparent;color:var(--anatomy-text);font:12px var(--anatomy-mono);padding:6px 10px;cursor:pointer}
+.bend-chart{display:block;width:100%;height:auto;margin-top:8px}
+.bend-chart .axis path{fill:none;stroke:var(--anatomy-faint);stroke-width:1}
+.bend-chart .axis .mid{stroke-dasharray:none;opacity:.5}
+.bend-chart .tick{fill:var(--anatomy-muted);font:9px var(--anatomy-mono)}
+.bend-chart .plot-phi{fill:none;stroke:var(--anatomy-muted);stroke-width:1.2}
+.bend-chart .plot-free{fill:none;stroke:var(--anatomy-blue);stroke-width:1.4;opacity:.85}
+.bend-chart .plot-theta{fill:none;stroke:var(--anatomy-green);stroke-width:2}
+.bend-chart .cursor{fill:var(--anatomy-lit);stroke:var(--anatomy-paper);stroke-width:1}
+.bend-chart .bio-label{fill:var(--anatomy-text);font:9px var(--anatomy-mono)}
+.bend-chart .key.phi{fill:var(--anatomy-muted)}
+.bend-chart .key.free{fill:var(--anatomy-blue)}
+.bend-chart .key.theta{fill:var(--anatomy-green)}
+.bend-status{margin:6px 0 0;font:12px var(--anatomy-mono);color:var(--anatomy-text);min-height:2.6em}
+.bio-sources{max-width:760px;margin:14px auto;color:var(--anatomy-muted);font-size:12px;line-height:1.65}
+.bio-sources a{color:var(--anatomy-text);text-underline-offset:2px}
+.bio-sources code{font:11px var(--anatomy-mono);color:var(--anatomy-text)}
+@media(max-width:560px){.bend-controls{grid-template-columns:1fr}}
+</style><figure class="iso-figure"><div class="iso-plate"><div class="iso-plate-corners" aria-hidden="true"><span class="iso-plate-corner" data-corner="fig">Fig 1</span><span class="iso-plate-corner" data-corner="title">Bending toward light</span><span class="iso-plate-corner" data-corner="hint">Drag a slider · Space: pause</span><span class="iso-plate-corner" data-corner="readout" data-readout>θ 0.0°</span></div><div class="bend-svg"><svg xmlns="http://www.w3.org/2000/svg" class="iso-svg bend-figure" viewBox="0 0 760 300" role="img" aria-label="A sunflower seedling bends toward a light. Its stem angle is computed live from a two-state model with sensing lag and a saturating bend rate."><polygon id="beam" class="beam"/><g id="soil" class="bio-blob" data-tone="mid"><path class="bio-blob-base" d="M422 234.2C420.8 235.4 418.9 236.5 416.7 237.1C414.4 237.8 411.3 238.1 408.3 238.1C405.3 238.2 401.8 237.8 398.6 237.4C395.4 237 392.1 236.4 389 235.8C386 235.2 383 234.6 380 234C377.1 233.3 374.2 232.7 371.3 231.9C368.4 231.1 365.4 230.2 362.7 229.2C359.9 228.2 357.2 227.1 354.7 225.9C352.2 224.7 349.8 223.3 347.6 222C345.3 220.6 343.1 219.2 341 217.8C338.9 216.3 336.8 214.8 335 213.2C333.2 211.6 331.4 209.9 330.3 208.2C329.3 206.6 328.5 204.8 328.6 203.4C328.7 201.9 329.6 200.4 330.9 199.3C332.2 198.2 334.5 197.3 336.5 196.6C338.6 195.8 341.2 195.4 343.4 194.9C345.6 194.4 347.7 194 349.8 193.5C351.8 193 353.6 192.3 355.7 191.8C357.8 191.2 359.9 190.6 362.3 190.2C364.8 189.8 367.6 189.5 370.5 189.5C373.4 189.5 376.8 189.8 379.9 190.3C383.1 190.9 386.5 191.7 389.6 192.6C392.7 193.6 395.8 194.7 398.8 195.9C401.7 197 404.5 198.3 407.1 199.7C409.7 201 412.2 202.5 414.3 203.9C416.4 205.4 418.2 207 419.5 208.6C420.9 210.1 421.7 211.7 422.3 213.2C422.8 214.7 422.8 216.1 423 217.5C423.1 218.9 423 220.1 423.1 221.5C423.2 222.8 423.5 224.2 423.6 225.6C423.7 227 424.1 228.6 423.9 230C423.6 231.4 423.2 233 422 234.2Z"/><path class="bio-blob-shade" d="M416.9 231.7C415.9 232.7 414.3 233.7 412.3 234.3C410.2 234.8 407.5 235.1 404.9 235.1C402.2 235.2 399.2 234.9 396.3 234.5C393.5 234.2 390.7 233.6 388 233.1C385.2 232.6 382.6 232.1 380 231.5C377.4 230.9 374.9 230.3 372.3 229.6C369.8 228.9 367.2 228.2 364.8 227.3C362.3 226.4 359.9 225.4 357.7 224.3C355.5 223.3 353.5 222.1 351.4 220.9C349.4 219.7 347.6 218.5 345.7 217.2C343.9 215.9 342 214.6 340.4 213.2C338.8 211.8 337.2 210.3 336.3 208.8C335.3 207.4 334.7 205.8 334.8 204.5C334.9 203.2 335.7 202 336.8 201C338 200 339.9 199.2 341.7 198.6C343.6 197.9 345.8 197.5 347.8 197.1C349.7 196.6 351.6 196.3 353.4 195.8C355.2 195.4 356.8 194.8 358.6 194.4C360.5 193.9 362.3 193.3 364.4 192.9C366.6 192.6 369.1 192.3 371.7 192.3C374.2 192.4 377.2 192.6 380 193.1C382.8 193.5 385.7 194.3 388.5 195.1C391.2 195.9 393.9 196.9 396.5 197.9C399.1 199 401.6 200.1 403.9 201.3C406.1 202.5 408.4 203.7 410.2 205.1C412 206.4 413.6 207.8 414.8 209.1C416 210.5 416.7 211.9 417.2 213.2C417.7 214.5 417.7 215.8 417.8 217C417.9 218.2 417.8 219.3 417.9 220.5C418 221.7 418.3 222.8 418.4 224.1C418.5 225.3 418.8 226.7 418.6 228C418.4 229.3 418 230.6 416.9 231.7Z"/><path class="bio-blob-highlight" d="M410.2 228.3C409.4 229.2 408 230 406.4 230.4C404.7 230.9 402.5 231.1 400.4 231.2C398.2 231.2 395.7 230.9 393.4 230.6C391.1 230.4 388.7 229.9 386.5 229.5C384.3 229.1 382.2 228.6 380 228.2C377.9 227.7 375.8 227.2 373.7 226.7C371.6 226.1 369.5 225.5 367.5 224.7C365.5 224 363.6 223.2 361.8 222.3C360 221.4 358.3 220.5 356.6 219.5C355 218.5 353.5 217.5 351.9 216.5C350.4 215.4 348.9 214.3 347.6 213.2C346.3 212 345 210.8 344.2 209.6C343.5 208.5 342.9 207.2 343 206.1C343.1 205 343.7 204 344.7 203.2C345.6 202.4 347.2 201.8 348.7 201.2C350.2 200.7 352 200.4 353.6 200C355.2 199.6 356.8 199.4 358.2 199C359.7 198.6 361 198.2 362.5 197.8C364 197.4 365.5 196.9 367.3 196.6C369.1 196.3 371.1 196.1 373.2 196.1C375.3 196.2 377.7 196.4 380 196.7C382.3 197.1 384.7 197.7 386.9 198.4C389.2 199.1 391.4 199.9 393.5 200.7C395.6 201.6 397.6 202.5 399.5 203.5C401.4 204.4 403.2 205.5 404.7 206.5C406.2 207.6 407.5 208.8 408.5 209.9C409.4 211 410 212.2 410.4 213.2C410.8 214.3 410.8 215.3 410.9 216.3C411 217.3 411 218.2 411 219.2C411.1 220.1 411.3 221.1 411.4 222.1C411.5 223.1 411.8 224.3 411.6 225.3C411.4 226.3 411.1 227.5 410.2 228.3Z"/><path class="iso-line bio-blob-edge" data-tone="mid" d="M422 234.2C420.8 235.4 418.9 236.5 416.7 237.1C414.4 237.8 411.3 238.1 408.3 238.1C405.3 238.2 401.8 237.8 398.6 237.4C395.4 237 392.1 236.4 389 235.8C386 235.2 383 234.6 380 234C377.1 233.3 374.2 232.7 371.3 231.9C368.4 231.1 365.4 230.2 362.7 229.2C359.9 228.2 357.2 227.1 354.7 225.9C352.2 224.7 349.8 223.3 347.6 222C345.3 220.6 343.1 219.2 341 217.8C338.9 216.3 336.8 214.8 335 213.2C333.2 211.6 331.4 209.9 330.3 208.2C329.3 206.6 328.5 204.8 328.6 203.4C328.7 201.9 329.6 200.4 330.9 199.3C332.2 198.2 334.5 197.3 336.5 196.6C338.6 195.8 341.2 195.4 343.4 194.9C345.6 194.4 347.7 194 349.8 193.5C351.8 193 353.6 192.3 355.7 191.8C357.8 191.2 359.9 190.6 362.3 190.2C364.8 189.8 367.6 189.5 370.5 189.5C373.4 189.5 376.8 189.8 379.9 190.3C383.1 190.9 386.5 191.7 389.6 192.6C392.7 193.6 395.8 194.7 398.8 195.9C401.7 197 404.5 198.3 407.1 199.7C409.7 201 412.2 202.5 414.3 203.9C416.4 205.4 418.2 207 419.5 208.6C420.9 210.1 421.7 211.7 422.3 213.2C422.8 214.7 422.8 216.1 423 217.5C423.1 218.9 423 220.1 423.1 221.5C423.2 222.8 423.5 224.2 423.6 225.6C423.7 227 424.1 228.6 423.9 230C423.6 231.4 423.2 233 422 234.2Z"/></g><g id="stem"><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-edge"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-body"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/><line class="stem-shine"/></g><path id="lead-leaves" class="bio-label-line"/><path id="lead-stem" class="bio-label-line"/><path id="lead-light" class="bio-label-line"/><path id="lead-soil" class="bio-label-line"/><circle id="dot-leaves" class="lead-dot" r="1.2"/><circle id="dot-stem" class="lead-dot" r="1.2"/><circle id="dot-light" class="lead-dot" r="1.2"/><circle class="lead-dot" r="1.2" cx="390" cy="217.2"/><text id="t-leaves" class="bio-label">leaves (schematic)</text><text id="t-stem" class="bio-label">stem</text><text id="t-light" class="bio-label">light</text><text id="t-soil" class="bio-label" x="418" y="249.2">soil</text><path class="bio-label-line" d="M390,217.2 L416,243.2"/><g id="leaves"><ellipse class="leaf" rx="12" ry="4.6"/><ellipse class="leaf" rx="12" ry="4.6"/><circle class="bud" r="2.6"/></g><g id="lamp"><circle class="lamp-halo" r="20"/><circle class="lamp" r="8.5"/></g></svg></div>
+<div class="bend-controls" role="group" aria-label="Model parameters">
+  <label>gain k <output data-for="k"></output><input id="k" type="range" min="2" max="40" step="0.5" value="20"></label>
+  <label>sensing lag τ <output data-for="tau"></output><input id="tau" type="range" min="0.2" max="4" step="0.1" value="1"></label>
+  <label>max rate <output data-for="max"></output><input id="max" type="range" min="2" max="40" step="0.5" value="15"></label>
+  <label>light angle φ₀ <output data-for="phi"></output><input id="phi" type="range" min="10" max="85" step="1" value="60"></label>
+  <label class="check"><input id="flip" type="checkbox"> flip the light to the other side at 6 h</label>
+  <button class="motion-toggle" type="button" aria-pressed="false">Pause motion</button>
+</div>
+<svg class="bend-chart" viewBox="0 0 700 132" role="img" aria-label="Stem angle over twelve hours, with and without the rate limit">
+  <g class="axis"><path d="M34,10 L34,106 L690,106"/><path class="mid" d="M34,58 L690,58"/></g>
+  <g id="ticks"></g>
+  <path id="plot-phi" class="plot-phi"/><path id="plot-free" class="plot-free"/><path id="plot-theta" class="plot-theta"/>
+  <circle id="cursor" class="cursor" r="3.2"/>
+  <text class="bio-label" x="38" y="9">angle (°)</text><text class="bio-label" x="690" y="100" text-anchor="end">time (h)</text>
+  <text class="bio-label key phi" x="400" y="9">light φ</text><text class="bio-label key free" x="490" y="9">no rate limit</text><text class="bio-label key theta" x="610" y="9">stem θ</text>
+</svg>
+<p class="bend-status" id="status" aria-live="polite"></p></div><figcaption class="iso-legend"><span class="iso-caption">Schematic. The stem angle θ follows the BendLab model (two states: angle θ and bend rate r). The stem is drawn as a smooth curve whose tip angle equals θ. Parameter defaults are illustrative, not fitted values.</span></figcaption></figure><footer class="bio-sources">
+<p><strong>Model.</strong> BendLab (Y. Tripathi, MIT licence), <a href="https://github.com/Yash-Tripath1/Bendlab">github.com/Yash-Tripath1/Bendlab</a>, <code>sim.py</code>: <code>τ·dr/dt = k·sin(φ − θ) − r</code>, <code>r</code> clipped to ±max rate, <code>dθ/dt = r</code>, forward Euler with a one-minute step, <code>θ</code> and <code>r</code> starting at zero. In the code <code>r</code> is in degrees per hour, so <code>k</code> is also in degrees per hour as written. BendLab describes the form as related to the Cholodny–Went hypothesis and the Blaauw sine law. The model is phenomenological: it has no auxin state and does not simulate hormone transport.</p>
+<p><strong>Data BendLab fits.</strong> Stem-angle trajectories from S13 Data of <em>Multiple light signaling pathways control solar tracking in sunflowers</em>, PLOS Biology (2023), <a href="https://doi.org/10.1371/journal.pbio.3002344">doi 10.1371/journal.pbio.3002344</a>, as reported in the BendLab README. This figure does not display those data.</p>
+<p><strong>What the rate-limit note shows.</strong> BendLab reports that <code>max rate</code> cannot be identified from a trajectory that never reaches the limit (its README gives an example fit with identical error with and without the limit). The blue curve and the status line reproduce that idea for the sliders you choose; they are not BendLab's fitted results. BendLab's results are the author's own and not peer reviewed.</p>
+<p><strong>Simplified.</strong> One angle for the whole stem; leaves, soil and lamp are schematic; the light is a point direction with no intensity; time runs at 0.75 s per model hour. For education only.</p>
+</footer></main><script type="module">
+const BASE = [380, 209.2], EX = [1.6379000000000001, 0.8189500000000001], EZ = [0, -2.00601];
+const STEM = 62, LAMP = 70, SEG = 26, HOURS = 12, DT = 1 / 60, FLIP_AT = 6, SEC_PER_H = 0.75, HOLD = 2.5;
+const svg = document.querySelector(".bend-figure");
+const $ = (id) => document.getElementById(id);
+const readout = document.querySelector("[data-readout]");
+const toggle = document.querySelector(".motion-toggle");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+const rad = Math.PI / 180;
+
+// The model: BendLab sim.py, forward Euler, one-minute step.
+const simulate = (p, flip, free) => {
+  const n = Math.round(HOURS / DT);
+  const theta = new Float32Array(n + 1), rate = new Float32Array(n + 1);
+  let th = 0, r = 0, clamped = false;
+  const lim = free ? 1e9 : p.max;
+  for (let i = 0; i < n; i++) {
+    const phi = flip && i * DT >= FLIP_AT ? -p.phi : p.phi;
+    r += (p.k * Math.sin((phi - th) * rad) - r) * (DT / p.tau);
+    if (r > lim) { r = lim; clamped = true; } else if (r < -lim) { r = -lim; clamped = true; }
+    th += r * DT;
+    theta[i + 1] = th; rate[i + 1] = r;
+  }
+  return { theta, rate, clamped, n };
+};
+
+const params = () => ({ k: +$("k").value, tau: +$("tau").value, max: +$("max").value, phi: +$("phi").value });
+let run, free, p, flip;
+const shown = { k: (v) => v.toFixed(1) + " °/h", tau: (v) => v.toFixed(1) + " h", max: (v) => v.toFixed(1) + " °/h", phi: (v) => v + "°" };
+
+const pt = (u, z) => [BASE[0] + u * EX[0] + z * EZ[0], BASE[1] + u * EX[1] + z * EZ[1]];
+const stemPoints = (theta) => {
+  const out = [[0, 0]];
+  let u = 0, z = 0;
+  for (let i = 1; i <= SEG; i++) {
+    const a = theta * Math.pow(i / SEG, 1.5) * rad;
+    u += Math.sin(a) * STEM / SEG; z += Math.cos(a) * STEM / SEG;
+    out.push([u, z]);
+  }
+  return out;
+};
+
+const edges = [...svg.querySelectorAll(".stem-edge")], bodies = [...svg.querySelectorAll(".stem-body")], shines = [...svg.querySelectorAll(".stem-shine")];
+const leaves = [...svg.querySelectorAll(".leaf")], bud = svg.querySelector(".bud");
+const set = (el, o) => { for (const k in o) el.setAttribute(k, o[k]); };
+const f = (n) => n.toFixed(1);
+
+const draw = (thetaDeg, phiDeg) => {
+  const pts = stemPoints(thetaDeg).map(([u, z]) => pt(u, z));
+  for (let i = 0; i < SEG; i++) {
+    const w = 8.5 - 4.6 * (i / SEG);
+    const [a, b] = [pts[i], pts[i + 1]];
+    const c = { x1: f(a[0]), y1: f(a[1]), x2: f(b[0]), y2: f(b[1]) };
+    set(edges[i], { ...c, "stroke-width": f(w + 1.8) });
+    set(bodies[i], { ...c, "stroke-width": f(w) });
+    set(shines[i], { x1: f(a[0] - w * 0.18), y1: f(a[1]), x2: f(b[0] - w * 0.18), y2: f(b[1]), "stroke-width": f(w * 0.28) });
+  }
+  const tip = pts[SEG], before = pts[SEG - 2];
+  const dir = Math.atan2(tip[1] - before[1], tip[0] - before[0]) / rad;
+  leaves.forEach((leaf, i) => {
+    const side = i ? 1 : -1;
+    const ang = dir + side * 52;
+    const c = [tip[0] + Math.cos(ang * rad) * 11, tip[1] + Math.sin(ang * rad) * 11];
+    set(leaf, { cx: f(c[0]), cy: f(c[1]), transform: "rotate(" + f(ang) + " " + f(c[0]) + " " + f(c[1]) + ")" });
+  });
+  set(bud, { cx: f(tip[0]), cy: f(tip[1]) });
+  const lamp = pt(Math.sin(phiDeg * rad) * LAMP, 2 + Math.cos(phiDeg * rad) * LAMP);
+  set($("lamp").children[0], { cx: f(lamp[0]), cy: f(lamp[1]) });
+  set($("lamp").children[1], { cx: f(lamp[0]), cy: f(lamp[1]) });
+  const dx = tip[0] - lamp[0], dy = tip[1] - lamp[1], len = Math.hypot(dx, dy) || 1, nx = -dy / len, ny = dx / len;
+  $("beam").setAttribute("points", [[lamp[0] + nx * 7, lamp[1] + ny * 7], [tip[0] + nx * 26, tip[1] + ny * 26], [tip[0] - nx * 26, tip[1] - ny * 26], [lamp[0] - nx * 7, lamp[1] - ny * 7]].map((q) => f(q[0]) + "," + f(q[1])).join(" "));
+  const mid = pts[Math.round(SEG * 0.45)];
+  const place = (name, target, to, anchor) => {
+    $("t-" + name).setAttribute("x", f(to[0])); $("t-" + name).setAttribute("y", f(to[1]));
+    $("t-" + name).setAttribute("text-anchor", anchor);
+    $("lead-" + name).setAttribute("d", "M" + f(target[0]) + "," + f(target[1]) + " L" + f(to[0] + (anchor === "end" ? 3 : -3)) + "," + f(to[1] - 3));
+    set($("dot-" + name), { cx: f(target[0]), cy: f(target[1]) });
+  };
+  const side = mid[0] > BASE[0] ? -1 : 1;
+  place("leaves", tip, [tip[0] - 64, tip[1] - 26], "end");
+  place("stem", mid, [mid[0] + side * 46, mid[1] + 8], side > 0 ? "start" : "end");
+  place("light", lamp, [lamp[0] + (lamp[0] > BASE[0] ? 24 : -24), lamp[1] - 22], lamp[0] > BASE[0] ? "start" : "end");
+};
+
+const X = (t) => 34 + (t / HOURS) * 656, Y = (a) => 10 + ((90 - a) / 180) * 96;
+const line = (arr, step) => { let d = ""; for (let i = 0; i < arr.length; i += step) d += (i ? "L" : "M") + f(X(i * DT)) + "," + f(Y(arr[i])); return d; };
+const buildChart = () => {
+  const phiArr = Float32Array.from({ length: run.n + 1 }, (_, i) => (flip && i * DT >= FLIP_AT ? -p.phi : p.phi));
+  $("plot-theta").setAttribute("d", line(run.theta, 6));
+  $("plot-free").setAttribute("d", line(free.theta, 6));
+  $("plot-phi").setAttribute("d", line(phiArr, 6));
+  $("ticks").innerHTML = [0, 3, 6, 9, 12].map((h) => '<text class="tick" x="' + X(h) + '" y="118" text-anchor="middle">' + h + '</text>').join("") + [-60, 0, 60].map((a) => '<text class="tick" x="30" y="' + (Y(a) + 3) + '" text-anchor="end">' + a + '</text>').join("");
+  const peak = Math.max(...run.rate.map(Math.abs));
+  $("status").textContent = run.clamped
+    ? "The bend rate reaches the limit (" + p.max.toFixed(1) + " °/h), so the stem is slower than the blue curve. The limit shapes this trajectory."
+    : "The bend rate peaks at " + peak.toFixed(1) + " °/h and never reaches the limit (" + p.max.toFixed(1) + " °/h), so the two curves overlap. Max rate has no effect on this trajectory, which is why it cannot be read off from it.";
+};
+
+const recompute = () => {
+  p = params(); flip = $("flip").checked;
+  for (const key of ["k", "tau", "max", "phi"]) document.querySelector('[data-for="' + key + '"]').textContent = shown[key](p[key]);
+  run = simulate(p, flip, false); free = simulate(p, flip, true);
+  buildChart();
+  started = performance.now();
+  if (reduce.matches) frameAt(HOURS);
+};
+
+const frameAt = (t) => {
+  const i = Math.min(run.n, Math.round(t / DT));
+  const phi = flip && t >= FLIP_AT ? -p.phi : p.phi;
+  draw(run.theta[i], phi);
+  readout.textContent = "θ " + run.theta[i].toFixed(1) + "° · r " + run.rate[i].toFixed(1) + "°/h · " + t.toFixed(1) + " h";
+  set($("cursor"), { cx: f(X(t)), cy: f(Y(run.theta[i])) });
+};
+
+let started = performance.now(), playing = !reduce.matches, visible = true, raf = 0;
+const loop = (now) => {
+  raf = 0;
+  if (!playing || !visible || reduce.matches) return;
+  const total = HOURS * SEC_PER_H + HOLD;
+  const s = Math.max(0, (now - started) / 1000) % total;
+  frameAt(Math.min(HOURS, s / SEC_PER_H));
+  raf = requestAnimationFrame(loop);
+};
+const go = () => { if (playing && visible && !reduce.matches && !raf) raf = requestAnimationFrame(loop); };
+const halt = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
+
+for (const id of ["k", "tau", "max", "phi", "flip"]) $(id).addEventListener("input", () => { recompute(); if (!playing) frameAt(HOURS); });
+toggle.addEventListener("click", () => {
+  playing = !playing;
+  toggle.textContent = playing ? "Pause motion" : "Play motion";
+  toggle.setAttribute("aria-pressed", String(!playing));
+  if (playing) { started = performance.now(); go(); } else halt();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.code !== "Space" || e.target.closest("button, a, input, textarea, select")) return;
+  e.preventDefault(); toggle.click();
+});
+reduce.addEventListener("change", () => location.reload());
+new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) go(); else halt(); }).observe(svg);
+
+recompute();
+if (reduce.matches) { toggle.textContent = "Play motion"; toggle.disabled = true; frameAt(HOURS); } else { frameAt(0); go(); }
+</script></body></html>
