@@ -83,6 +83,7 @@ const sources = `<footer class="bio-sources">
 <p><strong>Data BendLab fits.</strong> Stem-angle trajectories from S13 Data of <em>Multiple light signaling pathways control solar tracking in sunflowers</em>, PLOS Biology (2023), <a href="https://doi.org/10.1371/journal.pbio.3002344">doi 10.1371/journal.pbio.3002344</a>, as reported in the BendLab README. This figure does not display those data.</p>
 <p><strong>What the rate-limit note shows.</strong> BendLab reports that <code>max rate</code> cannot be identified from a trajectory that never reaches the limit (its README gives an example fit with identical error with and without the limit). The blue curve and the status line reproduce that idea for the sliders you choose; they are not BendLab's fitted results. BendLab's results are the author's own and not peer reviewed.</p>
 <p><strong>Simplified.</strong> One angle for the whole stem; leaves, soil and lamp are schematic; the light is a point direction with no intensity; time runs at 0.75 s per model hour. For education only.</p>
+<p><strong>Credits.</strong> Model and findings: BendLab. Figure: built with <a href="https://github.com/Garinmckayl/anima">Anima</a> by Natnael Getenew.</p>
 </footer>`;
 
 const style = `
