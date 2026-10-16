@@ -6,7 +6,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 
 ### Added
 
-- `sunflower-bend`, a live figure of BendLab's two-state phototropism model (sensing lag, saturating bend rate), with parameter sliders, a flip-the-light option and a trajectory chart that shows when the rate limit cannot be read from the data.
+- `sunflower-bend`, a live figure of BendLab's two-state phototropism model (sensing lag, saturating bend rate), with parameter sliders, a flip-the-light option and a trajectory chart that shows when the rate limit cannot be read from the data, and two fitted presets supplied by BendLab's author. Credited to BendLab, with a link to its repository.
 
 ## [0.1.0] - 2026-10-13
 
