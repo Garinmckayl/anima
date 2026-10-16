@@ -52,14 +52,15 @@ const figure = figureSvg({
 
 const controls = `
 <div class="bend-controls" role="group" aria-label="Model parameters">
-  <label>gain k <output data-for="k"></output><input id="k" type="range" min="2" max="40" step="0.1" value="20"></label>
+  <label>gain k <output data-for="k"></output><input id="k" type="range" min="2" max="50" step="0.1" value="20"></label>
   <label>sensing lag τ <output data-for="tau"></output><input id="tau" type="range" min="0.2" max="6" step="0.01" value="1"></label>
   <label>max rate <output data-for="max"></output><input id="max" type="range" min="2" max="40" step="0.1" value="15"></label>
   <label>light angle φ₀ <output data-for="phi"></output><input id="phi" type="range" min="10" max="85" step="0.1" value="60"></label>
   <div class="presets" role="group" aria-label="Presets">
     <button type="button" data-preset="20,1,15,60">Illustrative</button>
     <button type="button" data-preset="18.5,3.63,20.7,49.1">Fit: typical plant</button>
-    <button type="button" data-preset="22.9,4.17,6.2,31.7">Fit: low-cap plant</button>
+    <button type="button" data-preset="22.9,4.17,6.2,31.7">Fit: cap not reached</button>
+    <button type="button" data-preset="40.8,4.37,7.4,45.3">Fit: cap binds</button>
   </div>
   <label class="check"><input id="flip" type="checkbox"> flip the light to the other side at 6 h</label>
   <button class="motion-toggle" type="button" aria-pressed="false">Pause motion</button>
@@ -86,7 +87,7 @@ const framed = plateHtml({
 const sources = `<footer class="bio-sources">
 <p><strong>Model.</strong> BendLab (MIT licence), <a href="https://github.com/Yash-Tripath1/Bendlab">github.com/Yash-Tripath1/Bendlab</a>, <code>sim.py</code>: <code>τ·dr/dt = k·sin(φ − θ) − r</code>, <code>r</code> clipped to ±max rate, <code>dθ/dt = r</code>, forward Euler with a one-minute step, <code>θ</code> and <code>r</code> starting at zero. In the code <code>r</code> is in degrees per hour, so <code>k</code> is also in degrees per hour as written. BendLab describes the form as related to the Cholodny–Went hypothesis and the Blaauw sine law. The model is phenomenological: it has no auxin state and does not simulate hormone transport.</p>
 <p><strong>Data BendLab fits.</strong> Stem-angle trajectories from S13 Data of <em>Multiple light signaling pathways control solar tracking in sunflowers</em>, PLOS Biology (2023), <a href="https://doi.org/10.1371/journal.pbio.3002344">doi 10.1371/journal.pbio.3002344</a>, as reported in the BendLab README. This figure does not display those data.</p>
-<p><strong>Fitted presets.</strong> The two “fit” buttons load parameter values supplied by BendLab’s author for two seedlings from the published data (Brooks et al. 2023, Fig 1C, as reported by the author): a typical plant (k = 18.5 °/h, τ = 3.63 h, max rate = 20.7 °/h, φ₀ = 49.1°) and a low-cap plant, which the author reports as one where the rate cap binds (k = 22.9 °/h, τ = 4.17 h, max rate = 6.2 °/h, φ₀ = 31.7°). This figure runs every plant from rest (θ = 0, r = 0) in static light for twelve hours, and under that protocol the low-cap plant peaks at about 5.9 °/h, just under its 6.2 °/h cap. Whether the cap binds therefore depends on the starting state and protocol of the original fit, which this figure does not reproduce. It runs the model with these values and does not plot the measured trajectories.</p>
+<p><strong>Fitted presets.</strong> The three “fit” buttons load parameter values supplied by BendLab’s author for seedlings from the published data (Brooks et al. 2023, Fig 1C, as reported by the author): a typical plant (k = 18.5 °/h, τ = 3.63 h, max rate = 20.7 °/h, φ₀ = 49.1°); a plant whose fitted cap is not reached (k = 22.9 °/h, τ = 4.17 h, max rate = 6.2 °/h, φ₀ = 31.7°); and plant ZT3-8, where the cap binds (k = 40.8 °/h, τ = 4.37 h, max rate = 7.4 °/h, φ₀ = 45.3°). Every plant runs from rest (θ = 0, r = 0) in static light for twelve hours, the protocol of the original fits. Under it, the second plant peaks at 5.9 °/h, under its 6.2 °/h cap, and ZT3-8 would peak near 12 °/h without a cap, so its 7.4 °/h cap bites. The author reports (personal communication, 2026-10-16) that across all 48 fitted seedlings the fitted cap binds for exactly one plant. The figure runs the model with these values; it does not plot the measured trajectories.</p>
 <p><strong>What the rate-limit note shows.</strong> BendLab reports that <code>max rate</code> cannot be identified from a trajectory that never reaches the limit (its README gives an example fit with identical error with and without the limit). The blue curve and the status line reproduce that idea for the sliders you choose; they are not BendLab's fitted results. BendLab's results are the author's own and not peer reviewed.</p>
 <p><strong>Simplified.</strong> One angle for the whole stem; leaves, soil and lamp are schematic; the light is a point direction with no intensity; time runs at 0.75 s per model hour. For education only.</p>
 <p><strong>Credits.</strong> Model and findings: <a href="https://github.com/Yash-Tripath1/Bendlab">BendLab</a>, reviewed for accuracy by its author. Figure: built with <a href="https://github.com/Garinmckayl/anima">Anima</a> by Natnael Getenew.</p>
@@ -242,7 +243,7 @@ const recompute = () => {
   run = simulate(p, flip, false); free = simulate(p, flip, true);
   buildChart();
   started = performance.now();
-  if (reduce.matches) frameAt(HOURS);
+  if (!playing) frameAt(HOURS);
 };
 
 const frameAt = (t) => {
@@ -254,15 +255,16 @@ const frameAt = (t) => {
 };
 
 let started = performance.now(), playing = !reduce.matches, visible = true, raf = 0;
+let allowMotion = !reduce.matches;
 const loop = (now) => {
   raf = 0;
-  if (!playing || !visible || reduce.matches) return;
+  if (!playing || !visible || !allowMotion) return;
   const total = HOURS * SEC_PER_H + HOLD;
   const s = Math.max(0, (now - started) / 1000) % total;
   frameAt(Math.min(HOURS, s / SEC_PER_H));
   raf = requestAnimationFrame(loop);
 };
-const go = () => { if (playing && visible && !reduce.matches && !raf) raf = requestAnimationFrame(loop); };
+const go = () => { if (playing && visible && allowMotion && !raf) raf = requestAnimationFrame(loop); };
 const halt = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
 
 document.querySelectorAll("[data-preset]").forEach((b) => b.addEventListener("click", () => {
@@ -273,6 +275,7 @@ document.querySelectorAll("[data-preset]").forEach((b) => b.addEventListener("cl
 for (const id of ["k", "tau", "max", "phi", "flip"]) $(id).addEventListener("input", () => { recompute(); if (!playing) frameAt(HOURS); });
 toggle.addEventListener("click", () => {
   playing = !playing;
+  if (playing) allowMotion = true;
   toggle.textContent = playing ? "Pause motion" : "Play motion";
   toggle.setAttribute("aria-pressed", String(!playing));
   if (playing) { started = performance.now(); go(); } else halt();
@@ -285,7 +288,7 @@ reduce.addEventListener("change", () => location.reload());
 new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) go(); else halt(); }).observe(svg);
 
 recompute();
-if (reduce.matches) { toggle.textContent = "Play motion"; toggle.disabled = true; frameAt(HOURS); } else { frameAt(0); go(); }
+if (reduce.matches) { toggle.textContent = "Play motion"; toggle.setAttribute("aria-pressed", "true"); frameAt(HOURS); } else { frameAt(0); go(); }
 `;
 
 const html = pageHtml({
