@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ani document, format version 0.1",
+  "type": "object",
+  "required": ["format", "formatVersion", "profile", "document", "requirements", "biology", "evidence"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string", "maxLength": 512 },
+    "format": { "const": "ani" },
+    "formatVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "profile": { "enum": ["explanatory"] },
+    "document": { "$ref": "#/$defs/document" },
+    "requirements": { "$ref": "#/$defs/requirements" },
+    "biology": { "$ref": "#/$defs/biology" },
+    "evidence": { "$ref": "#/$defs/evidence" },
+    "behavior": { "$ref": "#/$defs/behavior" },
+    "scenes": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/scene" } },
+    "presentation": { "$ref": "#/$defs/presentation" },
+    "provenance": { "$ref": "#/$defs/provenance" },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$" },
+    "idList": { "type": "array", "items": { "$ref": "#/$defs/id" }, "maxItems": 256 },
+    "text": { "type": "string", "maxLength": 4000 },
+    "shortText": { "type": "string", "maxLength": 200 },
+    "extensions": {
+      "description": "Namespaced data owned by other tools. Keys look like 'vendor.feature'. Consumers must preserve it when editing.",
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$" }
+    },
+    "number": { "type": "number" },
+    "point": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+    "color": { "type": "string", "pattern": "^(none|currentColor|#[0-9a-fA-F]{3,8}|(rgb|hsl)a?\\([0-9 ,.%/]+\\))$" },
+    "paint": {
+      "oneOf": [
+        { "$ref": "#/$defs/color" },
+        { "type": "object", "required": ["gradient"], "additionalProperties": false, "properties": { "gradient": { "$ref": "#/$defs/id" } } },
+        { "type": "object", "required": ["token"], "additionalProperties": false, "properties": { "token": { "$ref": "#/$defs/id" } } }
+      ]
+    },
+
+    "document": {
+      "type": "object", "required": ["id", "title", "revision"], "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$" },
+        "title": { "$ref": "#/$defs/shortText" },
+        "revision": { "type": "integer", "minimum": 1 },
+        "description": { "$ref": "#/$defs/text" },
+        "license": { "type": "string", "maxLength": 100 },
+        "authors": {
+          "type": "array", "maxItems": 64,
+          "items": { "type": "object", "required": ["name"], "additionalProperties": false,
+            "properties": { "name": { "$ref": "#/$defs/shortText" }, "orcid": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$" }, "affiliation": { "$ref": "#/$defs/shortText" } } }
+        }
+      }
+    },
+
+    "requirements": {
+      "type": "object", "required": ["capabilities"], "additionalProperties": false,
+      "properties": {
+        "capabilities": { "type": "array", "items": { "type": "string", "pattern": "^[a-z]+(\\.[a-z]+)+$" }, "uniqueItems": true, "maxItems": 64 },
+        "primitiveLibrary": { "type": "string", "pattern": "^[a-z][a-z0-9-]*@[0-9]+\\.[0-9]+\\.[0-9]+$" }
+      }
+    },
+
+    "biology": {
+      "type": "object", "required": ["entities"], "additionalProperties": false,
+      "properties": {
+        "entities": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/entity" } },
+        "relationships": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/relationship" } },
+        "compartments": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/compartment" } }
+      }
+    },
+    "entity": {
+      "type": "object", "required": ["kind", "label"], "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["molecule", "protein", "protein-domain", "complex", "nucleic-acid", "dna", "rna", "ion", "cell", "structure", "condition", "other"] },
+        "label": { "$ref": "#/$defs/shortText" },
+        "description": { "$ref": "#/$defs/text" },
+        "partOf": { "$ref": "#/$defs/id" },
+        "compartmentId": { "$ref": "#/$defs/id" },
+        "species": { "$ref": "#/$defs/shortText" },
+        "externalIds": { "type": "object", "propertyNames": { "pattern": "^[a-z][a-z0-9_.-]{0,31}$" }, "additionalProperties": { "type": "string", "maxLength": 128 } },
+        "claimIds": { "$ref": "#/$defs/idList" },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      }
+    },
+    "relationship": {
+      "type": "object", "required": ["kind", "source", "target"], "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["activates", "inhibits", "binds", "hybridizes", "cleaves", "transports", "converts", "regulates"] },
+        "source": { "$ref": "#/$defs/id" },
+        "target": { "$ref": "#/$defs/id" },
+        "label": { "$ref": "#/$defs/shortText" },
+        "claimIds": { "$ref": "#/$defs/idList" },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      }
+    },
+    "compartment": {
+      "type": "object", "required": ["label"], "additionalProperties": false,
+      "properties": { "label": { "$ref": "#/$defs/shortText" }, "partOf": { "$ref": "#/$defs/id" } }
+    },
+
+    "evidence": {
+      "type": "object", "required": ["sources", "claims"], "additionalProperties": false,
+      "properties": {
+        "sources": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/source" } },
+        "claims": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/claim" } }
+      }
+    },
+    "source": {
+      "type": "object", "required": ["type", "title"], "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["article", "structure-entry", "dataset", "book", "web", "other"] },
+        "title": { "$ref": "#/$defs/text" },
+        "authors": { "type": "array", "items": { "$ref": "#/$defs/shortText" }, "maxItems": 64 },
+        "container": { "$ref": "#/$defs/shortText" },
+        "year": { "type": "integer", "minimum": 1800, "maximum": 2200 },
+        "doi": { "type": "string", "pattern": "^10\\.[0-9]{4,9}/\\S+$", "maxLength": 200 },
+        "pdb": { "type": "string", "pattern": "^[0-9][A-Za-z0-9]{3}$" },
+        "pmid": { "type": "string", "pattern": "^[0-9]{1,9}$" },
+        "url": { "type": "string", "pattern": "^https://\\S+$", "maxLength": 512 },
+        "metadataStatus": { "enum": ["verified", "unchecked"], "description": "Whether the bibliographic fields were checked against an authoritative record. Says nothing about whether the source supports any claim." },
+        "note": { "$ref": "#/$defs/text" }
+      }
+    },
+    "claim": {
+      "type": "object", "required": ["statement", "kind"], "additionalProperties": false,
+      "properties": {
+        "statement": { "$ref": "#/$defs/text" },
+        "kind": { "enum": ["established", "hypothesis", "illustrative"], "description": "'illustrative' marks a simplification chosen for teaching; it needs no source but is displayed as illustrative." },
+        "describes": {
+          "type": "array", "maxItems": 64,
+          "items": { "type": "object", "required": ["type", "id"], "additionalProperties": false,
+            "properties": { "type": { "enum": ["entity", "relationship", "variable"] }, "id": { "$ref": "#/$defs/id" } } }
+        },
+        "sourceIds": { "$ref": "#/$defs/idList" },
+        "locators": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/shortText" } },
+        "context": {
+          "type": "object", "additionalProperties": false,
+          "properties": { "species": { "$ref": "#/$defs/shortText" }, "tissue": { "$ref": "#/$defs/shortText" }, "conditions": { "$ref": "#/$defs/text" }, "method": { "$ref": "#/$defs/shortText" } }
+        },
+        "limitations": { "type": "array", "items": { "$ref": "#/$defs/text" }, "maxItems": 32 },
+        "conflicts": { "type": "array", "items": { "$ref": "#/$defs/text" }, "maxItems": 32 },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      }
+    },
+
+    "expr": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string", "maxLength": 1000 },
+        { "type": "boolean" },
+        {
+          "type": "object", "required": ["op"], "additionalProperties": false,
+          "properties": {
+            "op": { "enum": ["ref", "time", "progress", "index", "count", "add", "sub", "mul", "div", "pow", "neg", "abs", "min", "max", "clamp", "ease", "sin", "cos", "round", "floor", "lt", "le", "gt", "ge", "eq", "ne", "and", "or", "not", "if", "concat", "str"] },
+            "id": { "$ref": "#/$defs/id" },
+            "args": { "type": "array", "items": { "$ref": "#/$defs/expr" }, "maxItems": 16 }
+          }
+        }
+      ]
+    },
+    "effect": {
+      "type": "object", "required": ["op"], "additionalProperties": false,
+      "properties": {
+        "op": { "enum": ["setVariable", "setTime", "play", "pause"] },
+        "id": { "$ref": "#/$defs/id" },
+        "value": { "type": ["number", "string", "boolean"] }
+      }
+    },
+    "behavior": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "clock": {
+          "type": "object", "required": ["duration"], "additionalProperties": false,
+          "properties": {
+            "duration": { "type": "number", "exclusiveMinimum": 0, "maximum": 3600 },
+            "loop": { "type": "boolean" },
+            "initialTime": { "type": "number", "minimum": 0 },
+            "autoplay": { "type": "boolean" },
+            "reducedMotion": { "type": "object", "additionalProperties": false, "properties": { "time": { "type": "number", "minimum": 0 } } }
+          }
+        },
+        "variables": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": {
+            "type": "object", "required": ["type", "initial"], "additionalProperties": false,
+            "properties": {
+              "type": { "enum": ["boolean", "enum", "number"] },
+              "initial": { "type": ["boolean", "string", "number"] },
+              "options": { "type": "array", "items": { "$ref": "#/$defs/id" }, "minItems": 1, "maxItems": 32, "uniqueItems": true },
+              "min": { "type": "number" }, "max": { "type": "number" },
+              "label": { "$ref": "#/$defs/shortText" }
+            }
+          }
+        },
+        "derived": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": { "type": "object", "required": ["expression"], "additionalProperties": false, "properties": { "expression": { "$ref": "#/$defs/expr" }, "label": { "$ref": "#/$defs/shortText" } } }
+        },
+        "controls": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": {
+            "type": "object", "required": ["kind", "label"], "additionalProperties": false,
+            "properties": {
+              "kind": { "enum": ["toggle", "selector", "slider", "playback", "restart", "scrubber"] },
+              "label": { "$ref": "#/$defs/shortText" },
+              "variable": { "$ref": "#/$defs/id" },
+              "options": {
+                "type": "array", "maxItems": 32,
+                "items": { "type": "object", "required": ["value", "label"], "additionalProperties": false,
+                  "properties": { "value": { "$ref": "#/$defs/id" }, "label": { "$ref": "#/$defs/shortText" }, "effects": { "type": "array", "items": { "$ref": "#/$defs/effect" }, "maxItems": 16 } } }
+              },
+              "effects": { "type": "array", "items": { "$ref": "#/$defs/effect" }, "maxItems": 16 }
+            }
+          }
+        },
+        "bindings": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": {
+            "type": "object", "required": ["target", "property", "expression"], "additionalProperties": false,
+            "properties": {
+              "target": {
+                "type": "object", "required": ["scene", "node"], "additionalProperties": false,
+                "properties": {
+                  "scene": { "$ref": "#/$defs/id" }, "node": { "$ref": "#/$defs/id" },
+                  "shape": { "$ref": "#/$defs/id" },
+                  "shapes": { "$ref": "#/$defs/idList", "description": "Apply the expression to each listed shape; 'index' and 'count' are available." }
+                }
+              },
+              "property": { "enum": ["visible", "opacity", "translateX", "translateY", "rotate", "text", "attr.x1", "attr.y1", "attr.x2", "attr.y2", "attr.cx", "attr.cy", "attr.r"] },
+              "expression": { "$ref": "#/$defs/expr" }
+            }
+          }
+        }
+      }
+    },
+
+    "scene": {
+      "type": "object", "required": ["coordinateSystem", "viewBox", "nodes"], "additionalProperties": false,
+      "properties": {
+        "title": { "$ref": "#/$defs/shortText" },
+        "coordinateSystem": { "enum": ["schematic"], "description": "Layout units are abstract. Physical coordinates need a different value and units, not defined in 0.1." },
+        "viewBox": { "type": "array", "items": { "type": "number" }, "minItems": 4, "maxItems": 4 },
+        "palette": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": { "type": "object", "required": ["dark", "light"], "additionalProperties": false, "properties": { "dark": { "$ref": "#/$defs/color" }, "light": { "$ref": "#/$defs/color" } } }
+        },
+        "gradients": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": {
+            "type": "object", "required": ["kind", "stops"], "additionalProperties": false,
+            "properties": {
+              "kind": { "enum": ["linear", "radial"] },
+              "from": { "$ref": "#/$defs/point" }, "to": { "$ref": "#/$defs/point" },
+              "center": { "$ref": "#/$defs/point" }, "radius": { "type": "number" },
+              "stops": { "type": "array", "minItems": 2, "maxItems": 16, "items": { "type": "object", "required": ["offset", "color"], "additionalProperties": false,
+                "properties": { "offset": { "type": "number", "minimum": 0, "maximum": 1 }, "color": { "$ref": "#/$defs/paint" }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 } } } }
+            }
+          }
+        },
+        "nodes": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/node" } },
+        "edges": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": { "type": "object", "required": ["relationshipId", "from", "to"], "additionalProperties": false,
+            "properties": { "relationshipId": { "$ref": "#/$defs/id" }, "from": { "$ref": "#/$defs/id" }, "to": { "$ref": "#/$defs/id" } } }
+        }
+      }
+    },
+    "node": {
+      "type": "object", "required": ["z", "shapes"], "additionalProperties": false,
+      "properties": {
+        "entityId": { "$ref": "#/$defs/id" },
+        "role": { "enum": ["figure", "annotation", "decoration"] },
+        "label": { "$ref": "#/$defs/shortText" },
+        "z": { "type": "integer" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "transformOrigin": { "$ref": "#/$defs/point" },
+        "shapes": { "type": "array", "maxItems": 2000, "items": { "$ref": "#/$defs/shape" } },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      }
+    },
+    "shape": {
+      "type": "object",
+      "discriminator": { "propertyName": "type" },
+      "oneOf": [
+        { "type": "object", "required": ["type", "d"], "additionalProperties": false, "properties": { "type": { "const": "path" }, "d": { "type": "string", "maxLength": 20000, "pattern": "^[MmLlHhVvCcSsQqTtAaZz0-9eE+\\-., \\t\\n]*$" }, "id": { "$ref": "#/$defs/id" }, "fill": { "$ref": "#/$defs/paint" }, "stroke": { "$ref": "#/$defs/paint" }, "strokeWidth": { "type": "number", "minimum": 0 }, "strokeOpacity": { "type": "number", "minimum": 0, "maximum": 1 }, "linecap": { "enum": ["butt", "round", "square"] }, "dash": { "type": "array", "items": { "type": "number", "minimum": 0 }, "maxItems": 8 }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 }, "effect": { "enum": ["glow"] } } },
+        { "type": "object", "required": ["type", "cx", "cy", "r"], "additionalProperties": false, "properties": { "type": { "const": "circle" }, "id": { "$ref": "#/$defs/id" }, "cx": { "type": "number" }, "cy": { "type": "number" }, "r": { "type": "number", "minimum": 0 }, "fill": { "$ref": "#/$defs/paint" }, "stroke": { "$ref": "#/$defs/paint" }, "strokeWidth": { "type": "number", "minimum": 0 }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 } } },
+        { "type": "object", "required": ["type", "cx", "cy", "rx", "ry"], "additionalProperties": false, "properties": { "type": { "const": "ellipse" }, "id": { "$ref": "#/$defs/id" }, "cx": { "type": "number" }, "cy": { "type": "number" }, "rx": { "type": "number", "minimum": 0 }, "ry": { "type": "number", "minimum": 0 }, "fill": { "$ref": "#/$defs/paint" }, "stroke": { "$ref": "#/$defs/paint" }, "strokeWidth": { "type": "number", "minimum": 0 }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 } } },
+        { "type": "object", "required": ["type", "x1", "y1", "x2", "y2"], "additionalProperties": false, "properties": { "type": { "const": "line" }, "id": { "$ref": "#/$defs/id" }, "x1": { "type": "number" }, "y1": { "type": "number" }, "x2": { "type": "number" }, "y2": { "type": "number" }, "stroke": { "$ref": "#/$defs/paint" }, "strokeWidth": { "type": "number", "minimum": 0 }, "strokeOpacity": { "type": "number", "minimum": 0, "maximum": 1 }, "linecap": { "enum": ["butt", "round", "square"] }, "dash": { "type": "array", "items": { "type": "number", "minimum": 0 }, "maxItems": 8 }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 } } },
+        { "type": "object", "required": ["type", "points"], "additionalProperties": false, "properties": { "type": { "const": "polyline" }, "id": { "$ref": "#/$defs/id" }, "points": { "type": "array", "items": { "$ref": "#/$defs/point" }, "minItems": 2, "maxItems": 1000 }, "stroke": { "$ref": "#/$defs/paint" }, "strokeWidth": { "type": "number", "minimum": 0 }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 } } },
+        { "type": "object", "required": ["type", "x", "y", "width", "height"], "additionalProperties": false, "properties": { "type": { "const": "rect" }, "id": { "$ref": "#/$defs/id" }, "x": { "type": "number" }, "y": { "type": "number" }, "width": { "type": "number", "minimum": 0 }, "height": { "type": "number", "minimum": 0 }, "rx": { "type": "number", "minimum": 0 }, "fill": { "$ref": "#/$defs/paint" }, "stroke": { "$ref": "#/$defs/paint" }, "strokeWidth": { "type": "number", "minimum": 0 }, "dash": { "type": "array", "items": { "type": "number", "minimum": 0 }, "maxItems": 8 }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 } } },
+        { "type": "object", "required": ["type", "x", "y", "text"], "additionalProperties": false, "properties": { "type": { "const": "text" }, "id": { "$ref": "#/$defs/id" }, "x": { "type": "number" }, "y": { "type": "number" }, "text": { "type": "string", "maxLength": 500 }, "fill": { "$ref": "#/$defs/paint" }, "size": { "type": "number", "minimum": 1, "maximum": 200 }, "weight": { "enum": ["normal", "bold"] }, "anchor": { "enum": ["start", "middle", "end"] }, "opacity": { "type": "number", "minimum": 0, "maximum": 1 } } }
+      ]
+    },
+
+    "presentation": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "defaultScene": { "$ref": "#/$defs/id" },
+        "plate": { "type": "object", "additionalProperties": false, "properties": { "figureLabel": { "$ref": "#/$defs/shortText" }, "title": { "$ref": "#/$defs/shortText" }, "hint": { "$ref": "#/$defs/shortText" }, "summaryReadoutId": { "$ref": "#/$defs/id" } } },
+        "readouts": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": { "type": "object", "required": ["label", "value"], "additionalProperties": false,
+            "properties": { "label": { "$ref": "#/$defs/shortText" }, "value": { "$ref": "#/$defs/expr" }, "description": { "$ref": "#/$defs/expr" }, "claimIds": { "$ref": "#/$defs/idList" } } }
+        },
+        "legend": { "type": "array", "maxItems": 32, "items": { "type": "object", "required": ["color", "label"], "additionalProperties": false, "properties": { "color": { "$ref": "#/$defs/color" }, "label": { "$ref": "#/$defs/shortText" }, "entityIds": { "$ref": "#/$defs/idList" } } } },
+        "disclaimer": { "$ref": "#/$defs/text" }
+      }
+    },
+
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "createdBy": { "type": "object", "additionalProperties": false, "properties": { "tool": { "$ref": "#/$defs/shortText" }, "version": { "$ref": "#/$defs/shortText" } } },
+        "derivedFrom": { "type": "array", "maxItems": 16, "items": { "type": "object", "required": ["kind", "ref"], "additionalProperties": false, "properties": { "kind": { "enum": ["ani-document", "html-figure", "external"] }, "ref": { "$ref": "#/$defs/text" }, "note": { "$ref": "#/$defs/text" } } } },
+        "notes": { "type": "array", "items": { "$ref": "#/$defs/text" }, "maxItems": 64 },
+        "reviews": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/review" } }
+      }
+    },
+    "review": {
+      "type": "object", "required": ["aspect", "claimId", "scopeHash", "reviewer", "date", "verdict"], "additionalProperties": false,
+      "properties": {
+        "aspect": { "enum": ["source-support", "scientific-accuracy"] },
+        "claimId": { "$ref": "#/$defs/id" },
+        "scopeHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "reviewer": { "type": "object", "required": ["name"], "additionalProperties": false, "properties": { "name": { "$ref": "#/$defs/shortText" }, "role": { "$ref": "#/$defs/shortText" }, "orcid": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$" } } },
+        "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "verdict": { "enum": ["supported", "supported-with-caveats", "not-supported"] },
+        "note": { "$ref": "#/$defs/text" }
+      }
+    }
+  }
+}

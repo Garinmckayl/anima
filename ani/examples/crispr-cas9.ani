@@ -1,0 +1,2767 @@
+{
+ "format": "ani",
+ "formatVersion": "0.1.0",
+ "profile": "explanatory",
+ "document": {
+  "id": "crispr-cas9-cleavage",
+  "title": "CRISPR-Cas9 endonuclease DNA cleavage mechanism",
+  "revision": 1,
+  "description": "R-loop mediated target recognition, HNH activation and double-strand cleavage by SpCas9, with an on-target / seed-mismatch comparison."
+ },
+ "requirements": {
+  "capabilities": [
+   "scene.svg",
+   "behavior.clock",
+   "behavior.enum",
+   "behavior.expressions",
+   "presentation.readouts"
+  ]
+ },
+ "biology": {
+  "entities": {
+   "cas9": {
+    "kind": "complex",
+    "label": "SpCas9–sgRNA–DNA complex",
+    "species": "Streptococcus pyogenes",
+    "claimIds": [
+     "c_structure_basis"
+    ],
+    "description": "Streptococcus pyogenes Cas9 in complex with single-guide RNA and target DNA, as modelled in this figure."
+   },
+   "rec_lobe": {
+    "kind": "protein-domain",
+    "label": "REC Lobe",
+    "partOf": "cas9",
+    "description": "Recognition lobe (REC1, REC2, REC3). Alpha-helical structural scaffold that wraps around the 20-bp guide RNA:target DNA heteroduplex.",
+    "claimIds": [
+     "c_rec_lobe"
+    ]
+   },
+   "bridge_helix": {
+    "kind": "protein-domain",
+    "label": "Bridge Helix (BH)",
+    "partOf": "cas9",
+    "description": "Conserved arginine-rich alpha-helix (Arg63–Lys94) initiating DNA unwinding upon target interrogation.",
+    "claimIds": [
+     "c_bridge_helix"
+    ]
+   },
+   "pi_domain": {
+    "kind": "protein-domain",
+    "label": "PAM-Interacting (PI) Domain",
+    "partOf": "cas9",
+    "description": "Interrogates the major groove of target DNA for the 5'-NGG-3' protospacer adjacent motif via conserved Arg1333 and Arg1335.",
+    "claimIds": [
+     "c_pam_recognition"
+    ]
+   },
+   "ruvc_domain": {
+    "kind": "protein-domain",
+    "label": "RuvC Domain",
+    "partOf": "cas9",
+    "description": "Ribonuclease H-fold domain that hydrolyzes the displaced non-target strand (NTS) at position -3 relative to PAM using Asp10, Glu762, and Asp986.",
+    "claimIds": [
+     "c_catalytic_cleavage"
+    ]
+   },
+   "hnh_domain": {
+    "kind": "protein-domain",
+    "label": "HNH Nuclease Domain",
+    "partOf": "cas9",
+    "description": "Mobile catalytic domain. In inactive state, rests docked against REC2/RuvC; upon full R-loop formation, rotates ~180° (30 Å) to hydrolyze TS via Asp839, His840, Asn863.",
+    "claimIds": [
+     "c_rloop_allostery",
+     "c_catalytic_cleavage"
+    ]
+   },
+   "sgrna": {
+    "kind": "rna",
+    "label": "gRNA Scaffold / tracrRNA",
+    "description": "Structured crRNA:tracrRNA duplex consisting of tetraloop, stem loop 1, stem loop 2 and stem loop 3 accommodated on the REC surface.",
+    "claimIds": [
+     "c_scaffold"
+    ]
+   },
+   "target_strand": {
+    "kind": "dna",
+    "label": "Target strand (TS)",
+    "description": "DNA strand complementary to the guide RNA spacer; cleaved by the HNH domain.",
+    "claimIds": [
+     "c_catalytic_cleavage"
+    ]
+   },
+   "non_target_strand": {
+    "kind": "dna",
+    "label": "Non-Target Strand (NTS)",
+    "description": "Strand unwound by Cas9 during RNA:DNA heteroduplex invasion. Threaded across RuvC catalytic residues Asp10/His983.",
+    "claimIds": [
+     "c_catalytic_cleavage"
+    ]
+   },
+   "pam_motif": {
+    "kind": "dna",
+    "label": "PAM Region (5'-NGG-3')",
+    "description": "Conserved dinucleotide G-G motif on the non-target strand recognized in the minor/major groove by Cas9 C-terminal domain.",
+    "claimIds": [
+     "c_pam_recognition"
+    ]
+   },
+   "distal_dna": {
+    "kind": "dna",
+    "label": "PAM-Distal Target DNA",
+    "description": "Upstream B-form double-stranded DNA duplex extending beyond the 20-bp protospacer target sequence."
+   },
+   "r_loop": {
+    "kind": "complex",
+    "label": "RNA:DNA Heteroduplex (R-Loop)",
+    "description": "20-nucleotide hybrid duplex formed between the target DNA strand (cyan) and guide RNA spacer (amber). Drives allosteric activation.",
+    "claimIds": [
+     "c_rloop_allostery"
+    ]
+   },
+   "seed_mismatch": {
+    "kind": "condition",
+    "label": "PAM-proximal seed mismatch",
+    "description": "Mismatch between guide and target within the PAM-proximal seed region.",
+    "claimIds": [
+     "c_seed_mismatch"
+    ]
+   }
+  },
+  "relationships": {
+   "pam_recognition": {
+    "kind": "binds",
+    "source": "pi_domain",
+    "target": "pam_motif",
+    "claimIds": [
+     "c_pam_recognition"
+    ]
+   },
+   "r_loop_formation": {
+    "kind": "hybridizes",
+    "source": "sgrna",
+    "target": "target_strand",
+    "claimIds": [
+     "c_rloop_formation"
+    ]
+   },
+   "rloop_activates_hnh": {
+    "kind": "activates",
+    "source": "r_loop",
+    "target": "hnh_domain",
+    "claimIds": [
+     "c_rloop_allostery"
+    ]
+   },
+   "hnh_cleaves_ts": {
+    "kind": "cleaves",
+    "source": "hnh_domain",
+    "target": "target_strand",
+    "claimIds": [
+     "c_catalytic_cleavage"
+    ]
+   },
+   "ruvc_cleaves_nts": {
+    "kind": "cleaves",
+    "source": "ruvc_domain",
+    "target": "non_target_strand",
+    "claimIds": [
+     "c_catalytic_cleavage"
+    ]
+   },
+   "mismatch_blocks_hnh": {
+    "kind": "inhibits",
+    "source": "seed_mismatch",
+    "target": "hnh_domain",
+    "claimIds": [
+     "c_seed_mismatch",
+     "c_mismatch_illustration"
+    ]
+   }
+  }
+ },
+ "evidence": {
+  "sources": {
+   "anders2014": {
+    "type": "structure-entry",
+    "title": "Crystal structure of Cas9 bound to PAM-containing DNA target",
+    "authors": [
+     "Anders C",
+     "Niewoehner O",
+     "Duerst A",
+     "Jinek M"
+    ],
+    "year": 2014,
+    "pdb": "4UN3",
+    "metadataStatus": "verified",
+    "note": "Entry title, depositors and ID checked against the RCSB record. The original figure attributed 4UN3 to Nishimasu et al., Cell 2014."
+   },
+   "jiang2016": {
+    "type": "article",
+    "title": "Structures of a CRISPR-Cas9 R-loop complex primed for DNA cleavage",
+    "authors": [
+     "Jiang F et al."
+    ],
+    "container": "Science",
+    "year": 2016,
+    "pdb": "5F9R",
+    "metadataStatus": "unchecked",
+    "note": "Cited by the original figure as 'Jiang et al., Science 2016'. Bibliographic fields not independently checked."
+   },
+   "sternberg2015": {
+    "type": "article",
+    "title": "Conformational control of DNA target cleavage by CRISPR-Cas9",
+    "authors": [
+     "Sternberg SH et al."
+    ],
+    "container": "Nature",
+    "year": 2015,
+    "pmid": "26524520",
+    "metadataStatus": "unchecked",
+    "note": "Replaces 'Sternberg et al., Nature 2014' cited by the original figure, which is the DNA-interrogation paper. Title and PMID were seen in a search result; journal and authors not checked."
+   },
+   "dagdas2017": {
+    "type": "article",
+    "title": "A conformational checkpoint between DNA binding and cleavage by CRISPR-Cas9",
+    "authors": [
+     "Dagdas YS",
+     "Chen JS",
+     "Sternberg SH",
+     "Doudna JA",
+     "Yildiz A"
+    ],
+    "container": "Science Advances",
+    "year": 2017,
+    "doi": "10.1126/sciadv.aao0027",
+    "pmid": "28808686",
+    "metadataStatus": "verified",
+    "note": "The original figure said 'Science 2017'. Checked against PubMed: Sci Adv 3(8):eaao0027."
+   },
+   "szczelkun2014": {
+    "type": "article",
+    "title": "Direct observation of R-loop formation by single RNA-guided Cas9 and Cascade effector complexes",
+    "authors": [
+     "Szczelkun MD et al."
+    ],
+    "container": "PNAS",
+    "year": 2014,
+    "metadataStatus": "unchecked",
+    "note": "Cited by the original figure as 'Szczelkun et al., PNAS 2014'. Title from memory; not checked."
+   },
+   "jinek2012": {
+    "type": "article",
+    "title": "A programmable dual-RNA-guided DNA endonuclease in adaptive bacterial immunity",
+    "authors": [
+     "Jinek M et al."
+    ],
+    "container": "Science",
+    "year": 2012,
+    "doi": "10.1126/science.1225829",
+    "metadataStatus": "unchecked",
+    "note": "Cited by the original figure as 'Jinek et al., Science 2012'."
+   }
+  },
+  "claims": {
+   "c_structure_basis": {
+    "statement": "The figure models S. pyogenes Cas9 in complex with single-guide RNA and target DNA, based on PDB entries 4UN3 and 5F9R.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "entity",
+      "id": "cas9"
+     }
+    ],
+    "sourceIds": [
+     "anders2014",
+     "jiang2016"
+    ],
+    "locators": {
+     "anders2014": "PDB 4UN3",
+     "jiang2016": "PDB 5F9R"
+    },
+    "context": {
+     "species": "Streptococcus pyogenes",
+     "method": "X-ray crystallography"
+    },
+    "limitations": [
+     "A schematic drawing is not a structural model; domain shapes and positions are stylized."
+    ]
+   },
+   "c_rec_lobe": {
+    "statement": "The recognition lobe (REC1–REC3) is an alpha-helical scaffold that wraps around the 20-bp guide RNA:target DNA heteroduplex.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "entity",
+      "id": "rec_lobe"
+     }
+    ],
+    "sourceIds": [],
+    "context": {
+     "species": "Streptococcus pyogenes"
+    }
+   },
+   "c_bridge_helix": {
+    "statement": "The bridge helix is a conserved arginine-rich alpha-helix (Arg63–Lys94) that initiates DNA unwinding upon target interrogation.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "entity",
+      "id": "bridge_helix"
+     }
+    ],
+    "sourceIds": [],
+    "context": {
+     "species": "Streptococcus pyogenes"
+    }
+   },
+   "c_pam_recognition": {
+    "statement": "The PAM-interacting domain reads the 5'-NGG-3' protospacer adjacent motif in the major groove of target DNA via Arg1333 and Arg1335.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "entity",
+      "id": "pi_domain"
+     },
+     {
+      "type": "entity",
+      "id": "pam_motif"
+     },
+     {
+      "type": "relationship",
+      "id": "pam_recognition"
+     }
+    ],
+    "sourceIds": [],
+    "context": {
+     "species": "Streptococcus pyogenes"
+    },
+    "limitations": [
+     "The original figure gave no citation for this statement. 4UN3 is the PAM-complex structure and is a likely source, but no attribution is made here."
+    ]
+   },
+   "c_scaffold": {
+    "statement": "The crRNA:tracrRNA scaffold forms a repeat:anti-repeat duplex with tetraloop and stem loops 1–3, accommodated on the REC surface.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "entity",
+      "id": "sgrna"
+     }
+    ],
+    "sourceIds": [],
+    "context": {
+     "species": "Streptococcus pyogenes"
+    }
+   },
+   "c_rloop_formation": {
+    "statement": "The guide RNA spacer base-pairs with the target strand over 20 nucleotides, displacing the non-target strand to form an R-loop.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "relationship",
+      "id": "r_loop_formation"
+     },
+     {
+      "type": "entity",
+      "id": "non_target_strand"
+     }
+    ],
+    "sourceIds": [],
+    "context": {
+     "species": "Streptococcus pyogenes"
+    }
+   },
+   "c_rloop_allostery": {
+    "statement": "Complete 20-nt R-loop propagation acts as an allosteric switch that moves the HNH domain (about 180° rotation, about 30 Å) from an inactive checkpoint conformation onto the target-strand scissile phosphate.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "entity",
+      "id": "hnh_domain"
+     },
+     {
+      "type": "entity",
+      "id": "r_loop"
+     },
+     {
+      "type": "relationship",
+      "id": "rloop_activates_hnh"
+     }
+    ],
+    "sourceIds": [
+     "sternberg2015",
+     "dagdas2017"
+    ],
+    "context": {
+     "species": "Streptococcus pyogenes",
+     "method": "single-molecule FRET; cryo-EM (as stated by the original figure)"
+    },
+    "limitations": [
+     "Sources were changed from the original figure's citations (see sources[].note); whether they support the specific magnitudes (about 180°, about 30 Å) has not been checked."
+    ]
+   },
+   "c_seed_mismatch": {
+    "statement": "Mismatches in the PAM-proximal seed region (positions 1–8) stall R-loop propagation, prevent REC3 distortion and trap HNH in an inactive state, which prevents cleavage.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "entity",
+      "id": "seed_mismatch"
+     },
+     {
+      "type": "relationship",
+      "id": "mismatch_blocks_hnh"
+     }
+    ],
+    "sourceIds": [
+     "szczelkun2014"
+    ],
+    "context": {
+     "species": "Streptococcus pyogenes"
+    },
+    "limitations": [
+     "The cited paper is about R-loop formation; whether it supports the REC3 and HNH-trapping part of the statement is unchecked. The original text also says this 'terminates off-target DNA cleavage', which is a stronger claim than 'prevents cleavage in this state'."
+    ]
+   },
+   "c_catalytic_cleavage": {
+    "statement": "RuvC (Asp10, Glu762, His983, Asp986) cleaves the non-target strand and HNH (Asp839, His840, Asn863) cleaves the target strand, each 3 nt from the PAM, producing a blunt double-strand break.",
+    "kind": "established",
+    "describes": [
+     {
+      "type": "relationship",
+      "id": "ruvc_cleaves_nts"
+     },
+     {
+      "type": "relationship",
+      "id": "hnh_cleaves_ts"
+     }
+    ],
+    "sourceIds": [
+     "jinek2012"
+    ],
+    "context": {
+     "species": "Streptococcus pyogenes"
+    },
+    "limitations": [
+     "Per-residue assignments (for example His983 and Asn863) were not checked against the cited source."
+    ]
+   },
+   "c_mismatch_illustration": {
+    "statement": "In this figure a seed mismatch limits pairing to 6 of 20 nucleotides and keeps HNH undocked; the extent of pairing is a teaching simplification.",
+    "kind": "illustrative",
+    "describes": [
+     {
+      "type": "relationship",
+      "id": "mismatch_blocks_hnh"
+     }
+    ],
+    "sourceIds": []
+   },
+   "c_timeline_illustration": {
+    "statement": "The 9 s timeline and its phases (pairing from 8% to 56%, HNH docking from 52% to 76%, cleavage after 82%) form a teaching sequence, not measured kinetics.",
+    "kind": "illustrative",
+    "describes": [],
+    "sourceIds": []
+   }
+  }
+ },
+ "behavior": {
+  "clock": {
+   "duration": 9,
+   "loop": true,
+   "initialTime": 0,
+   "autoplay": true,
+   "reducedMotion": {
+    "time": 6.5
+   }
+  },
+  "variables": {
+   "fidelity": {
+    "type": "enum",
+    "options": [
+     "match",
+     "mismatch"
+    ],
+    "initial": "match",
+    "label": "Target fidelity"
+   }
+  },
+  "derived": {
+   "p": {
+    "expression": {
+     "op": "progress"
+    }
+   },
+   "is_match": {
+    "expression": {
+     "op": "eq",
+     "args": [
+      {
+       "op": "ref",
+       "id": "fidelity"
+      },
+      "match"
+     ]
+    }
+   },
+   "pairing_raw": {
+    "expression": {
+     "op": "clamp",
+     "args": [
+      {
+       "op": "div",
+       "args": [
+        {
+         "op": "sub",
+         "args": [
+          {
+           "op": "ref",
+           "id": "p"
+          },
+          0.08
+         ]
+        },
+        0.48
+       ]
+      },
+      0,
+      1
+     ]
+    }
+   },
+   "pairing": {
+    "expression": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "is_match"
+      },
+      {
+       "op": "ref",
+       "id": "pairing_raw"
+      },
+      {
+       "op": "min",
+       "args": [
+        0.3,
+        {
+         "op": "ref",
+         "id": "pairing_raw"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "dock": {
+    "expression": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "is_match"
+      },
+      {
+       "op": "ease",
+       "args": [
+        {
+         "op": "div",
+         "args": [
+          {
+           "op": "sub",
+           "args": [
+            {
+             "op": "ref",
+             "id": "p"
+            },
+            0.52
+           ]
+          },
+          0.24
+         ]
+        }
+       ]
+      },
+      0
+     ]
+    }
+   },
+   "cut": {
+    "expression": {
+     "op": "and",
+     "args": [
+      {
+       "op": "ref",
+       "id": "is_match"
+      },
+      {
+       "op": "gt",
+       "args": [
+        {
+         "op": "ref",
+         "id": "p"
+        },
+        0.82
+       ]
+      }
+     ]
+    }
+   },
+   "pairs": {
+    "expression": {
+     "op": "round",
+     "args": [
+      {
+       "op": "mul",
+       "args": [
+        20,
+        {
+         "op": "ref",
+         "id": "pairing"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "hnh_state": {
+    "expression": {
+     "op": "if",
+     "args": [
+      {
+       "op": "not",
+       "args": [
+        {
+         "op": "ref",
+         "id": "is_match"
+        }
+       ]
+      },
+      "CHECKPOINT",
+      {
+       "op": "if",
+       "args": [
+        {
+         "op": "ref",
+         "id": "cut"
+        },
+        "CLEAVED",
+        {
+         "op": "if",
+         "args": [
+          {
+           "op": "gt",
+           "args": [
+            {
+             "op": "ref",
+             "id": "dock"
+            },
+            0.95
+           ]
+          },
+          "DOCKED",
+          {
+           "op": "if",
+           "args": [
+            {
+             "op": "gt",
+             "args": [
+              {
+               "op": "ref",
+               "id": "dock"
+              },
+              0
+             ]
+            },
+            "DOCKING",
+            "SEARCHING"
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "flash_opacity": {
+    "expression": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "cut"
+      },
+      {
+       "op": "add",
+       "args": [
+        0.35,
+        {
+         "op": "mul",
+         "args": [
+          0.45,
+          {
+           "op": "pow",
+           "args": [
+            {
+             "op": "sin",
+             "args": [
+              {
+               "op": "mul",
+               "args": [
+                {
+                 "op": "sub",
+                 "args": [
+                  {
+                   "op": "ref",
+                   "id": "p"
+                  },
+                  0.82
+                 ]
+                },
+                40
+               ]
+              }
+             ]
+            },
+            2
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      0
+     ]
+    }
+   },
+   "hnh_pulse": {
+    "expression": {
+     "op": "add",
+     "args": [
+      0.65,
+      {
+       "op": "mul",
+       "args": [
+        {
+         "op": "mul",
+         "args": [
+          0.35,
+          {
+           "op": "sub",
+           "args": [
+            1,
+            {
+             "op": "cos",
+             "args": [
+              {
+               "op": "mul",
+               "args": [
+                {
+                 "op": "mul",
+                 "args": [
+                  {
+                   "op": "ref",
+                   "id": "p"
+                  },
+                  3.141592653589793
+                 ]
+                },
+                2
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        0.5
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "controls": {
+   "playback": {
+    "kind": "playback",
+    "label": "Play / pause"
+   },
+   "restart": {
+    "kind": "restart",
+    "label": "Replay reaction cycle",
+    "effects": [
+     {
+      "op": "setTime",
+      "value": 0
+     },
+     {
+      "op": "play"
+     }
+    ]
+   },
+   "scrub": {
+    "kind": "scrubber",
+    "label": "Step"
+   },
+   "fidelity_selector": {
+    "kind": "selector",
+    "label": "Fidelity",
+    "variable": "fidelity",
+    "options": [
+     {
+      "value": "match",
+      "label": "On-target (match)",
+      "effects": [
+       {
+        "op": "setTime",
+        "value": 0
+       },
+       {
+        "op": "play"
+       }
+      ]
+     },
+     {
+      "value": "mismatch",
+      "label": "Seed mismatch (off-target)",
+      "effects": [
+       {
+        "op": "setTime",
+        "value": 3.6
+       },
+       {
+        "op": "play"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "bindings": {
+   "hnh_translate_x": {
+    "target": {
+     "scene": "overview",
+     "node": "hnh_domain"
+    },
+    "property": "translateX",
+    "expression": {
+     "op": "mul",
+     "args": [
+      -103,
+      {
+       "op": "ref",
+       "id": "dock"
+      }
+     ]
+    }
+   },
+   "hnh_translate_y": {
+    "target": {
+     "scene": "overview",
+     "node": "hnh_domain"
+    },
+    "property": "translateY",
+    "expression": {
+     "op": "mul",
+     "args": [
+      10,
+      {
+       "op": "ref",
+       "id": "dock"
+      }
+     ]
+    }
+   },
+   "hnh_rotate": {
+    "target": {
+     "scene": "overview",
+     "node": "hnh_domain"
+    },
+    "property": "rotate",
+    "expression": {
+     "op": "mul",
+     "args": [
+      24,
+      {
+       "op": "ref",
+       "id": "dock"
+      }
+     ]
+    }
+   },
+   "hnh_pulse_opacity": {
+    "target": {
+     "scene": "overview",
+     "node": "hnh_domain"
+    },
+    "property": "opacity",
+    "expression": {
+     "op": "ref",
+     "id": "hnh_pulse"
+    }
+   },
+   "rung_opacity": {
+    "target": {
+     "scene": "overview",
+     "node": "heteroduplex",
+     "shapes": [
+      "rung_01",
+      "rung_02",
+      "rung_03",
+      "rung_04",
+      "rung_05",
+      "rung_06",
+      "rung_07",
+      "rung_08",
+      "rung_09",
+      "rung_10",
+      "rung_11",
+      "rung_12",
+      "rung_13",
+      "rung_14",
+      "rung_15",
+      "rung_16",
+      "rung_17",
+      "rung_18",
+      "rung_19",
+      "rung_20"
+     ]
+    },
+    "property": "opacity",
+    "expression": {
+     "op": "if",
+     "args": [
+      {
+       "op": "gt",
+       "args": [
+        {
+         "op": "ref",
+         "id": "pairing"
+        },
+        {
+         "op": "div",
+         "args": [
+          {
+           "op": "index"
+          },
+          {
+           "op": "count"
+          }
+         ]
+        }
+       ]
+      },
+      1,
+      0.09
+     ]
+    }
+   },
+   "spacer_opacity": {
+    "target": {
+     "scene": "overview",
+     "node": "heteroduplex",
+     "shape": "grna_spacer_path"
+    },
+    "property": "opacity",
+    "expression": {
+     "op": "add",
+     "args": [
+      0.35,
+      {
+       "op": "mul",
+       "args": [
+        0.65,
+        {
+         "op": "ref",
+         "id": "pairing"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "products_opacity": {
+    "target": {
+     "scene": "overview",
+     "node": "cleavage_products"
+    },
+    "property": "opacity",
+    "expression": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "cut"
+      },
+      1,
+      0
+     ]
+    }
+   },
+   "ts_flash_opacity": {
+    "target": {
+     "scene": "overview",
+     "node": "heteroduplex",
+     "shape": "ts_flash"
+    },
+    "property": "opacity",
+    "expression": {
+     "op": "ref",
+     "id": "flash_opacity"
+    }
+   },
+   "nts_flash_opacity": {
+    "target": {
+     "scene": "overview",
+     "node": "non_target_strand",
+     "shape": "nts_flash"
+    },
+    "property": "opacity",
+    "expression": {
+     "op": "ref",
+     "id": "flash_opacity"
+    }
+   },
+   "hud_line_x1": {
+    "target": {
+     "scene": "overview",
+     "node": "hud_measuring_line",
+     "shape": "hnh_ts_dist_line"
+    },
+    "property": "attr.x1",
+    "expression": {
+     "op": "sub",
+     "args": [
+      438,
+      {
+       "op": "mul",
+       "args": [
+        103,
+        {
+         "op": "ref",
+         "id": "dock"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "hud_line_y1": {
+    "target": {
+     "scene": "overview",
+     "node": "hud_measuring_line",
+     "shape": "hnh_ts_dist_line"
+    },
+    "property": "attr.y1",
+    "expression": {
+     "op": "add",
+     "args": [
+      275,
+      {
+       "op": "mul",
+       "args": [
+        10,
+        {
+         "op": "ref",
+         "id": "dock"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "hud_text": {
+    "target": {
+     "scene": "overview",
+     "node": "hud_measuring_line",
+     "shape": "hud_dist_text"
+    },
+    "property": "text",
+    "expression": {
+     "op": "if",
+     "args": [
+      {
+       "op": "gt",
+       "args": [
+        {
+         "op": "ref",
+         "id": "dock"
+        },
+        0.95
+       ]
+      },
+      "HNH DOCKED",
+      "HNH CHECKPOINT"
+     ]
+    }
+   }
+  }
+ },
+ "scenes": {
+  "overview": {
+   "title": "Cas9 targeting and cleavage",
+   "coordinateSystem": "schematic",
+   "viewBox": [
+    0,
+    0,
+    960,
+    560
+   ],
+   "palette": {
+    "strong": {
+     "dark": "#ebebf5",
+     "light": "#111827"
+    },
+    "text": {
+     "dark": "#9e9ea8",
+     "light": "#4b5563"
+    },
+    "pam_rose": {
+     "dark": "#f43f5e",
+     "light": "#e11d48"
+    },
+    "halo": {
+     "dark": "#06060a",
+     "light": "#d1d5db"
+    }
+   },
+   "gradients": {
+    "dna_glow": {
+     "kind": "linear",
+     "stops": [
+      {
+       "offset": 0.0,
+       "color": "#5eead4",
+       "opacity": 0.9
+      },
+      {
+       "offset": 1.0,
+       "color": "#0f766e",
+       "opacity": 0.9
+      }
+     ],
+     "from": [
+      0.0,
+      0.0
+     ],
+     "to": [
+      1.0,
+      1.0
+     ]
+    },
+    "rna_glow": {
+     "kind": "linear",
+     "stops": [
+      {
+       "offset": 0.0,
+       "color": "#fde68a",
+       "opacity": 1
+      },
+      {
+       "offset": 1.0,
+       "color": "#d97706",
+       "opacity": 1
+      }
+     ],
+     "from": [
+      0.0,
+      0.0
+     ],
+     "to": [
+      1.0,
+      1.0
+     ]
+    },
+    "rec_grad": {
+     "kind": "linear",
+     "stops": [
+      {
+       "offset": 0.0,
+       "color": "#9061f9"
+      },
+      {
+       "offset": 0.5,
+       "color": "#6c2bd9"
+      },
+      {
+       "offset": 1.0,
+       "color": "#3b117e"
+      }
+     ],
+     "from": [
+      0.0,
+      0.0
+     ],
+     "to": [
+      0.8,
+      1.0
+     ]
+    },
+    "ruvc_grad": {
+     "kind": "linear",
+     "stops": [
+      {
+       "offset": 0.0,
+       "color": "#6d28d9"
+      },
+      {
+       "offset": 1.0,
+       "color": "#3b0764"
+      }
+     ],
+     "from": [
+      0.0,
+      0.0
+     ],
+     "to": [
+      1.0,
+      1.0
+     ]
+    },
+    "hnh_grad": {
+     "kind": "linear",
+     "stops": [
+      {
+       "offset": 0.0,
+       "color": "#c084fc"
+      },
+      {
+       "offset": 1.0,
+       "color": "#7e22ce"
+      }
+     ],
+     "from": [
+      0.0,
+      0.0
+     ],
+     "to": [
+      1.0,
+      1.0
+     ]
+    },
+    "catalytic_magnesium": {
+     "kind": "radial",
+     "stops": [
+      {
+       "offset": 0.0,
+       "color": "#ffffff"
+      },
+      {
+       "offset": 0.4,
+       "color": "#93c5fd"
+      },
+      {
+       "offset": 1.0,
+       "color": "#1e40af"
+      }
+     ],
+     "center": [
+      0.3,
+      0.3
+     ],
+     "radius": 0.7
+    },
+    "protein_halo": {
+     "kind": "radial",
+     "stops": [
+      {
+       "offset": 0.0,
+       "color": {
+        "token": "halo"
+       },
+       "opacity": 0.8
+      },
+      {
+       "offset": 0.8,
+       "color": {
+        "token": "halo"
+       },
+       "opacity": 0.2
+      },
+      {
+       "offset": 1.0,
+       "color": {
+        "token": "halo"
+       },
+       "opacity": 0
+      }
+     ],
+     "center": [
+      0.5,
+      0.5
+     ],
+     "radius": 0.5
+    }
+   },
+   "nodes": {
+    "floor_halo": {
+     "role": "decoration",
+     "z": 10,
+     "shapes": [
+      {
+       "type": "ellipse",
+       "cx": 480,
+       "cy": 380,
+       "rx": 420,
+       "ry": 110,
+       "fill": {
+        "gradient": "protein_halo"
+       }
+      }
+     ]
+    },
+    "rec_lobe": {
+     "role": "figure",
+     "z": 20,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 280,180 C 230,130 330,60 490,70 C 630,80 720,130 680,220 C 660,260 590,290 520,295 C 430,300 320,240 280,180 Z",
+       "fill": {
+        "gradient": "rec_grad"
+       },
+       "stroke": "#2e1065",
+       "strokeWidth": 1
+      },
+      {
+       "type": "path",
+       "d": "M 340,115 C 400,95 500,105 580,125",
+       "fill": "none",
+       "stroke": "#a78bfa",
+       "strokeWidth": 0.75,
+       "strokeOpacity": 0.45,
+       "dash": [
+        4,
+        3
+       ]
+      },
+      {
+       "type": "path",
+       "d": "M 330,140 C 410,120 520,130 610,160",
+       "fill": "none",
+       "stroke": "#a78bfa",
+       "strokeWidth": 0.75,
+       "strokeOpacity": 0.45,
+       "dash": [
+        4,
+        3
+       ]
+      },
+      {
+       "type": "path",
+       "d": "M 360,170 C 440,150 530,165 620,200",
+       "fill": "none",
+       "stroke": "#a78bfa",
+       "strokeWidth": 0.75,
+       "strokeOpacity": 0.45,
+       "dash": [
+        4,
+        3
+       ]
+      },
+      {
+       "type": "path",
+       "d": "M 290,130 C 250,110 240,160 270,195 C 300,215 320,170 290,130 Z",
+       "fill": "#581c87",
+       "stroke": "#3b0764",
+       "strokeWidth": 0.8
+      },
+      {
+       "type": "path",
+       "d": "M 600,130 C 670,120 720,170 690,220 C 650,230 620,170 600,130 Z",
+       "fill": "#4c1d95",
+       "stroke": "#2e1065",
+       "strokeWidth": 0.8
+      }
+     ],
+     "entityId": "rec_lobe",
+     "label": "REC Lobe"
+    },
+    "bridge_helix": {
+     "role": "figure",
+     "z": 30,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 390,260 C 420,240 480,245 530,270",
+       "fill": "none",
+       "stroke": "#c084fc",
+       "strokeWidth": 9,
+       "linecap": "round"
+      },
+      {
+       "type": "path",
+       "d": "M 390,260 C 420,240 480,245 530,270",
+       "fill": "none",
+       "stroke": "#2e1065",
+       "strokeWidth": 1.2,
+       "linecap": "round"
+      },
+      {
+       "type": "path",
+       "d": "M 405,248 L 413,260 M 435,245 L 443,257 M 465,247 L 473,260 M 495,253 L 503,266",
+       "stroke": "#ffffff",
+       "strokeWidth": 1.2,
+       "strokeOpacity": 0.6
+      }
+     ],
+     "entityId": "bridge_helix",
+     "label": "Bridge Helix (BH)"
+    },
+    "pi_domain": {
+     "role": "figure",
+     "z": 40,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 230,280 C 190,290 180,360 230,400 C 280,430 330,390 330,340 C 330,300 280,270 230,280 Z",
+       "fill": "#4c1d95",
+       "stroke": "#2e1065",
+       "strokeWidth": 1
+      },
+      {
+       "type": "path",
+       "d": "M 235,330 C 220,340 230,370 255,365 C 270,360 270,340 250,332 Z",
+       "fill": "#2e1065",
+       "stroke": "#1e1b4b",
+       "strokeWidth": 0.8
+      },
+      {
+       "type": "line",
+       "x1": 255,
+       "y1": 345,
+       "x2": 275,
+       "y2": 340,
+       "stroke": "#f43f5e",
+       "strokeWidth": 2.4,
+       "linecap": "round"
+      },
+      {
+       "type": "line",
+       "x1": 260,
+       "y1": 356,
+       "x2": 280,
+       "y2": 352,
+       "stroke": "#f43f5e",
+       "strokeWidth": 2.4,
+       "linecap": "round"
+      },
+      {
+       "type": "circle",
+       "cx": 275,
+       "cy": 340,
+       "r": 2.2,
+       "fill": "#ffe4e6"
+      },
+      {
+       "type": "circle",
+       "cx": 280,
+       "cy": 352,
+       "r": 2.2,
+       "fill": "#ffe4e6"
+      }
+     ],
+     "entityId": "pi_domain",
+     "label": "PAM-Interacting (PI) Domain"
+    },
+    "ruvc_domain": {
+     "role": "figure",
+     "z": 50,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 320,330 C 310,400 370,470 470,455 C 520,445 540,390 510,345 C 470,310 350,300 320,330 Z",
+       "fill": {
+        "gradient": "ruvc_grad"
+       },
+       "stroke": "#2e1065",
+       "strokeWidth": 1
+      },
+      {
+       "type": "ellipse",
+       "cx": 375,
+       "cy": 385,
+       "rx": 20,
+       "ry": 14,
+       "fill": "#2e1065",
+       "stroke": "#1e1b4b",
+       "strokeWidth": 0.8
+      },
+      {
+       "type": "path",
+       "d": "M 368,380 L 372,385 L 366,390",
+       "fill": "none",
+       "stroke": "#e0e7ff",
+       "strokeWidth": 1.2
+      },
+      {
+       "type": "path",
+       "d": "M 380,380 L 376,386 L 382,391",
+       "fill": "none",
+       "stroke": "#e0e7ff",
+       "strokeWidth": 1.2
+      },
+      {
+       "type": "circle",
+       "id": "ruvc_mg",
+       "cx": 374,
+       "cy": 385,
+       "r": 4.2,
+       "fill": {
+        "gradient": "catalytic_magnesium"
+       },
+       "stroke": "#ffffff",
+       "strokeWidth": 0.5
+      }
+     ],
+     "entityId": "ruvc_domain",
+     "label": "RuvC Domain"
+    },
+    "distal_dna": {
+     "role": "figure",
+     "z": 60,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 680,180 C 720,170 770,180 840,160",
+       "fill": "none",
+       "stroke": "#0f766e",
+       "strokeWidth": 4.5,
+       "linecap": "round"
+      },
+      {
+       "type": "path",
+       "d": "M 675,195 C 715,185 765,195 835,175",
+       "fill": "none",
+       "stroke": "#2dd4bf",
+       "strokeWidth": 4.5,
+       "linecap": "round"
+      },
+      {
+       "type": "line",
+       "x1": 700,
+       "y1": 175,
+       "x2": 695,
+       "y2": 190,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "line",
+       "x1": 730,
+       "y1": 173,
+       "x2": 725,
+       "y2": 188,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "line",
+       "x1": 760,
+       "y1": 175,
+       "x2": 755,
+       "y2": 190,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "line",
+       "x1": 790,
+       "y1": 170,
+       "x2": 785,
+       "y2": 185,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "line",
+       "x1": 820,
+       "y1": 164,
+       "x2": 815,
+       "y2": 179,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      }
+     ],
+     "entityId": "distal_dna",
+     "label": "PAM-Distal Target DNA"
+    },
+    "pam_region": {
+     "role": "figure",
+     "z": 70,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 120,380 C 170,365 210,355 270,350",
+       "fill": "none",
+       "stroke": "#0f766e",
+       "strokeWidth": 5,
+       "linecap": "round"
+      },
+      {
+       "type": "path",
+       "d": "M 115,395 C 165,380 205,370 265,365",
+       "fill": "none",
+       "stroke": "#2dd4bf",
+       "strokeWidth": 5,
+       "linecap": "round"
+      },
+      {
+       "type": "line",
+       "x1": 140,
+       "y1": 375,
+       "x2": 135,
+       "y2": 390,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "line",
+       "x1": 170,
+       "y1": 367,
+       "x2": 165,
+       "y2": 382,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "line",
+       "x1": 200,
+       "y1": 360,
+       "x2": 195,
+       "y2": 375,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "line",
+       "x1": 230,
+       "y1": 355,
+       "x2": 225,
+       "y2": 370,
+       "stroke": "#5eead4",
+       "strokeWidth": 2
+      },
+      {
+       "type": "rect",
+       "x": 250,
+       "y": 340,
+       "width": 35,
+       "height": 30,
+       "rx": 3,
+       "fill": "none",
+       "stroke": {
+        "token": "pam_rose"
+       },
+       "strokeWidth": 1.8,
+       "dash": [
+        2,
+        2
+       ]
+      },
+      {
+       "type": "text",
+       "x": 254,
+       "y": 334,
+       "text": "PAM (NGG)",
+       "size": 10,
+       "fill": {
+        "token": "pam_rose"
+       },
+       "weight": "bold"
+      }
+     ],
+     "entityId": "pam_motif",
+     "label": "PAM Region (5'-NGG-3')"
+    },
+    "non_target_strand": {
+     "role": "figure",
+     "z": 80,
+     "shapes": [
+      {
+       "type": "path",
+       "id": "nts_strand_path",
+       "d": "M 270,365 C 300,380 330,420 375,395 C 420,370 540,320 675,195",
+       "fill": "none",
+       "stroke": "#2dd4bf",
+       "strokeWidth": 4.5,
+       "linecap": "round"
+      },
+      {
+       "type": "circle",
+       "id": "nts_cut_point",
+       "cx": 375,
+       "cy": 395,
+       "r": 4,
+       "fill": "#f43f5e",
+       "stroke": "#ffffff",
+       "strokeWidth": 1.2
+      },
+      {
+       "type": "circle",
+       "id": "nts_flash",
+       "cx": 375,
+       "cy": 395,
+       "r": 16,
+       "fill": "none",
+       "opacity": 0,
+       "stroke": "#ffffff",
+       "strokeWidth": 2.5
+      }
+     ],
+     "entityId": "non_target_strand",
+     "label": "Non-Target Strand (NTS)"
+    },
+    "heteroduplex": {
+     "role": "figure",
+     "z": 90,
+     "shapes": [
+      {
+       "type": "path",
+       "id": "ts_strand_path",
+       "d": "M 270,350 C 310,320 360,250 440,240 C 520,230 600,200 680,180",
+       "fill": "none",
+       "stroke": "#0f766e",
+       "strokeWidth": 5,
+       "linecap": "round"
+      },
+      {
+       "type": "path",
+       "id": "grna_spacer_path",
+       "d": "M 275,340 C 315,310 365,240 445,230 C 525,220 605,190 685,170",
+       "fill": "none",
+       "stroke": {
+        "gradient": "rna_glow"
+       },
+       "strokeWidth": 5,
+       "linecap": "round",
+       "effect": "glow"
+      },
+      {
+       "type": "line",
+       "id": "rung_01",
+       "x1": 276.1,
+       "y1": 345.2,
+       "x2": 281.1,
+       "y2": 335.2,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_02",
+       "x1": 288.7,
+       "y1": 334.1,
+       "x2": 293.7,
+       "y2": 324.1,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_03",
+       "x1": 302.2,
+       "y1": 321.6,
+       "x2": 307.2,
+       "y2": 311.6,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_04",
+       "x1": 316.5,
+       "y1": 308.1,
+       "x2": 321.5,
+       "y2": 298.1,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_05",
+       "x1": 331.9,
+       "y1": 294.3,
+       "x2": 336.9,
+       "y2": 284.3,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_06",
+       "x1": 348.4,
+       "y1": 280.8,
+       "x2": 353.4,
+       "y2": 270.8,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_07",
+       "x1": 366.2,
+       "y1": 268.3,
+       "x2": 371.2,
+       "y2": 258.3,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_08",
+       "x1": 385.3,
+       "y1": 257.2,
+       "x2": 390.3,
+       "y2": 247.2,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_09",
+       "x1": 406.0,
+       "y1": 248.2,
+       "x2": 411.0,
+       "y2": 238.2,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_10",
+       "x1": 428.2,
+       "y1": 241.9,
+       "x2": 433.2,
+       "y2": 231.9,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_11",
+       "x1": 452.0,
+       "y1": 238.4,
+       "x2": 457.0,
+       "y2": 228.4,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_12",
+       "x1": 476.0,
+       "y1": 234.3,
+       "x2": 481.0,
+       "y2": 224.3,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_13",
+       "x1": 500.0,
+       "y1": 229.2,
+       "x2": 505.0,
+       "y2": 219.2,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_14",
+       "x1": 524.0,
+       "y1": 223.4,
+       "x2": 529.0,
+       "y2": 213.4,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_15",
+       "x1": 548.0,
+       "y1": 217.1,
+       "x2": 553.0,
+       "y2": 207.1,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_16",
+       "x1": 572.0,
+       "y1": 210.3,
+       "x2": 577.0,
+       "y2": 200.3,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_17",
+       "x1": 596.0,
+       "y1": 203.4,
+       "x2": 601.0,
+       "y2": 193.4,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_18",
+       "x1": 620.0,
+       "y1": 196.4,
+       "x2": 625.0,
+       "y2": 186.4,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_19",
+       "x1": 644.0,
+       "y1": 189.6,
+       "x2": 649.0,
+       "y2": 179.6,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "line",
+       "id": "rung_20",
+       "x1": 668.0,
+       "y1": 183.1,
+       "x2": 673.0,
+       "y2": 173.1,
+       "stroke": "#fde68a",
+       "strokeWidth": 1.4,
+       "strokeOpacity": 0.9
+      },
+      {
+       "type": "circle",
+       "id": "ts_cut_point",
+       "cx": 335,
+       "cy": 285,
+       "r": 4,
+       "fill": "#f43f5e",
+       "stroke": "#ffffff",
+       "strokeWidth": 1.2
+      },
+      {
+       "type": "circle",
+       "id": "ts_flash",
+       "cx": 335,
+       "cy": 285,
+       "r": 16,
+       "fill": "none",
+       "opacity": 0,
+       "stroke": "#ffffff",
+       "strokeWidth": 2.5
+      }
+     ],
+     "entityId": "r_loop",
+     "label": "RNA:DNA Heteroduplex (R-Loop)"
+    },
+    "grna_scaffold": {
+     "role": "figure",
+     "z": 100,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 445,230 C 430,170 380,140 370,90 C 360,40 430,30 450,75 C 470,120 460,180 525,220",
+       "fill": "none",
+       "stroke": "#d97706",
+       "strokeWidth": 4,
+       "linecap": "round"
+      },
+      {
+       "type": "line",
+       "x1": 390,
+       "y1": 110,
+       "x2": 435,
+       "y2": 125,
+       "stroke": "#fcd34d",
+       "strokeWidth": 1.8
+      },
+      {
+       "type": "line",
+       "x1": 385,
+       "y1": 80,
+       "x2": 425,
+       "y2": 90,
+       "stroke": "#fcd34d",
+       "strokeWidth": 1.8
+      },
+      {
+       "type": "line",
+       "x1": 395,
+       "y1": 55,
+       "x2": 425,
+       "y2": 60,
+       "stroke": "#fcd34d",
+       "strokeWidth": 1.8
+      },
+      {
+       "type": "path",
+       "d": "M 525,220 C 580,210 650,240 670,300 C 685,345 640,380 610,340 C 590,310 570,260 550,225",
+       "fill": "none",
+       "stroke": "#b45309",
+       "strokeWidth": 3.5,
+       "linecap": "round"
+      },
+      {
+       "type": "line",
+       "x1": 620,
+       "y1": 260,
+       "x2": 640,
+       "y2": 280,
+       "stroke": "#f59e0b",
+       "strokeWidth": 1.5
+      },
+      {
+       "type": "line",
+       "x1": 635,
+       "y1": 290,
+       "x2": 655,
+       "y2": 310,
+       "stroke": "#f59e0b",
+       "strokeWidth": 1.5
+      }
+     ],
+     "entityId": "sgrna",
+     "label": "gRNA Scaffold / tracrRNA"
+    },
+    "hnh_domain": {
+     "role": "figure",
+     "z": 110,
+     "shapes": [
+      {
+       "type": "path",
+       "d": "M 430,230 C 470,180 540,190 560,250 C 570,300 500,350 440,320 C 400,300 400,260 430,230 Z",
+       "fill": {
+        "gradient": "hnh_grad"
+       },
+       "stroke": "#4c1d95",
+       "strokeWidth": 1.2
+      },
+      {
+       "type": "path",
+       "d": "M 450,235 C 490,240 520,270 510,310",
+       "fill": "none",
+       "stroke": "#e9d5ff",
+       "strokeWidth": 0.8,
+       "strokeOpacity": 0.4
+      },
+      {
+       "type": "path",
+       "d": "M 470,215 C 510,220 540,250 535,285",
+       "fill": "none",
+       "stroke": "#e9d5ff",
+       "strokeWidth": 0.8,
+       "strokeOpacity": 0.4
+      },
+      {
+       "type": "ellipse",
+       "cx": 435,
+       "cy": 275,
+       "rx": 14,
+       "ry": 10,
+       "fill": "#3b0764",
+       "stroke": "#1e1b4b",
+       "strokeWidth": 0.8
+      },
+      {
+       "type": "path",
+       "d": "M 430,270 L 436,275 L 431,280",
+       "fill": "none",
+       "stroke": "#ffffff",
+       "strokeWidth": 1.2
+      },
+      {
+       "type": "circle",
+       "id": "hnh_mg",
+       "cx": 438,
+       "cy": 275,
+       "r": 4.2,
+       "fill": {
+        "gradient": "catalytic_magnesium"
+       },
+       "stroke": "#ffffff",
+       "strokeWidth": 0.5
+      },
+      {
+       "type": "text",
+       "x": 446,
+       "y": 278,
+       "text": "Mg²⁺ (H840)",
+       "size": 8,
+       "fill": "#c084fc"
+      }
+     ],
+     "entityId": "hnh_domain",
+     "label": "HNH Nuclease Domain",
+     "transformOrigin": [
+      438,
+      275
+     ]
+    },
+    "hud_measuring_line": {
+     "role": "annotation",
+     "z": 120,
+     "shapes": [
+      {
+       "type": "line",
+       "id": "hnh_ts_dist_line",
+       "x1": 438,
+       "y1": 275,
+       "x2": 335,
+       "y2": 285,
+       "stroke": "#f43f5e",
+       "strokeWidth": 1,
+       "dash": [
+        2,
+        2
+       ]
+      },
+      {
+       "type": "text",
+       "id": "hud_dist_text",
+       "x": 380,
+       "y": 270,
+       "text": "HNH-TS: 29.4 Å",
+       "size": 9,
+       "fill": "#f43f5e",
+       "anchor": "middle"
+      }
+     ],
+     "opacity": 0.85
+    },
+    "cleavage_products": {
+     "role": "figure",
+     "z": 130,
+     "shapes": [
+      {
+       "type": "circle",
+       "cx": 330,
+       "cy": 285,
+       "r": 3,
+       "fill": "#0f766e",
+       "stroke": "#2dd4bf",
+       "strokeWidth": 1
+      },
+      {
+       "type": "text",
+       "x": 315,
+       "y": 275,
+       "text": "3'-OH",
+       "size": 8,
+       "fill": "#2dd4bf"
+      },
+      {
+       "type": "circle",
+       "cx": 340,
+       "cy": 285,
+       "r": 3,
+       "fill": "#f43f5e",
+       "stroke": "#ffffff",
+       "strokeWidth": 1
+      },
+      {
+       "type": "text",
+       "x": 345,
+       "y": 275,
+       "text": "5'-P",
+       "size": 8,
+       "fill": "#f43f5e"
+      },
+      {
+       "type": "circle",
+       "cx": 370,
+       "cy": 395,
+       "r": 3,
+       "fill": "#2dd4bf",
+       "stroke": "#0f766e",
+       "strokeWidth": 1
+      },
+      {
+       "type": "text",
+       "x": 350,
+       "y": 415,
+       "text": "3'-OH",
+       "size": 8,
+       "fill": "#2dd4bf"
+      },
+      {
+       "type": "circle",
+       "cx": 380,
+       "cy": 395,
+       "r": 3,
+       "fill": "#f43f5e",
+       "stroke": "#ffffff",
+       "strokeWidth": 1
+      },
+      {
+       "type": "text",
+       "x": 390,
+       "y": 415,
+       "text": "5'-P",
+       "size": 8,
+       "fill": "#f43f5e"
+      }
+     ],
+     "opacity": 0
+    },
+    "callouts": {
+     "role": "annotation",
+     "z": 140,
+     "shapes": [
+      {
+       "type": "polyline",
+       "points": [
+        [
+         268,
+         340
+        ],
+        [
+         268,
+         300
+        ],
+        [
+         210,
+         300
+        ]
+       ],
+       "stroke": "#6e6e84",
+       "strokeWidth": 0.75
+      },
+      {
+       "type": "circle",
+       "cx": 268,
+       "cy": 340,
+       "r": 1.8,
+       "fill": "#f43f5e"
+      },
+      {
+       "type": "circle",
+       "cx": 210,
+       "cy": 300,
+       "r": 1.5,
+       "fill": "#6e6e84"
+      },
+      {
+       "type": "text",
+       "x": 205,
+       "y": 297,
+       "text": "PAM SITE (5'-TGG-3')",
+       "size": 10,
+       "fill": {
+        "token": "strong"
+       },
+       "anchor": "end"
+      },
+      {
+       "type": "polyline",
+       "points": [
+        [
+         374,
+         385
+        ],
+        [
+         374,
+         480
+        ],
+        [
+         320,
+         480
+        ]
+       ],
+       "stroke": "#6e6e84",
+       "strokeWidth": 0.75
+      },
+      {
+       "type": "circle",
+       "cx": 374,
+       "cy": 385,
+       "r": 1.8,
+       "fill": "#93c5fd"
+      },
+      {
+       "type": "circle",
+       "cx": 320,
+       "cy": 480,
+       "r": 1.5,
+       "fill": "#6e6e84"
+      },
+      {
+       "type": "text",
+       "x": 315,
+       "y": 477,
+       "text": "RuvC CATALYTIC POCKET (D10)",
+       "size": 10,
+       "fill": {
+        "token": "strong"
+       },
+       "anchor": "end"
+      },
+      {
+       "type": "polyline",
+       "points": [
+        [
+         470,
+         105
+        ],
+        [
+         470,
+         45
+        ],
+        [
+         540,
+         45
+        ]
+       ],
+       "stroke": "#6e6e84",
+       "strokeWidth": 0.75
+      },
+      {
+       "type": "circle",
+       "cx": 470,
+       "cy": 105,
+       "r": 1.8,
+       "fill": "#c084fc"
+      },
+      {
+       "type": "circle",
+       "cx": 540,
+       "cy": 45,
+       "r": 1.5,
+       "fill": "#6e6e84"
+      },
+      {
+       "type": "text",
+       "x": 546,
+       "y": 48,
+       "text": "REC LOBE (HELICAL CRADLE)",
+       "size": 10,
+       "fill": {
+        "token": "strong"
+       },
+       "anchor": "start"
+      },
+      {
+       "type": "polyline",
+       "points": [
+        [
+         590,
+         195
+        ],
+        [
+         590,
+         140
+        ],
+        [
+         650,
+         140
+        ]
+       ],
+       "stroke": "#6e6e84",
+       "strokeWidth": 0.75
+      },
+      {
+       "type": "circle",
+       "cx": 590,
+       "cy": 195,
+       "r": 1.8,
+       "fill": "#f59e0b"
+      },
+      {
+       "type": "circle",
+       "cx": 650,
+       "cy": 140,
+       "r": 1.5,
+       "fill": "#6e6e84"
+      },
+      {
+       "type": "text",
+       "x": 656,
+       "y": 143,
+       "text": "sgRNA:DNA HYBRID (20 nt)",
+       "size": 10,
+       "fill": {
+        "token": "strong"
+       },
+       "anchor": "start"
+      },
+      {
+       "type": "polyline",
+       "points": [
+        [
+         335,
+         285
+        ],
+        [
+         300,
+         240
+        ],
+        [
+         240,
+         240
+        ]
+       ],
+       "stroke": "#6e6e84",
+       "strokeWidth": 0.75
+      },
+      {
+       "type": "circle",
+       "cx": 335,
+       "cy": 285,
+       "r": 1.8,
+       "fill": "#f43f5e"
+      },
+      {
+       "type": "circle",
+       "cx": 240,
+       "cy": 240,
+       "r": 1.5,
+       "fill": "#6e6e84"
+      },
+      {
+       "type": "text",
+       "x": 235,
+       "y": 237,
+       "text": "TS SCISSILE PHOSPHATE (-3)",
+       "size": 10,
+       "fill": {
+        "token": "strong"
+       },
+       "anchor": "end"
+      }
+     ],
+     "opacity": 0.9
+    }
+   }
+  }
+ },
+ "presentation": {
+  "defaultScene": "overview",
+  "plate": {
+   "figureLabel": "FIG 01 · SP-CAS9 ENDONUCLEASE",
+   "title": "R-LOOP MEDIATED DNA TARGETING & CLEAVAGE",
+   "hint": "HOVER DOMAINS · TOGGLE TARGET FIDELITY · DRAG TIME",
+   "summaryReadoutId": "summary"
+  },
+  "readouts": {
+   "summary": {
+    "label": "Summary",
+    "value": {
+     "op": "concat",
+     "args": [
+      "PAM: BOUND | R-LOOP: ",
+      {
+       "op": "str",
+       "args": [
+        {
+         "op": "ref",
+         "id": "pairs"
+        }
+       ]
+      },
+      "/20 nt | HNH: ",
+      {
+       "op": "ref",
+       "id": "hnh_state"
+      }
+     ]
+    }
+   },
+   "rloop": {
+    "label": "Target Annealing & R-Loop",
+    "claimIds": [
+     "c_rloop_formation",
+     "c_seed_mismatch"
+    ],
+    "value": {
+     "op": "concat",
+     "args": [
+      {
+       "op": "str",
+       "args": [
+        {
+         "op": "ref",
+         "id": "pairs"
+        }
+       ]
+      },
+      " / 20 bp (",
+      {
+       "op": "if",
+       "args": [
+        {
+         "op": "not",
+         "args": [
+          {
+           "op": "ref",
+           "id": "is_match"
+          }
+         ]
+        },
+        "Seed mismatch",
+        {
+         "op": "if",
+         "args": [
+          {
+           "op": "ge",
+           "args": [
+            {
+             "op": "ref",
+             "id": "pairing"
+            },
+            1
+           ]
+          },
+          "Full zippering",
+          "Zippering"
+         ]
+        }
+       ]
+      },
+      ")"
+     ]
+    },
+    "description": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "is_match"
+      },
+      "Guide RNA pairs with the complementary target DNA, forming the R-loop.",
+      "The chosen seed mismatch stalls pairing and blocks the catalytic checkpoint in this illustration."
+     ]
+    }
+   },
+   "hnh": {
+    "label": "HNH Conformation",
+    "claimIds": [
+     "c_rloop_allostery"
+    ],
+    "value": {
+     "op": "if",
+     "args": [
+      {
+       "op": "not",
+       "args": [
+        {
+         "op": "ref",
+         "id": "is_match"
+        }
+       ]
+      },
+      "Inactive (Checkpoint)",
+      {
+       "op": "if",
+       "args": [
+        {
+         "op": "gt",
+         "args": [
+          {
+           "op": "ref",
+           "id": "dock"
+          },
+          0.95
+         ]
+        },
+        "Active (Catalytic Docked)",
+        {
+         "op": "if",
+         "args": [
+          {
+           "op": "gt",
+           "args": [
+            {
+             "op": "ref",
+             "id": "dock"
+            },
+            0
+           ]
+          },
+          "Docking to target strand",
+          "Inactive (Undocked)"
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "description": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "is_match"
+      },
+      "R-loop formation permits HNH to dock near the target-strand cleavage site.",
+      "The HNH domain remains undocked in the mismatch state."
+     ]
+    }
+   },
+   "cleavage": {
+    "label": "Cleavage State",
+    "claimIds": [
+     "c_catalytic_cleavage"
+    ],
+    "value": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "cut"
+      },
+      "Dual Hydrolysis (DSB)",
+      {
+       "op": "if",
+       "args": [
+        {
+         "op": "not",
+         "args": [
+          {
+           "op": "ref",
+           "id": "is_match"
+          }
+         ]
+        },
+        "Cleavage blocked",
+        "DNA intact"
+       ]
+      }
+     ]
+    },
+    "description": {
+     "op": "if",
+     "args": [
+      {
+       "op": "ref",
+       "id": "cut"
+      },
+      "Both strands are cut upstream of the PAM. Cas9 remains bound to the DNA products.",
+      {
+       "op": "if",
+       "args": [
+        {
+         "op": "not",
+         "args": [
+          {
+           "op": "ref",
+           "id": "is_match"
+          }
+         ]
+        },
+        "This mismatch state does not pass the cleavage checkpoint.",
+        "Recognition and conformational activation precede cleavage."
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "legend": [
+   {
+    "color": "#7c3aed",
+    "label": "Cas9 Protein (REC & NUC Lobes)",
+    "entityIds": [
+     "rec_lobe",
+     "bridge_helix",
+     "pi_domain"
+    ]
+   },
+   {
+    "color": "#a78bfa",
+    "label": "HNH Mobile Domain",
+    "entityIds": [
+     "hnh_domain"
+    ]
+   },
+   {
+    "color": "#4c1d95",
+    "label": "RuvC Catalytic Core",
+    "entityIds": [
+     "ruvc_domain"
+    ]
+   },
+   {
+    "color": "#2dd4bf",
+    "label": "Target DNA (Luminous Teal)",
+    "entityIds": [
+     "target_strand",
+     "non_target_strand",
+     "distal_dna"
+    ]
+   },
+   {
+    "color": "#f59e0b",
+    "label": "Guide RNA (Amber)",
+    "entityIds": [
+     "sgrna"
+    ]
+   },
+   {
+    "color": "#f43f5e",
+    "label": "PAM / Scissile Cleavage Phosphates",
+    "entityIds": [
+     "pam_motif"
+    ]
+   },
+   {
+    "color": "#93c5fd",
+    "label": "Catalytic Mg²⁺ Cofactors"
+   }
+  ],
+  "disclaimer": "Educational molecular visualization. Represents established biochemical consensus of SpCas9 mechanism. Not clinical advice, gene therapy dosing guidance, or diagnostic instruction."
+ },
+ "provenance": {
+  "createdBy": {
+   "tool": "tools/convert_crispr.py",
+   "version": "0.1.0-draft"
+  },
+  "derivedFrom": [
+   {
+    "kind": "html-figure",
+    "ref": "ani/examples/source/crispr-cas9.source.html",
+    "note": "Standalone interactive figure, kept unmodified beside this file."
+   }
+  ],
+  "notes": [
+   "Converted from the standalone HTML figure by tools/convert_crispr.py. Geometry is extracted unchanged except where listed below.",
+   "CHANGE 1: the original 'hybrid-basepairs' group was empty and nothing populated it, so the 20 R-loop rungs never rendered. 20 rungs (rung_01..rung_20) were generated between the target-strand and guide-RNA paths, ordered PAM-proximal first, and bound to R-loop progress as the original script intended.",
+   "CHANGE 2: the 'ts_flash' and 'nts_flash' circles had no stroke, so animating their opacity was invisible. A white 2.5-unit stroke was added (the original stylesheet's unused .cut-flash used a white stroke).",
+   "CHANGE 3: source attributions were corrected where they could be checked: PDB 4UN3 is Anders et al., not Nishimasu et al.; Dagdas et al. 2017 is Science Advances, not Science; the HNH conformational-control paper is Sternberg et al. 2015, not 2014. See evidence.sources[].note. No claim has been reviewed.",
+   "DROPPED: static explanatory text in the original HTML that its script overwrote on first render (for example the '~22 kcal/mol' sentence and the '29.4 Å' distance label) was never visible and is not carried over.",
+   "NOT MODELLED IN 0.1: keyboard shortcuts (Space, 1, 2, R), the hover info panel's default text, and the glow filter's exact blur radius (the built-in 'glow' effect is used). Hover info is derived from each node's entity description. The heteroduplex group is one node, so hovering the target strand reports the R-loop, as in the original.",
+   "The rung fade threshold is index/count over 20 rungs; the original used index/length over the same 20 positions."
+  ],
+  "reviews": {}
+ }
+}
