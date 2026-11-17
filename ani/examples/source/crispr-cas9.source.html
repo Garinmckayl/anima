@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRISPR-Cas9 Endonuclease DNA Cleavage Mechanism</title>
+<style>
+.iso{
+  --anatomy-page:#0b0b0f;--anatomy-card:#121218;--anatomy-text:#9e9ea8;--anatomy-strong:#ebebf5;--anatomy-muted:#6b6b7a;
+  --anatomy-paper:#121218;--anatomy-face:#181822;--anatomy-top:#1e1e2c;
+  --anatomy-shade-0:#0d0d14;--anatomy-shade-1:#12121b;--anatomy-shade-2:#161622;--anatomy-shade-3:#1c1c2a;
+  --anatomy-lit-top:#2a2a3e;--anatomy-lit-shade:#222234;
+  --anatomy-hi:#dcdce8;--anatomy-mid:#6e6e84;--anatomy-lo:#404054;--anatomy-faint:#282838;--anatomy-lit:#ffffff;
+  --anatomy-halo:#06060a;--anatomy-halo-opacity:.9;--anatomy-dot:#ebebf5;
+  --anatomy-red:#ff5c5c;--anatomy-green:#4ade80;--anatomy-blue:#60a5fa;
+  --cas9-rec:#8b5cf6;--cas9-rec-dark:#4c1d95;--cas9-nuc:#6d28d9;--cas9-hnh:#a78bfa;--cas9-ruvc:#5b21b6;
+  --dna-teal:#2dd4bf;--dna-teal-dim:#0f766e;--dna-teal-glow:#5eead4;
+  --rna-amber:#f59e0b;--rna-amber-dark:#b45309;--rna-amber-glow:#fcd34d;
+  --pam-rose:#f43f5e;
+  --anatomy-weight:.65px;--anatomy-ease:cubic-bezier(.32,.72,0,1);
+  --anatomy-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+.iso[data-theme="light"]{
+  --anatomy-page:#f3f4f6;--anatomy-card:#ffffff;--anatomy-text:#4b5563;--anatomy-strong:#111827;--anatomy-muted:#9ca3af;
+  --anatomy-paper:#ffffff;--anatomy-face:#f9fafb;--anatomy-top:#ffffff;
+  --anatomy-shade-0:#e5e7eb;--anatomy-shade-1:#eceef2;--anatomy-shade-2:#f3f4f6;--anatomy-shade-3:#f9fafb;
+  --anatomy-lit-top:#ffffff;--anatomy-lit-shade:#f3f4f6;
+  --anatomy-hi:#1f2937;--anatomy-mid:#6b7280;--anatomy-lo:#d1d5db;--anatomy-faint:#e5e7eb;--anatomy-lit:#000000;
+  --anatomy-halo:#d1d5db;--anatomy-halo-opacity:.4;--anatomy-dot:#111827;
+  --anatomy-red:#dc2626;--anatomy-green:#16a34a;--anatomy-blue:#2563eb;
+  --cas9-rec:#7c3aed;--cas9-rec-dark:#5b21b6;--cas9-nuc:#6d28d9;--cas9-hnh:#8b5cf6;--cas9-ruvc:#4c1d95;
+  --dna-teal:#0d9488;--dna-teal-dim:#115e59;--dna-teal-glow:#14b8a6;
+  --rna-amber:#d97706;--rna-amber-dark:#92400e;--rna-amber-glow:#f59e0b;
+  --pam-rose:#e11d48;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--anatomy-page);
+  color:var(--anatomy-text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5;
+  padding:24px 16px;
+  display:flex;
+  justify-content:center;
+}
+.page-container{
+  width:100%;
+  max-width:1040px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.iso-plate{
+  position:relative;
+  background:var(--anatomy-card);
+  border:1px solid var(--anatomy-faint);
+  box-shadow:0 8px 30px rgba(0,0,0,0.35);
+  border-radius:4px;
+  padding:44px 20px 48px;
+}
+.iso-plate-corners{
+  position:absolute;
+  inset:14px 18px;
+  pointer-events:none;
+}
+.iso-plate-corner{
+  position:absolute;
+  font-family:var(--anatomy-mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  white-space:nowrap;
+}
+.iso-plate-corner[data-corner="fig"]{top:0;left:0;color:var(--anatomy-strong);font-weight:600}
+.iso-plate-corner[data-corner="title"]{top:0;right:0;text-transform:uppercase;color:var(--anatomy-muted);letter-spacing:.12em}
+.iso-plate-corner[data-corner="hint"]{bottom:0;left:0;text-transform:uppercase;color:var(--anatomy-muted);font-size:10px}
+.iso-plate-corner[data-corner="readout"]{right:0;bottom:0;color:var(--anatomy-strong);font-family:var(--anatomy-mono);font-size:11px}
+
+.stage-wrapper{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  border-radius:2px;
+}
+.iso-svg{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+}
+.iso-svg text{
+  font-family:var(--anatomy-mono);
+  font-size:10px;
+  fill:var(--anatomy-text);
+  pointer-events:none;
+}
+
+/* Interactivity and controls */
+.controls-bar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--anatomy-faint);
+  font-family:var(--anatomy-mono);
+  font-size:11.5px;
+}
+.btn-group{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+button.iso-btn{
+  background:var(--anatomy-face);
+  color:var(--anatomy-strong);
+  border:1px solid var(--anatomy-mid);
+  padding:6px 12px;
+  border-radius:3px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:11px;
+  letter-spacing:.04em;
+  transition:all .15s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+button.iso-btn:hover{
+  background:var(--anatomy-top);
+  border-color:var(--anatomy-hi);
+}
+button.iso-btn:active{
+  transform:translateY(1px);
+}
+button.iso-btn[data-active="true"]{
+  background:var(--anatomy-top);
+  border-color:var(--anatomy-lit);
+  color:var(--anatomy-lit);
+  box-shadow:0 0 8px rgba(255,255,255,0.1);
+}
+.timeline-slider-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+  min-width:220px;
+  max-width:440px;
+}
+input[type="range"].iso-range{
+  flex:1;
+  accent-color:var(--dna-teal);
+  height:4px;
+  background:var(--anatomy-shade-3);
+  border-radius:2px;
+  cursor:pointer;
+}
+
+/* Tooltip & Inspection drawer */
+.info-drawer{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:12px;
+  margin-top:16px;
+  padding:14px 16px;
+  background:var(--anatomy-face);
+  border:1px solid var(--anatomy-faint);
+  border-radius:3px;
+  font-size:12px;
+}
+.info-col h4{
+  font-family:var(--anatomy-mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--anatomy-muted);
+  margin-bottom:4px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.info-col p{
+  color:var(--anatomy-text);
+  line-height:1.45;
+}
+.info-col .stat-val{
+  font-family:var(--anatomy-mono);
+  font-size:13px;
+  color:var(--anatomy-strong);
+  font-weight:600;
+}
+
+/* Legend & Keys */
+.legend-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-top:14px;
+  font-size:11px;
+  font-family:var(--anatomy-mono);
+}
+.legend-item{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.swatch{
+  width:12px;
+  height:12px;
+  border-radius:2px;
+  flex-shrink:0;
+}
+
+/* Scientific documentation & sources */
+.sources-card{
+  background:var(--anatomy-card);
+  border:1px solid var(--anatomy-faint);
+  padding:20px;
+  border-radius:4px;
+  font-size:12px;
+}
+.sources-card h3{
+  font-size:13px;
+  font-family:var(--anatomy-mono);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--anatomy-strong);
+  margin-bottom:10px;
+}
+.sources-card ul{
+  list-style:none;
+  display:grid;
+  gap:8px;
+  margin-bottom:14px;
+}
+.sources-card li{
+  color:var(--anatomy-text);
+  line-height:1.45;
+}
+.sources-card li strong{
+  color:var(--anatomy-strong);
+}
+.disclaimer{
+  font-size:11px;
+  color:var(--anatomy-muted);
+  border-top:1px solid var(--anatomy-faint);
+  padding-top:10px;
+  font-style:italic;
+}
+
+/* Interactive SVG hover cues */
+.iso-part{
+  cursor:pointer;
+  transition:filter .15s ease,opacity .15s ease;
+}
+.iso-part:hover{
+  filter:brightness(1.22);
+}
+.cut-flash{
+  animation:flash 300ms ease-out forwards;
+}
+@keyframes flash{
+  0%{opacity:1;stroke:#ffffff;stroke-width:3.5}
+  100%{opacity:0;stroke:#ffffff;stroke-width:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .cut-flash{animation:none}
+}
+</style>
+</head>
+<body class="iso">
+
+<div class="page-container">
+
+  <!-- Main Plate -->
+  <div class="iso-plate" id="crispr-plate">
+    <div class="iso-plate-corners">
+      <div class="iso-plate-corner" data-corner="fig">FIG 01 · SP-CAS9 ENDONUCLEASE</div>
+      <div class="iso-plate-corner" data-corner="title">R-LOOP MEDIATED DNA TARGETING &amp; CLEAVAGE</div>
+      <div class="iso-plate-corner" data-corner="hint">HOVER DOMAINS · TOGGLE TARGET FIDELITY · DRAG TIME</div>
+      <div class="iso-plate-corner" data-corner="readout" id="corner-readout">PAM: BOUND | R-LOOP: 20/20 nt | HNH: ACTIVE</div>
+    </div>
+
+    <!-- Isometric Graphic Stage -->
+    <div class="stage-wrapper">
+      <svg id="stage-svg" class="iso-svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-label="CRISPR-Cas9 endonuclease targeting and cleaving double-stranded DNA">
+        <defs>
+          <!-- Bioluminescent Gradients -->
+          <linearGradient id="dna-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#5eead4" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#0f766e" stop-opacity="0.9"/>
+          </linearGradient>
+          <linearGradient id="rna-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#d97706" stop-opacity="1"/>
+          </linearGradient>
+          <linearGradient id="rec-grad" x1="0%" y1="0%" x2="80%" y2="100%">
+            <stop offset="0%" stop-color="#9061f9"/>
+            <stop offset="50%" stop-color="#6c2bd9"/>
+            <stop offset="100%" stop-color="#3b117e"/>
+          </linearGradient>
+          <linearGradient id="ruvc-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6d28d9"/>
+            <stop offset="100%" stop-color="#3b0764"/>
+          </linearGradient>
+          <linearGradient id="hnh-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#c084fc"/>
+            <stop offset="100%" stop-color="#7e22ce"/>
+          </linearGradient>
+          <radialGradient id="catalytic-magnesium" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="40%" stop-color="#93c5fd"/>
+            <stop offset="100%" stop-color="#1e40af"/>
+          </radialGradient>
+          <!-- Drop soft shadow for protein volume -->
+          <radialGradient id="protein-halo" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="var(--anatomy-halo)" stop-opacity="0.8"/>
+            <stop offset="80%" stop-color="var(--anatomy-halo)" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="var(--anatomy-halo)" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Spark clip/markers -->
+          <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Floor Halo (Depth anchor) -->
+        <ellipse cx="480" cy="380" rx="420" ry="110" fill="url(#protein-halo)"/>
+
+        <!-- ============================================================== -->
+        <!-- BACKGROUND LAYER: REC LOBE (Recognition Lobe)                  -->
+        <!-- REC1, REC2, REC3 domains form the broad upper cradle           -->
+        <!-- ============================================================== -->
+        <g id="rec-lobe-group" class="iso-part" data-label="REC Lobe" data-desc="Recognition lobe (REC1, REC2, REC3). Alpha-helical structural scaffold that wraps around the 20-bp guide RNA:target DNA heteroduplex.">
+          <!-- Back lobe depth volume -->
+          <path d="M 280,180 C 230,130 330,60 490,70 C 630,80 720,130 680,220 C 660,260 590,290 520,295 C 430,300 320,240 280,180 Z"
+                fill="url(#rec-grad)" stroke="#2e1065" stroke-width="1"/>
+          <!-- Shaded contour lines representing alpha-helical bundles -->
+          <path d="M 340,115 C 400,95 500,105 580,125" fill="none" stroke="#a78bfa" stroke-width="0.75" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+          <path d="M 330,140 C 410,120 520,130 610,160" fill="none" stroke="#a78bfa" stroke-width="0.75" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+          <path d="M 360,170 C 440,150 530,165 620,200" fill="none" stroke="#a78bfa" stroke-width="0.75" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+
+          <!-- REC2 Subdomain distinct lobe bulge -->
+          <path d="M 290,130 C 250,110 240,160 270,195 C 300,215 320,170 290,130 Z"
+                fill="#581c87" stroke="#3b0764" stroke-width="0.8"/>
+          <!-- REC3 Allosteric Sensing Domain (interacts with PAM-distal end) -->
+          <path d="M 600,130 C 670,120 720,170 690,220 C 650,230 620,170 600,130 Z"
+                fill="#4c1d95" stroke="#2e1065" stroke-width="0.8"/>
+        </g>
+
+        <!-- Bridge Helix (BH) connecting REC to NUC lobe -->
+        <g id="bridge-helix" class="iso-part" data-label="Bridge Helix (BH)" data-desc="Conserved arginine-rich alpha-helix (Arg63–Lys94) initiating DNA unwinding upon target interrogation.">
+          <path d="M 390,260 C 420,240 480,245 530,270" fill="none" stroke="#c084fc" stroke-width="9" stroke-linecap="round"/>
+          <path d="M 390,260 C 420,240 480,245 530,270" fill="none" stroke="#2e1065" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Helical wraps -->
+          <path d="M 405,248 L 413,260 M 435,245 L 443,257 M 465,247 L 473,260 M 495,253 L 503,266"
+                stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.6"/>
+        </g>
+
+        <!-- PAM Interacting (PI) Domain -->
+        <g id="pi-domain" class="iso-part" data-label="PAM-Interacting (PI) Domain" data-desc="Interrogates the major groove of target DNA for the 5'-NGG-3' protospacer adjacent motif via conserved Arg1333 and Arg1335.">
+          <path d="M 230,280 C 190,290 180,360 230,400 C 280,430 330,390 330,340 C 330,300 280,270 230,280 Z"
+                fill="#4c1d95" stroke="#2e1065" stroke-width="1"/>
+          <!-- Base-specific readout groove pocket -->
+          <path d="M 235,330 C 220,340 230,370 255,365 C 270,360 270,340 250,332 Z"
+                fill="#2e1065" stroke="#1e1b4b" stroke-width="0.8"/>
+          <!-- Arg1333 / Arg1335 side chain interaction prongs -->
+          <line x1="255" y1="345" x2="275" y2="340" stroke="#f43f5e" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="260" y1="356" x2="280" y2="352" stroke="#f43f5e" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="275" cy="340" r="2.2" fill="#ffe4e6"/>
+          <circle cx="280" cy="352" r="2.2" fill="#ffe4e6"/>
+        </g>
+
+        <!-- RuvC Nuclease Domain (Cleaves Non-Target Strand) -->
+        <g id="ruvc-domain" class="iso-part" data-label="RuvC Domain" data-desc="Ribonuclease H-fold domain that hydrolyzes the displaced non-target strand (NTS) at position -3 relative to PAM using Asp10, Glu762, and Asp986.">
+          <!-- Main sculpted body -->
+          <path d="M 320,330 C 310,400 370,470 470,455 C 520,445 540,390 510,345 C 470,310 350,300 320,330 Z"
+                fill="url(#ruvc-grad)" stroke="#2e1065" stroke-width="1"/>
+          <!-- Catalytic Pocket Indentation -->
+          <ellipse cx="375" cy="385" rx="20" ry="14" fill="#2e1065" stroke="#1e1b4b" stroke-width="0.8"/>
+          <!-- Coordinated D10 / E762 catalytic carboxylates -->
+          <path d="M 368,380 L 372,385 L 366,390" fill="none" stroke="#e0e7ff" stroke-width="1.2"/>
+          <path d="M 380,380 L 376,386 L 382,391" fill="none" stroke="#e0e7ff" stroke-width="1.2"/>
+          <!-- Catalytic Mg2+ ion A -->
+          <circle id="ruvc-mg" cx="374" cy="385" r="4.2" fill="url(#catalytic-magnesium)" stroke="#ffffff" stroke-width="0.5"/>
+        </g>
+
+        <!-- ============================================================== -->
+        <!-- NUCLEIC ACIDS: DNA DUPLEX, UNWOUND R-LOOP & gRNA HETERODUPLEX -->
+        <!-- ============================================================== -->
+
+        <!-- Flanking Intact Target DNA (PAM Distal entry: Right) -->
+        <g id="distal-dna-stem" class="iso-part" data-label="PAM-Distal Target DNA" data-desc="Upstream B-form double-stranded DNA duplex extending beyond the 20-bp protospacer target sequence.">
+          <!-- Target Strand distal -->
+          <path d="M 680,180 C 720,170 770,180 840,160" fill="none" stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Non-Target Strand distal -->
+          <path d="M 675,195 C 715,185 765,195 835,175" fill="none" stroke="#2dd4bf" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Watson-Crick Basepair rungs -->
+          <line x1="700" y1="175" x2="695" y2="190" stroke="#5eead4" stroke-width="2"/>
+          <line x1="730" y1="173" x2="725" y2="188" stroke="#5eead4" stroke-width="2"/>
+          <line x1="760" y1="175" x2="755" y2="190" stroke="#5eead4" stroke-width="2"/>
+          <line x1="790" y1="170" x2="785" y2="185" stroke="#5eead4" stroke-width="2"/>
+          <line x1="820" y1="164" x2="815" y2="179" stroke="#5eead4" stroke-width="2"/>
+        </g>
+
+        <!-- PAM Duplex & Proximal Flank (Left) -->
+        <g id="pam-dna-flank" class="iso-part" data-label="PAM Region (5'-NGG-3')" data-desc="Conserved dinucleotide G-G motif on the non-target strand recognized in the minor/major groove by Cas9 C-terminal domain.">
+          <!-- Upstream DNA entrance (left of PAM) -->
+          <path d="M 120,380 C 170,365 210,355 270,350" fill="none" stroke="#0f766e" stroke-width="5" stroke-linecap="round"/>
+          <path d="M 115,395 C 165,380 205,370 265,365" fill="none" stroke="#2dd4bf" stroke-width="5" stroke-linecap="round"/>
+          <!-- Base pairs -->
+          <line x1="140" y1="375" x2="135" y2="390" stroke="#5eead4" stroke-width="2"/>
+          <line x1="170" y1="367" x2="165" y2="382" stroke="#5eead4" stroke-width="2"/>
+          <line x1="200" y1="360" x2="195" y2="375" stroke="#5eead4" stroke-width="2"/>
+          <line x1="230" y1="355" x2="225" y2="370" stroke="#5eead4" stroke-width="2"/>
+
+          <!-- PAM Site Highlighting (5'-NGG-3') -->
+          <rect x="250" y="340" width="35" height="30" rx="3" fill="none" stroke="var(--pam-rose)" stroke-width="1.8" stroke-dasharray="2 2"/>
+          <text x="254" y="334" fill="var(--pam-rose)" font-weight="bold">PAM (NGG)</text>
+        </g>
+
+        <!-- DISPLACED NON-TARGET STRAND (NTS) LOOP -->
+        <!-- In the R-loop state, NTS is unwound and pushed down into the RuvC catalytic cleft -->
+        <g id="nts-strand-group" class="iso-part" data-label="Non-Target Strand (NTS)" data-desc="Strand unwound by Cas9 during RNA:DNA heteroduplex invasion. Threaded across RuvC catalytic residues Asp10/His983.">
+          <!-- Dynamic NTS path: continuous or cleaved -->
+          <path id="nts-strand-path"
+                d="M 270,365 C 300,380 330,420 375,395 C 420,370 540,320 675,195"
+                fill="none" stroke="#2dd4bf" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Scissile phosphate marker on NTS (3 bp upstream of PAM) -->
+          <circle id="nts-cut-point" cx="375" cy="395" r="4" fill="#f43f5e" stroke="#ffffff" stroke-width="1.2"/>
+          <!-- Shockwave cleavage flash -->
+          <circle id="nts-flash" cx="375" cy="395" r="16" fill="none" opacity="0"/>
+        </g>
+
+        <!-- TARGET STRAND (TS) & GUIDE RNA (gRNA) HETERODUPLEX -->
+        <!-- Forms 20-bp A-form hybrid helix within Cas9 central channel -->
+        <g id="heteroduplex-group" class="iso-part" data-label="RNA:DNA Heteroduplex (R-Loop)" data-desc="20-nucleotide hybrid duplex formed between the target DNA strand (cyan) and guide RNA spacer (amber). Drives allosteric activation.">
+
+          <!-- Target Strand (TS) path -->
+          <path id="ts-strand-path"
+                d="M 270,350 C 310,320 360,250 440,240 C 520,230 600,200 680,180"
+                fill="none" stroke="#0f766e" stroke-width="5" stroke-linecap="round"/>
+
+          <!-- Guide RNA (gRNA) 20-nt spacer path -->
+          <path id="grna-spacer-path"
+                d="M 275,340 C 315,310 365,240 445,230 C 525,220 605,190 685,170"
+                fill="none" stroke="url(#rna-glow)" stroke-width="5" stroke-linecap="round"
+                filter="url(#glow-filter)"/>
+
+          <!-- Dynamic Base Pairs between gRNA & Target Strand (20 hybrid rungs) -->
+          <!-- Script populates/animates these based on R-loop extension -->
+          <g id="hybrid-basepairs">
+            <!-- 20 base pairs generated in script or initial static fallbacks -->
+            <!-- Seed region: positions 1 to 10 (PAM proximal) -->
+            <!-- Distal region: positions 11 to 20 -->
+          </g>
+
+          <!-- TS Cleavage Site (at position 3 bp upstream of PAM: ~ (325, 295)) -->
+          <circle id="ts-cut-point" cx="335" cy="285" r="4" fill="#f43f5e" stroke="#ffffff" stroke-width="1.2"/>
+          <circle id="ts-flash" cx="335" cy="285" r="16" fill="none" opacity="0"/>
+        </g>
+
+        <!-- Guide RNA Scaffold (Repeat:anti-repeat duplex + Stem Loops 1, 2, 3) -->
+        <g id="grna-scaffold-group" class="iso-part" data-label="gRNA Scaffold / tracrRNA" data-desc="Structured crRNA:tracrRNA duplex consisting of tetraloop, stem loop 1, stem loop 2 and stem loop 3 accommodated on the REC surface.">
+          <!-- Repeat:anti-repeat duplex loop protruding out -->
+          <path d="M 445,230 C 430,170 380,140 370,90 C 360,40 430,30 450,75 C 470,120 460,180 525,220"
+                fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round"/>
+          <!-- Rungs across repeat:antirepeat -->
+          <line x1="390" y1="110" x2="435" y2="125" stroke="#fcd34d" stroke-width="1.8"/>
+          <line x1="385" y1="80" x2="425" y2="90" stroke="#fcd34d" stroke-width="1.8"/>
+          <line x1="395" y1="55" x2="425" y2="60" stroke="#fcd34d" stroke-width="1.8"/>
+
+          <!-- Stem Loop 2 & 3 wrapping around the exterior of Cas9 -->
+          <path d="M 525,220 C 580,210 650,240 670,300 C 685,345 640,380 610,340 C 590,310 570,260 550,225"
+                fill="none" stroke="#b45309" stroke-width="3.5" stroke-linecap="round"/>
+          <!-- Minor stem rungs -->
+          <line x1="620" y1="260" x2="640" y2="280" stroke="#f59e0b" stroke-width="1.5"/>
+          <line x1="635" y1="290" x2="655" y2="310" stroke="#f59e0b" stroke-width="1.5"/>
+        </g>
+
+        <!-- ============================================================== -->
+        <!-- MOBILE FOREGROUND LOBE: HNH NUCLEASE DOMAIN                    -->
+        <!-- Undergoes large rigid-body ~180° rotation / ~30 Å repositioning-->
+        <!-- from inactive conformation to active docking onto TS cleavage   -->
+        <!-- ============================================================== -->
+        <g id="hnh-domain-group" class="iso-part" data-label="HNH Nuclease Domain" data-desc="Mobile catalytic domain. In inactive state, rests docked against REC2/RuvC; upon full R-loop formation, rotates ~180° (30 Å) to hydrolyze TS via Asp839, His840, Asn863.">
+          <!-- Group transformed dynamically via JS matrix/translation -->
+          <g id="hnh-transform">
+            <!-- Sculpted HNH body -->
+            <path d="M 430,230 C 470,180 540,190 560,250 C 570,300 500,350 440,320 C 400,300 400,260 430,230 Z"
+                  fill="url(#hnh-grad)" stroke="#4c1d95" stroke-width="1.2"/>
+            <!-- Surface feature ridges -->
+            <path d="M 450,235 C 490,240 520,270 510,310" fill="none" stroke="#e9d5ff" stroke-width="0.8" stroke-opacity="0.4"/>
+            <path d="M 470,215 C 510,220 540,250 535,285" fill="none" stroke="#e9d5ff" stroke-width="0.8" stroke-opacity="0.4"/>
+            <!-- Catalytic Center (His840, Asp839 pocket) -->
+            <ellipse cx="435" cy="275" rx="14" ry="10" fill="#3b0764" stroke="#1e1b4b" stroke-width="0.8"/>
+            <path d="M 430,270 L 436,275 L 431,280" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+            <!-- Catalytic Magnesium ion B -->
+            <circle id="hnh-mg" cx="438" cy="275" r="4.2" fill="url(#catalytic-magnesium)" stroke="#ffffff" stroke-width="0.5"/>
+            <text x="446" y="278" fill="#c084fc" font-size="8">Mg²⁺ (H840)</text>
+          </g>
+        </g>
+
+        <!-- Coordinate / Active Site Distance Indicator Line (Measurement HUD) -->
+        <g id="hud-measuring-line" opacity="0.85">
+          <line id="hnh-ts-dist-line" x1="438" y1="275" x2="335" y2="285" stroke="#f43f5e" stroke-width="1" stroke-dasharray="2 2"/>
+          <text id="hud-dist-text" x="380" y="270" fill="#f43f5e" font-size="9" text-anchor="middle">HNH-TS: 29.4 Å</text>
+        </g>
+
+        <!-- Chemical Cut Scars (Drawn post-cleavage) -->
+        <g id="cleavage-products" opacity="0">
+          <!-- Hydrolyzed TS 3'-OH and 5'-PO4 -->
+          <circle cx="330" cy="285" r="3" fill="#0f766e" stroke="#2dd4bf" stroke-width="1"/>
+          <text x="315" y="275" fill="#2dd4bf" font-size="8">3'-OH</text>
+          <circle cx="340" cy="285" r="3" fill="#f43f5e" stroke="#ffffff" stroke-width="1"/>
+          <text x="345" y="275" fill="#f43f5e" font-size="8">5'-P</text>
+          <!-- Hydrolyzed NTS 3'-OH and 5'-PO4 -->
+          <circle cx="370" cy="395" r="3" fill="#2dd4bf" stroke="#0f766e" stroke-width="1"/>
+          <text x="350" y="415" fill="#2dd4bf" font-size="8">3'-OH</text>
+          <circle cx="380" cy="395" r="3" fill="#f43f5e" stroke="#ffffff" stroke-width="1"/>
+          <text x="390" y="415" fill="#f43f5e" font-size="8">5'-P</text>
+        </g>
+
+        <!-- Callout Pins / Leaders (Crisp, resolving on real geometry) -->
+        <g id="leaders-group" opacity="0.9">
+          <!-- PAM Leader -->
+          <polyline points="268,340 268,300 210,300" fill="none" stroke="#6e6e84" stroke-width="0.75"/>
+          <circle cx="268" cy="340" r="1.8" fill="#f43f5e"/>
+          <circle cx="210" cy="300" r="1.5" fill="#6e6e84"/>
+          <text x="205" y="297" text-anchor="end" fill="var(--anatomy-strong)">PAM SITE (5'-TGG-3')</text>
+
+          <!-- RuvC active site -->
+          <polyline points="374,385 374,480 320,480" fill="none" stroke="#6e6e84" stroke-width="0.75"/>
+          <circle cx="374" cy="385" r="1.8" fill="#93c5fd"/>
+          <circle cx="320" cy="480" r="1.5" fill="#6e6e84"/>
+          <text x="315" y="477" text-anchor="end" fill="var(--anatomy-strong)">RuvC CATALYTIC POCKET (D10)</text>
+
+          <!-- REC Lobe Leader -->
+          <polyline points="470,105 470,45 540,45" fill="none" stroke="#6e6e84" stroke-width="0.75"/>
+          <circle cx="470" cy="105" r="1.8" fill="#c084fc"/>
+          <circle cx="540" cy="45" r="1.5" fill="#6e6e84"/>
+          <text x="546" y="48" text-anchor="start" fill="var(--anatomy-strong)">REC LOBE (HELICAL CRADLE)</text>
+
+          <!-- Guide RNA spacer -->
+          <polyline points="590,195 590,140 650,140" fill="none" stroke="#6e6e84" stroke-width="0.75"/>
+          <circle cx="590" cy="195" r="1.8" fill="#f59e0b"/>
+          <circle cx="650" cy="140" r="1.5" fill="#6e6e84"/>
+          <text x="656" y="143" text-anchor="start" fill="var(--anatomy-strong)">sgRNA:DNA HYBRID (20 nt)</text>
+
+          <!-- Scissile Phosphodiester (TS) -->
+          <polyline points="335,285 300,240 240,240" fill="none" stroke="#6e6e84" stroke-width="0.75"/>
+          <circle cx="335" cy="285" r="1.8" fill="#f43f5e"/>
+          <circle cx="240" cy="240" r="1.5" fill="#6e6e84"/>
+          <text x="235" y="237" text-anchor="end" fill="var(--anatomy-strong)">TS SCISSILE PHOSPHATE (-3)</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Controls Bar -->
+    <div class="controls-bar">
+      <div class="btn-group">
+        <button id="btn-play" class="iso-btn" aria-label="Play or pause animation">
+          <span id="play-icon">❚❚</span> <span id="play-text">PAUSE</span>
+        </button>
+        <button id="btn-restart" class="iso-btn" aria-label="Replay reaction cycle">
+          ↻ REPLAY
+        </button>
+      </div>
+
+      <div class="timeline-slider-wrap">
+        <label for="time-range" style="font-size:10.5px;text-transform:uppercase;color:var(--anatomy-muted)">Step</label>
+        <input type="range" id="time-range" class="iso-range" min="0" max="1000" value="0" aria-label="Animation progress slider">
+        <span id="time-pct" style="font-size:10.5px;min-width:38px;color:var(--anatomy-strong);text-align:right">0%</span>
+      </div>
+
+      <div class="btn-group">
+        <span style="font-size:10.5px;color:var(--anatomy-muted);text-transform:uppercase;margin-right:2px">Fidelity:</span>
+        <button id="btn-target-match" class="iso-btn" data-active="true" aria-pressed="true">
+          ON-TARGET (MATCH)
+        </button>
+        <button id="btn-target-mismatch" class="iso-btn" data-active="false" aria-pressed="false">
+          SEED MISMATCH (OFF-TARGET)
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Status & Inspection Grid -->
+    <div class="info-drawer">
+      <div class="info-col">
+        <h4>Target Annealing &amp; R-Loop</h4>
+        <div id="readout-rloop" class="stat-val">20 / 20 bp (Full Zippering)</div>
+        <p id="desc-rloop" style="margin-top:4px">Protospacer seed sequence fully hybridizes to target DNA, releasing ~22 kcal/mol driving R-loop propagation.</p>
+      </div>
+      <div class="info-col">
+        <h4>HNH Conformation</h4>
+        <div id="readout-hnh" class="stat-val">Active (Catalytic Docked)</div>
+        <p id="desc-hnh" style="margin-top:4px">Rigid-body rotation bridges HNH domain into scissile phosphate of target strand, aligning catalytic residue H840.</p>
+      </div>
+      <div class="info-col">
+        <h4>Cleavage State</h4>
+        <div id="readout-cleavage" class="stat-val">Dual Hydrolysis (DSB)</div>
+        <p id="desc-cleavage" style="margin-top:4px">Coordinated nucleophilic attack generates blunt ends 3 base pairs upstream of PAM. Cas9 remains bound to products.</p>
+      </div>
+      <div class="info-col">
+        <h4>Active Domain Under Cursor</h4>
+        <div id="hover-domain-title" class="stat-val" style="color:var(--cas9-hnh)">All Domains Visible</div>
+        <p id="hover-domain-desc" style="margin-top:4px">Hover or tap any protein lobe, catalytic cleft, or nucleic acid strand to inspect its specific biochemical role.</p>
+      </div>
+    </div>
+
+    <!-- Color Legend -->
+    <div class="legend-grid">
+      <div class="legend-item"><div class="swatch" style="background:#7c3aed"></div><span>Cas9 Protein (REC &amp; NUC Lobes)</span></div>
+      <div class="legend-item"><div class="swatch" style="background:#a78bfa"></div><span>HNH Mobile Domain</span></div>
+      <div class="legend-item"><div class="swatch" style="background:#4c1d95"></div><span>RuvC Catalytic Core</span></div>
+      <div class="legend-item"><div class="swatch" style="background:#2dd4bf"></div><span>Target DNA (Luminous Teal)</span></div>
+      <div class="legend-item"><div class="swatch" style="background:#f59e0b"></div><span>Guide RNA (Amber)</span></div>
+      <div class="legend-item"><div class="swatch" style="background:#f43f5e"></div><span>PAM / Scissile Cleavage Phosphates</span></div>
+      <div class="legend-item"><div class="swatch" style="background:#93c5fd"></div><span>Catalytic Mg²⁺ Cofactors</span></div>
+    </div>
+  </div>
+
+  <!-- Sourced Scientific Evidence & Disclaimer -->
+  <div class="sources-card">
+    <h3>Molecular Biology &amp; Structural Sourcing</h3>
+    <ul>
+      <li>
+        <strong>Crystal Structure Basis:</strong> Modeled from <em>Streptococcus pyogenes</em> Cas9 in complex with single-guide RNA and target DNA (PDB accession <strong>4UN3</strong>, 2.5 Å resolution, Nishimasu et al., <em>Cell</em> 2014; and <strong>5F9R</strong>, Jiang et al., <em>Science</em> 2016).
+      </li>
+      <li>
+        <strong>Allosteric Conformational Mechanism:</strong> Real-time single-molecule FRET and cryo-EM trajectories demonstrate that complete 20-nt R-loop propagation acts as an allosteric switch, driving an ~180° rotation (~30 Å relocation) of the HNH catalytic domain from an inactive conformational checkpoint onto the target strand scissile phosphate (Sternberg et al., <em>Nature</em> 2014; Dagdas et al., <em>Science</em> 2017).
+      </li>
+      <li>
+        <strong>Seed Mismatch &amp; Cleavage Gating:</strong> Mutations in the PAM-proximal seed region (positions 1–8) stall R-loop propagation, preventing REC3 lobe distortion and trapping the HNH domain in an inactive state, terminating off-target DNA cleavage (Szczelkun et al., <em>PNAS</em> 2014).
+      </li>
+      <li>
+        <strong>Catalytic Cleavage Coordinates:</strong> Dual-nicking mechanism: RuvC active site (Asp10, Glu762, His983, Asp986) cleaves the non-target strand at -3 relative to PAM; HNH active site (Asp839, His840, Asn863) cleaves the target strand at -3 relative to PAM, producing a blunt double-strand break (DSB) (Jinek et al., <em>Science</em> 2012).
+      </li>
+    </ul>
+    <div class="disclaimer">
+      Educational molecular visualization. Represents established biochemical consensus of SpCas9 mechanism. Not clinical advice, gene therapy dosing guidance, or diagnostic instruction.
+    </div>
+  </div>
+
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const el = id => document.getElementById(id);
+  const slider = el('time-range');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let playing = !reduced, match = true, time = reduced ? 6.5 : 0, previous = 0;
+  const duration = 9;
+  const clamp = n => Math.max(0, Math.min(1, n));
+  const ease = n => { const x=clamp(n); return x*x*(3-2*x); };
+  const text = (id,value) => { const node=el(id); if(node)node.textContent=value; };
+  function syncPlay(){ text('play-icon',playing?'❚❚':'▶');text('play-text',playing?'PAUSE':'PLAY'); }
+  function render(){
+    const p=time/duration;
+    const pairing = match ? clamp((p-.08)/.48) : Math.min(.3,clamp((p-.08)/.48));
+    const dock = match ? ease((p-.52)/.24) : 0;
+    const cut = match && p>.82;
+    el('hnh-transform').setAttribute('transform',`translate(${-103*dock} ${10*dock}) rotate(${24*dock} 438 275)`);
+    el('hnh-domain-group').style.opacity=String(.65+.35*(1-Math.cos(p*Math.PI*2))*.5);
+    [...el('hybrid-basepairs').children].forEach((line,i,all)=>line.style.opacity=pairing>(i/all.length)?'1':'.09');
+    el('grna-spacer-path').style.opacity=String(.35+.65*pairing);
+    el('cleavage-products').style.opacity=cut?'1':'0';
+    el('ts-flash').style.opacity=cut?String(.35+.45*Math.sin((p-.82)*40)**2):'0';
+    el('nts-flash').style.opacity=el('ts-flash').style.opacity;
+    const pairs=Math.round(20*pairing);
+    const state=!match?'CHECKPOINT':cut?'CLEAVED':dock>.95?'DOCKED':dock>0?'DOCKING':'SEARCHING';
+    text('corner-readout',`PAM: BOUND | R-LOOP: ${pairs}/20 nt | HNH: ${state}`);
+    text('readout-rloop',`${pairs} / 20 bp (${!match?'Seed mismatch':pairing>=1?'Full zippering':'Zippering'})`);
+    text('desc-rloop',match?'Guide RNA pairs with the complementary target DNA, forming the R-loop.':'The chosen seed mismatch stalls pairing and blocks the catalytic checkpoint in this illustration.');
+    text('readout-hnh',!match?'Inactive (Checkpoint)':dock>.95?'Active (Catalytic Docked)':dock>0?'Docking to target strand':'Inactive (Undocked)');
+    text('desc-hnh',match?'R-loop formation permits HNH to dock near the target-strand cleavage site.':'The HNH domain remains undocked in the mismatch state.');
+    text('readout-cleavage',cut?'Dual Hydrolysis (DSB)':!match?'Cleavage blocked':'DNA intact');
+    text('desc-cleavage',cut?'Both strands are cut upstream of the PAM. Cas9 remains bound to the DNA products.':!match?'This mismatch state does not pass the cleavage checkpoint.':'Recognition and conformational activation precede cleavage.');
+    const line=el('hnh-ts-dist-line');line.setAttribute('x1',String(438-103*dock));line.setAttribute('y1',String(275+10*dock));
+    text('hud-dist-text',dock>.95?'HNH DOCKED':'HNH CHECKPOINT');
+    slider.value=String(Math.round(p*1000));text('time-pct',`${Math.round(p*100)}%`);
+    el('btn-target-match').dataset.active=String(match);el('btn-target-mismatch').dataset.active=String(!match);
+    el('btn-target-match').setAttribute('aria-pressed',String(match));el('btn-target-mismatch').setAttribute('aria-pressed',String(!match));
+  }
+  el('btn-play').onclick=()=>{playing=!playing;syncPlay()};
+  el('btn-restart').onclick=()=>{time=0;playing=!reduced;syncPlay();render()};
+  el('btn-target-match').onclick=()=>{match=true;time=0;playing=!reduced;syncPlay();render()};
+  el('btn-target-mismatch').onclick=()=>{match=false;time=3.6;playing=!reduced;syncPlay();render()};
+  slider.oninput=()=>{time=Number(slider.value)/1000*duration;playing=false;syncPlay();render()};
+  for(const part of document.querySelectorAll('.iso-part')){
+    part.setAttribute('tabindex','0');
+    const focus=()=>{text('hover-domain-title',part.dataset.label);text('hover-domain-desc',part.dataset.desc)};
+    part.addEventListener('pointerenter',focus);part.addEventListener('focus',focus);
+  }
+  addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.code==='Space'){e.preventDefault();el('btn-play').click()}if(e.key==='1')el('btn-target-match').click();if(e.key==='2')el('btn-target-mismatch').click();if(e.key.toLowerCase()==='r')el('btn-restart').click()});
+  function frame(now){if(previous&&playing)time=(time+Math.min((now-previous)/1000,.1))%duration;previous=now;render();requestAnimationFrame(frame)}
+  syncPlay();render();requestAnimationFrame(frame);
+})();
+
+</script>
+</body>
+</html>
