@@ -17,7 +17,7 @@ A [Claude Code](https://claude.com/claude-code) skill that turns "show me how co
 </p>
 
 <p align="center">
-  <a href="https://anima.arcumet.com"><b>Try every figure live (no install)</b></a> ·
+  <a href="https://anilogy.gg"><b>Try every figure live (no install)</b></a> ·
   <a href="assets/anima-launch.mp4">35-second launch video</a> ·
   <a href="assets/demo.mp4">Full demo (MP4)</a> ·
   <a href="https://github.com/Garinmckayl/anima/issues/new?template=figure_request.yml">Request a figure</a>
