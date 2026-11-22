@@ -11,7 +11,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 
 ### Changed
 
-- Updated `SKILL.md`, `README.md`, `CONTRIBUTING.md`, and `index.html` to document the `.ani` format, `sunflower-bend`, and `anilogy.gg` (hosted product and documentation), and fixed the unlinked `semaglutide-glp1` README thumbnail and shorts heading count.
+- Updated `SKILL.md`, `README.md`, `CONTRIBUTING.md`, and `index.html` to document the `.ani` format, `sunflower-bend`, and `anilogy.gg` (replacing the old `anima.arcumet.com` links), and fixed the unlinked `semaglutide-glp1` README thumbnail and shorts heading count.
 
 ## [0.1.0] - 2026-10-13
 
