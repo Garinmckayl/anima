@@ -4,3 +4,5 @@ export { applyPatch } from './patch.js';
 export { createRuntime, MAX_STEP_SECONDS } from './runtime.js';
 export { claimScope, claimScopeHash, createReview, reviewStates, staleReviews, evidenceReport } from './review.js';
 export { checkExpr, evalExpr, OPS, LIMITS } from './expr.js';
+export { renderSvg, paletteCss } from './render.js';
+export { exportHtml } from './export-html.js';

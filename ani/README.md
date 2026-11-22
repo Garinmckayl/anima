@@ -5,13 +5,26 @@ Reference implementation of the `.ani` scientific document format. **Open source
 | | |
 |---|---|
 | `schema/ani-0.1.schema.json` | public structural contract (JSON Schema 2020-12) |
-| `src/` | validate, patch (atomic, hash-based), evidence/review staleness, headless behavior runtime |
+| `src/` | validate, patch (atomic, hash-based), evidence/review staleness, headless behavior runtime, SVG renderer, standalone HTML exporter |
+| `bin/ani.js` | zero-dependency CLI (`validate`, `hash`, `report`, `patch`, `render`, `export`) |
 | `examples/crispr-cas9.ani` | the CRISPR-Cas9 figure converted from its HTML original |
 | `tools/convert_crispr.py` | one-off migration from `examples/source/crispr-cas9.source.html`; every change it makes is listed in the output's `provenance.notes` |
 | `tools/capture_oracle.mjs` | records the *original* figure's rendered state in Chrome (`CHROME_PATH` or a Playwright Chromium) |
-| `test/` | 24 tests incl. equivalence against the recorded original |
+| `test/` | 35 tests incl. equivalence against the recorded original, SVG/HTML export, and CLI checks |
 
     npm install && npm test
+
+## CLI
+
+```sh
+node bin/ani.js validate examples/crispr-cas9.ani
+node bin/ani.js hash examples/crispr-cas9.ani
+node bin/ani.js report examples/crispr-cas9.ani
+node bin/ani.js render examples/crispr-cas9.ani --theme light --time 7.5 --out crispr.svg
+node bin/ani.js export examples/crispr-cas9.ani --theme dark --out crispr.html
+```
+
+Documentation and the hosted editor live at [anilogy.gg](https://anilogy.gg).
 
 ## Boundary with hosted products
 Hosted products are consumers of this package, never dependencies of it. Accounts, billing, storage, model calls and

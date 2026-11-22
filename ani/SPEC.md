@@ -58,7 +58,13 @@ and only commits a patch whose result validates. Warnings (unsourced claims, une
 
 ## Not in 0.1
 Packaged assets, physical coordinates and units, quantitative simulation, SBML/SBGN import/export, camera, edges' visual
-styling, keyboard bindings, a standalone-HTML exporter and SVG renderer (next), signing.
+styling, keyboard bindings, signing.
+
+## Reference renderer, HTML export, and CLI
+`renderSvg(doc, options)` turns a scene into standalone SVG at any time/variable state and theme (`dark` or `light`),
+refusing any document that declares an unsupported capability. `exportHtml(doc, options)` packages a standalone,
+zero-dependency interactive HTML page with the declarative runtime, controls, hover/focus entity inspection, live readouts,
+and the three-state evidence report. `bin/ani.js` exposes `validate`, `hash`, `report`, `patch`, `render`, and `export`.
 
 ## Design notes
 * Canonical JSON: keys sorted by UTF-16 code unit, ECMAScript number serialization, no insignificant whitespace (RFC 8785).

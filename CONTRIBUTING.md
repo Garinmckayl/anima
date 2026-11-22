@@ -36,6 +36,16 @@ Every example builds in seconds.
 
 After a build, `git status --short` must show nothing unless you meant to change a figure. CI runs exactly these commands and then `git diff --exit-code`.
 
+## Testing the `.ani` reference package
+
+Changes under `ani/` run in a separate path-filtered workflow (`.github/workflows/ani.yml`). `ani/` is the only directory with an npm dependency (Ajv, for the JSON Schema):
+
+```sh
+cd ani
+npm ci
+npm test
+```
+
 ## The checks
 
 Run the ones that match what you touched, and read every PNG they write: open it and look. Put screenshots in `shots/`, which is ignored.

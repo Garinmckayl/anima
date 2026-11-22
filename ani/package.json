@@ -4,6 +4,9 @@
   "description": "Reference implementation of the .ani scientific document format: validation, patching, evidence/review tracking, and a headless behavior runtime. Open source; no dependency on any hosted product.",
   "type": "module",
   "main": "src/index.js",
+  "bin": {
+    "ani": "./bin/ani.js"
+  },
   "exports": {
     ".": "./src/index.js",
     "./schema": "./schema/ani-0.1.schema.json"

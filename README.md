@@ -17,7 +17,8 @@ A [Claude Code](https://claude.com/claude-code) skill that turns "show me how co
 </p>
 
 <p align="center">
-  <a href="https://anilogy.gg"><b>Try every figure live (no install)</b></a> ·
+  <a href="https://anilogy.gg"><b>Anilogy — hosted app &amp; documentation</b></a> ·
+  <a href="https://anima.arcumet.com">Live open-source gallery</a> ·
   <a href="assets/anima-launch.mp4">35-second launch video</a> ·
   <a href="assets/demo.mp4">Full demo (MP4)</a> ·
   <a href="https://github.com/Garinmckayl/anima/issues/new?template=figure_request.yml">Request a figure</a>
@@ -80,7 +81,7 @@ Each figure builds to a standalone HTML page in dark and light themes. The links
 | | |
 |---|---|
 | **[Dopamine receptors](https://anima.arcumet.com/examples/dopamine-receptors/dopamine-receptors.html)** ([light](https://anima.arcumet.com/examples/dopamine-receptors/dopamine-receptors-light.html))<br>D1-like receptors couple Gαs/olf and raise cAMP; D2-like receptors couple Gαi/o and lower it. Full G-protein cycle, a dopamine-level slider and a generic D2-antagonist toggle.<br><a href="https://anima.arcumet.com/examples/dopamine-receptors/dopamine-receptors.html"><img src="assets/thumbs/dopamine-receptors.png" width="420" alt="dopamine receptors"></a> | **[Stimulants at the transporter](https://anima.arcumet.com/examples/stimulants-dat/stimulants-dat.html)** ([light](https://anima.arcumet.com/examples/stimulants-dat/stimulants-dat-light.html))<br>None, cocaine or amphetamine. Reuptake, blockade, and amphetamine's transport, vesicle leak and reverse efflux. Skeletal formulas from PubChem.<br><a href="https://anima.arcumet.com/examples/stimulants-dat/stimulants-dat.html"><img src="assets/thumbs/stimulants-dat.png" width="420" alt="stimulants dat"></a> |
-| **[Reward and addiction](https://anima.arcumet.com/examples/reward-addiction/reward-addiction.html)** ([light](https://anima.arcumet.com/examples/reward-addiction/reward-addiction-light.html))<br>The mesolimbic pathway, a cue sequence, and one leading model of what changes after repeated exposure. Framed as a model, with sources.<br><a href="https://anima.arcumet.com/examples/reward-addiction/reward-addiction.html"><img src="assets/thumbs/reward-addiction.png" width="420" alt="reward addiction"></a> | **[Semaglutide and GLP-1](https://anima.arcumet.com/examples/semaglutide-glp1/semaglutide-glp1.html)** ([light](https://anima.arcumet.com/examples/semaglutide-glp1/semaglutide-glp1-light.html))<br>A GLP-1 receptor agonist on a beta cell: glucose-dependent insulin release, the molecule's engineered features, and the preclinical-versus-clinical state of the appetite and reward evidence.<br><img src="assets/thumbs/semaglutide-glp1.png" width="420"> |
+| **[Reward and addiction](https://anima.arcumet.com/examples/reward-addiction/reward-addiction.html)** ([light](https://anima.arcumet.com/examples/reward-addiction/reward-addiction-light.html))<br>The mesolimbic pathway, a cue sequence, and one leading model of what changes after repeated exposure. Framed as a model, with sources.<br><a href="https://anima.arcumet.com/examples/reward-addiction/reward-addiction.html"><img src="assets/thumbs/reward-addiction.png" width="420" alt="reward addiction"></a> | **[Semaglutide and GLP-1](https://anima.arcumet.com/examples/semaglutide-glp1/semaglutide-glp1.html)** ([light](https://anima.arcumet.com/examples/semaglutide-glp1/semaglutide-glp1-light.html))<br>A GLP-1 receptor agonist on a beta cell: glucose-dependent insulin release, the molecule's engineered features, and the preclinical-versus-clinical state of the appetite and reward evidence.<br><a href="https://anima.arcumet.com/examples/semaglutide-glp1/semaglutide-glp1.html"><img src="assets/thumbs/semaglutide-glp1.png" width="420" alt="semaglutide glp1"></a> |
 | **[Estrogen and aggression](https://anima.arcumet.com/examples/estrogen-aggression/estrogen-aggression.html)** ([light](https://anima.arcumet.com/examples/estrogen-aggression/estrogen-aggression-light.html))<br>Testosterone to estradiol by aromatase, then estrogen receptor α, in an amygdala-type neuron. States that the human evidence is weak (pooled Fisher z 0.16 across 14 studies).<br><a href="https://anima.arcumet.com/examples/estrogen-aggression/estrogen-aggression.html"><img src="assets/thumbs/estrogen-aggression.png" width="420" alt="estrogen aggression"></a> | **[A myelinated neuron](https://anima.arcumet.com/examples/neuron/neuron.html)** ([light](https://anima.arcumet.com/examples/neuron/neuron-light.html))<br>Saltatory conduction along a myelinated axon with a hoverable synapse.<br><a href="https://anima.arcumet.com/examples/neuron/neuron.html"><img src="assets/thumbs/neuron.png" width="420" alt="neuron"></a> |
 | **[Sunflower seedling bending toward light](https://anima.arcumet.com/examples/sunflower-bend/sunflower-bend.html)** ([light](https://anima.arcumet.com/examples/sunflower-bend/sunflower-bend-light.html))<br>BendLab's two-state model (sensing lag and a saturating bend rate) running live. Move the sliders to see when the rate limit matters and when it can't be read from the trajectory. Model by [BendLab](https://github.com/Yash-Tripath1/Bendlab), reviewed for accuracy by its author; not peer reviewed. Includes three fitted presets from the author.<br><a href="https://anima.arcumet.com/examples/sunflower-bend/sunflower-bend.html"><img src="assets/thumbs/sunflower-bend.png" width="420" alt="sunflower bend"></a> | |
 
@@ -106,10 +107,25 @@ Each `build.mjs` imports the kit from `kit/` and writes standalone pages next to
 
 Record a demo of your own figures with `scripts/make-demo.mjs` (needs Chrome and ffmpeg), and check a page with `scripts/capture.mjs`, `scripts/drive.mjs` and `scripts/lines.mjs`. [`CONTRIBUTING.md`](CONTRIBUTING.md) lists every check.
 
+## The `.ani` format (draft 0.1)
+
+[`ani/`](ani) holds the open-source specification and reference implementation of `.ani`, a JSON scientific document format that separates biology, evidence/review tracking, declarative behavior and scene graphics into explicit layers. It has no dependency on any hosted product—anyone can validate, hash-patch, audit evidence staleness, render SVG or export a standalone interactive HTML page locally:
+
+```sh
+cd ani && npm ci && npm test
+node bin/ani.js validate examples/crispr-cas9.ani
+node bin/ani.js report examples/crispr-cas9.ani
+node bin/ani.js render examples/crispr-cas9.ani --theme light --time 7.5 --out crispr.svg
+node bin/ani.js export examples/crispr-cas9.ani --theme dark --out crispr.html
+```
+
+Read [`ani/SPEC.md`](ani/SPEC.md) and [`ani/README.md`](ani/README.md) for the full contract, or visit [anilogy.gg](https://anilogy.gg) for documentation and the hosted editor.
+
 ## How it works
 
 - [`SKILL.md`](SKILL.md) defines the workflow, visual standards, sourcing rules and safety limits.
 - [`kit/`](kit) is the isometric drawing library plus the biology primitives.
+- [`ani/`](ani) is the `.ani` scientific document format (schema, validator, atomic patcher, review tracker, behavior runtime, SVG renderer, standalone HTML exporter and CLI).
 - [`references/`](references) has general, neurobiology, pharmacology and molecular-biology guidance alongside the craft and rendering guides.
 - [`evals/evals.json`](evals/evals.json) holds representative biology requests with what a good answer must contain.
 
