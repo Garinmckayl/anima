@@ -6,6 +6,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 
 ### Added
 
+- `crispr-cas9`, an editorial SpCas9 endonuclease figure showing 20-nt protospacer + 5'-NGG-3' PAM R-loop zippering, REC3 licensing, HNH conformational docking, blunt −3 double-strand cleavage, an on-target vs seed-mismatch toggle, and a cycle scrubber.
 - `ani/` (draft 0.1 of the open `.ani` scientific document format): JSON Schema 2020-12 contract, semantic validator, atomic RFC 6902 hash-based patcher, review-staleness tracker, headless declarative behavior runtime, CRISPR-Cas9 conversion with a 418-state equivalence oracle, SVG renderer (`renderSvg`), standalone interactive HTML exporter (`exportHtml`), and zero-dependency CLI (`ani/bin/ani.js`).
 - `sunflower-bend`, a live figure of BendLab's two-state phototropism model (sensing lag, saturating bend rate), with parameter sliders, a flip-the-light option and a trajectory chart that shows when the rate limit cannot be read from the data, and three fitted presets supplied by BendLab's author. Credited to BendLab, with a link to its repository.
 

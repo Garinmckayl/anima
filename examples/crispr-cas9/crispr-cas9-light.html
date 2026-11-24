@@ -1,0 +1,677 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CRISPR-Cas9 Target Recognition &amp; Cleavage | Anima</title><style>
+.iso{
+  --anatomy-page:#0b0b0b;--anatomy-card:#131313;--anatomy-text:#a3a3a3;--anatomy-strong:#e6e6e6;--anatomy-muted:#6e6e6e;
+  --anatomy-paper:#131313;--anatomy-face:#1b1b1b;--anatomy-top:#1c1c1c;
+  --anatomy-shade-0:#0f0f0f;--anatomy-shade-1:#121212;--anatomy-shade-2:#151515;--anatomy-shade-3:#181818;
+  --anatomy-lit-top:#262626;--anatomy-lit-shade:#1d1d1d;
+  --anatomy-hi:#d4d4d4;--anatomy-mid:#6a6a6a;--anatomy-lo:#3e3e3e;--anatomy-faint:#2a2a2a;--anatomy-lit:#ffffff;
+  --anatomy-halo:#050505;--anatomy-halo-opacity:.9;--anatomy-dot:#e6e6e6;
+  --anatomy-red:#ff6b6b;--anatomy-green:#6be0a0;--anatomy-blue:#6b9bff;
+  --anatomy-weight:.6px;--anatomy-ease:cubic-bezier(.32,.72,0,1);
+  --anatomy-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --anatomy-lift:inset 0 1px 0 0 #ffffff0a,inset 0 0 0 1px #ffffff06,0 0 0 1px #00000026,0 1px 1px -.5px #00000014,0 3px 3px -1.5px #00000014,0 6px 6px -3px #00000014,0 12px 12px -6px #00000014;
+}
+.iso[data-theme="light"]{
+  --anatomy-page:#f2f2ef;--anatomy-card:#fbfbfa;--anatomy-text:#57575a;--anatomy-strong:#18181a;--anatomy-muted:#8c8c90;
+  --anatomy-paper:#fbfbfa;--anatomy-face:#ffffff;--anatomy-top:#ffffff;
+  --anatomy-shade-0:#dcdcd9;--anatomy-shade-1:#e5e5e2;--anatomy-shade-2:#ededea;--anatomy-shade-3:#f4f4f1;
+  --anatomy-lit-top:#ffffff;--anatomy-lit-shade:#eeeeeb;
+  --anatomy-hi:#26262a;--anatomy-mid:#8a8a8f;--anatomy-lo:#b4b4b8;--anatomy-faint:#d4d4d6;--anatomy-lit:#000000;
+  --anatomy-halo:#8a8a80;--anatomy-halo-opacity:.32;--anatomy-dot:#3a3a3e;
+  --anatomy-red:#e5484d;--anatomy-green:#30a46c;--anatomy-blue:#3e63dd;
+  --anatomy-lift:inset 0 1px 0 0 #ffffff,0 0 0 1px #0000000f,0 1px 1px -.5px #0000000a,0 3px 3px -1.5px #0000000a,0 6px 6px -3px #0000000a,0 12px 12px -6px #0000000a;
+}
+.iso-svg{display:block;width:100%;height:auto;overflow:visible}
+.iso-svg path,.iso-svg circle{vector-effect:non-scaling-stroke}
+.iso-fill{fill:var(--anatomy-paper);stroke:none}
+.iso-solid[data-lit]>.iso-fill{fill:var(--anatomy-face)}
+.iso-shade,.iso-top{stroke:none}
+.iso-shade[data-shade="0"]{fill:var(--anatomy-shade-0)}
+.iso-shade[data-shade="1"]{fill:var(--anatomy-shade-1)}
+.iso-shade[data-shade="2"]{fill:var(--anatomy-shade-2)}
+.iso-shade[data-shade="3"]{fill:var(--anatomy-shade-3)}
+.iso-top{fill:var(--anatomy-top)}
+.iso-solid[data-lit]>.iso-top{fill:var(--anatomy-lit-top)}
+.iso-solid[data-lit]>.iso-shade{fill:var(--anatomy-lit-shade)}
+.iso-solid[data-seamless]>.iso-shade,.iso-solid[data-seamless]>.iso-top{stroke-width:.4;stroke-linejoin:round}
+.iso-solid[data-seamless]>.iso-shade[data-shade="0"]{stroke:var(--anatomy-shade-0)}
+.iso-solid[data-seamless]>.iso-shade[data-shade="1"]{stroke:var(--anatomy-shade-1)}
+.iso-solid[data-seamless]>.iso-shade[data-shade="2"]{stroke:var(--anatomy-shade-2)}
+.iso-solid[data-seamless]>.iso-shade[data-shade="3"]{stroke:var(--anatomy-shade-3)}
+.iso-solid[data-seamless]>.iso-top{stroke:var(--anatomy-top)}
+.iso-solid[data-seamless][data-lit]>.iso-top{stroke:var(--anatomy-lit-top)}
+.iso-solid[data-seamless][data-lit]>.iso-shade{stroke:var(--anatomy-lit-shade)}
+.iso-solid[data-lit]>.iso-edge{stroke:var(--anatomy-lit)}
+.iso-halo{fill:var(--anatomy-halo);stroke:none;filter:blur(9px);opacity:var(--anatomy-halo-opacity);transform:translateY(3px)}
+.iso-line{fill:none;stroke:var(--anatomy-lo);stroke-width:var(--anatomy-weight);stroke-linecap:round;stroke-linejoin:round}
+.iso-line[data-tone="hi"]{stroke:var(--anatomy-hi)}
+.iso-line[data-tone="mid"]{stroke:var(--anatomy-mid)}
+.iso-line[data-tone="lo"]{stroke:var(--anatomy-lo)}
+.iso-line[data-tone="faint"]{stroke:var(--anatomy-faint)}
+.iso-line[data-tone="lit"]{stroke:var(--anatomy-lit)}
+.iso-line[data-tone="red"]{stroke:var(--anatomy-red)}
+.iso-line[data-tone="green"]{stroke:var(--anatomy-green)}
+.iso-line[data-tone="blue"]{stroke:var(--anatomy-blue)}
+.iso-line[data-dotted]{stroke-dasharray:.01 3.5;stroke-width:1}
+.iso-line[data-dashed]{stroke-dasharray:3 3}
+.iso-line[data-flow]{stroke-dasharray:2 6}
+.iso-wire-end{fill:var(--anatomy-paper);stroke:var(--anatomy-lo);stroke-width:var(--anatomy-weight)}
+.iso-wire[data-tone="hi"] .iso-wire-end{stroke:var(--anatomy-hi)}
+.iso-wire[data-tone="mid"] .iso-wire-end{stroke:var(--anatomy-mid)}
+.iso-wire[data-tone="faint"] .iso-wire-end{stroke:var(--anatomy-faint)}
+.iso-wire[data-tone="lit"] .iso-wire-end{stroke:var(--anatomy-lit)}
+.iso-dots circle{fill:var(--anatomy-dot);stroke:none;opacity:.32}
+.iso-dots[data-tone="hi"] circle{opacity:.85}
+.iso-dots[data-tone="mid"] circle{opacity:.45}
+.iso-dots[data-tone="lo"] circle{opacity:.22}
+.iso-dots[data-tone="faint"] circle{opacity:.12}
+.iso-face-text{fill:var(--anatomy-mid);font-family:var(--anatomy-mono);letter-spacing:.04em}
+.iso-face-text[data-tone="hi"]{fill:var(--anatomy-hi)}
+.iso-face-text[data-tone="lo"]{fill:var(--anatomy-lo)}
+.iso-face-text[data-tone="faint"]{fill:var(--anatomy-faint)}
+.tb-body{fill:var(--anatomy-shade-2);stroke:none}
+.tb-shine{fill:var(--anatomy-top);stroke:none}
+.tb-shade{fill:var(--anatomy-shade-0);stroke:none}
+.tb-ring{fill:none;stroke:var(--anatomy-lo);stroke-width:.45;stroke-linecap:butt;stroke-linejoin:round}
+.tb-ring[data-tone="mid"]{stroke:var(--anatomy-mid)}
+.tb-ring[data-tone="faint"]{stroke:var(--anatomy-faint)}
+.tb-ring[data-tone="hi"]{stroke:var(--anatomy-hi)}
+@keyframes iso-flow{to{stroke-dashoffset:-32}}
+@keyframes iso-pulse{0%,100%{opacity:.18}12%{opacity:1}40%{opacity:.18}}
+.iso-line[data-flow]{animation:iso-flow 1600ms linear infinite}
+.iso-dots circle[data-pulse]{animation:iso-pulse 1600ms steps(1,end) infinite;animation-delay:var(--pulse-at,0ms)}
+.iso-figure{margin:32px 0 36px}
+.iso-plate{position:relative;padding:52px 24px;border-radius:0;background:var(--anatomy-card);box-shadow:0 0 0 1px var(--anatomy-mid);--anatomy-paper:var(--anatomy-card)}
+.iso-plate-corners{position:absolute;inset:18px 20px;pointer-events:none}
+.iso-plate-corner{position:absolute;color:var(--anatomy-muted);font-family:var(--anatomy-mono);font-size:10.5px;line-height:1;letter-spacing:.04em;white-space:nowrap}
+.iso-plate-corner[data-corner="fig"]{top:0;left:0;color:var(--anatomy-text)}
+.iso-plate-corner[data-corner="title"]{top:0;right:0;text-transform:uppercase;letter-spacing:.1em}
+.iso-plate-corner[data-corner="hint"]{bottom:0;left:0;text-transform:uppercase;letter-spacing:.1em}
+.iso-plate-corner[data-corner="readout"]{right:0;bottom:0;color:var(--anatomy-text);font-variant-numeric:tabular-nums}
+.iso-plate .iso-svg{margin:0 auto}
+.iso-legend{display:grid;gap:8px;margin-top:12px;color:var(--anatomy-muted);font-size:13px;line-height:1.55}
+.iso-keys{display:flex;flex-wrap:wrap;gap:6px 18px}
+.iso-key{display:inline-flex;align-items:center;gap:7px}
+.iso-swatch{width:16px;height:10px;flex:none;overflow:visible}
+.iso-swatch path{fill:none;stroke:var(--anatomy-hi);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+.iso-swatch[data-mark="raised"] path,.iso-swatch[data-mark="flat"] path{stroke:var(--anatomy-mid)}
+.iso-swatch[data-mark="lit"] path{stroke:var(--anatomy-lit)}
+.iso-swatch[data-mark="dim"] path{stroke:var(--anatomy-lo)}
+.iso-swatch[data-mark="dotted"] path{stroke-dasharray:.01 3;stroke-width:1.4}
+.iso-swatch[data-mark="dashed"] path{stroke-dasharray:3 2.5}
+.iso-swatch[data-mark="red"] path{stroke:var(--anatomy-red)}
+.iso-swatch[data-mark="green"] path{stroke:var(--anatomy-green)}
+.iso-swatch[data-mark="blue"] path{stroke:var(--anatomy-blue)}
+.iso-swatch-crease{stroke:var(--anatomy-lo)!important}
+@media (max-width:560px){.iso-plate{padding:48px 12px 70px}.iso-plate-corner[data-corner="hint"]{bottom:18px}}
+@media (prefers-reduced-motion:reduce){.iso-line[data-flow],.iso-dots circle[data-pulse]{animation:none}}
+
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body[data-theme="light"]{color-scheme:light}
+body{margin:0;background:var(--anatomy-page);color:var(--anatomy-text);font:14px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.iso-page{width:min(1040px,100% - 32px);margin:64px auto 96px}
+</style></head><body class="iso" data-theme="light"><main class="iso-page"><style>
+.bio-blob-base,.bio-membrane-base{fill:var(--anatomy-shade-2)}
+.bio-blob-shade{fill:var(--anatomy-shade-0);opacity:.58}
+.bio-blob-highlight{fill:var(--anatomy-top);opacity:.62}
+.bio-blob-edge{fill:none}
+.bio-membrane-base{fill-rule:evenodd}
+.bio-bond{fill:none;stroke:var(--anatomy-mid);stroke-linecap:round}
+.bio-atom circle:first-child{fill:var(--anatomy-paper);stroke:var(--anatomy-hi);stroke-width:.6}
+.bio-atom .bio-atom-highlight{fill:var(--anatomy-lit);stroke:none;opacity:.65}
+.bio-helix-rung{stroke-width:.65}
+.bio-ribbon{fill:var(--anatomy-shade-2);stroke:var(--anatomy-hi);stroke-width:.55;stroke-linejoin:round}
+
+.cr-svg{padding:0}
+.cr-fig{display:block;width:100%;height:auto}
+.cr-halo{fill:var(--anatomy-halo);opacity:var(--anatomy-halo-opacity);filter:blur(16px)}
+.cr-lobe-base{fill:var(--anatomy-shade-2);stroke:var(--anatomy-hi);stroke-width:1.15}
+.cr-lobe-sub{fill:var(--anatomy-shade-3);stroke:var(--anatomy-mid);stroke-width:.9;transition:stroke .35s,filter .35s}
+.cr-lobe-nuc{fill:var(--anatomy-shade-1);stroke:var(--anatomy-hi);stroke-width:1.15}
+.cr-rec3.is-active{stroke:var(--anatomy-green);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--anatomy-green) 45%,transparent))}
+.cr-contour{fill:none;stroke:var(--anatomy-lo);stroke-width:.75;stroke-dasharray:4 4;opacity:.7}
+.cr-bh-body{fill:none;stroke:var(--anatomy-face);stroke-width:11;stroke-linecap:round}
+.cr-bh-core{fill:none;stroke:var(--anatomy-hi);stroke-width:1.2;stroke-linecap:round}
+.cr-bh-ticks{fill:none;stroke:var(--anatomy-mid);stroke-width:.85;stroke-linecap:round}
+.cr-pam-finger{stroke:var(--anatomy-red);stroke-width:1.5;stroke-linecap:round;opacity:.85}
+.cr-pam-tip{fill:var(--anatomy-red)}
+.cr-pam-frame{fill:color-mix(in srgb,var(--anatomy-red) 9%,transparent);stroke:var(--anatomy-red);stroke-width:1.15;stroke-dasharray:3 2}
+.cr-pocket{fill:var(--anatomy-paper);stroke:var(--anatomy-mid);stroke-width:1;transition:stroke .3s,filter .3s}
+.cr-pocket.is-active{stroke:var(--anatomy-green);filter:drop-shadow(0 0 7px color-mix(in srgb,var(--anatomy-green) 55%,transparent))}
+.cr-mg{fill:var(--anatomy-blue);stroke:var(--anatomy-lit);stroke-width:.75}
+.cr-dna-ts{fill:none;stroke:var(--anatomy-hi);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;transition:opacity .25s}
+.cr-dna-nts{fill:none;stroke:var(--anatomy-mid);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;transition:opacity .25s}
+.cr-dna-rung{stroke:var(--anatomy-lo);stroke-width:1.15;stroke-linecap:round}
+.cr-rna-spacer{fill:none;stroke:var(--anatomy-blue);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.cr-rna-scaffold{fill:none;stroke:var(--anatomy-blue);stroke-width:1.8;stroke-linecap:round;opacity:.78}
+.cr-stem-bar{stroke:var(--anatomy-blue);stroke-width:1.1;stroke-linecap:round;opacity:.55}
+.cr-hybrid-rung{stroke:var(--anatomy-lo);stroke-width:1.1;stroke-linecap:round;opacity:.22;transition:opacity .15s,stroke .15s}
+.cr-rung-dot{fill:var(--anatomy-lo);opacity:.22;transition:opacity .15s,fill .15s}
+.cr-rung-wrap.is-lit .cr-hybrid-rung{stroke:var(--anatomy-blue);opacity:.95;stroke-width:1.45}
+.cr-rung-wrap.is-lit .cr-rung-dot{fill:var(--anatomy-lit);opacity:.95}
+.cr-rung-wrap.is-mm .cr-hybrid-rung{stroke:var(--anatomy-red);opacity:1;stroke-width:1.8;stroke-dasharray:2 2}
+.cr-rung-wrap.is-mm .cr-rung-dot{fill:var(--anatomy-red);opacity:1}
+.cr-scissile{fill:var(--anatomy-paper);stroke:var(--anatomy-red);stroke-width:1.4}
+.cr-hnh-arc{fill:none;stroke:var(--anatomy-lo);stroke-width:1;stroke-dasharray:3 4}
+.cr-hnh-body{fill:var(--anatomy-face);stroke:var(--anatomy-lit);stroke-width:1.4;transition:stroke .3s,filter .3s}
+.cr-hnh-body.is-active{stroke:var(--anatomy-green);filter:drop-shadow(0 0 8px color-mix(in srgb,var(--anatomy-green) 55%,transparent))}
+.cr-hnh-body.is-locked{stroke:var(--anatomy-red);filter:drop-shadow(0 0 8px color-mix(in srgb,var(--anatomy-red) 55%,transparent))}
+.cr-hnh-tag{fill:var(--anatomy-strong);font:600 12px var(--anatomy-mono);pointer-events:none}
+.cr-micro{fill:var(--anatomy-muted);font:10px var(--anatomy-mono);pointer-events:none}
+.cr-mm-mark{opacity:0;transition:opacity .2s;pointer-events:none}
+.cr-mm-halo{fill:color-mix(in srgb,var(--anatomy-red) 18%,var(--anatomy-paper));stroke:var(--anatomy-red);stroke-width:1.3}
+.cr-mm-x{stroke:var(--anatomy-red);stroke-width:1.8;stroke-linecap:round}
+.cr-cleave-fx{opacity:0;pointer-events:none}
+.cr-cut-ring{fill:none;stroke:var(--anatomy-green);stroke-width:1.6}
+.cr-cut-end{fill:var(--anatomy-green);font:600 10.5px var(--anatomy-mono)}
+.cr-seq-pam-box{fill:color-mix(in srgb,var(--anatomy-red) 10%,var(--anatomy-face));stroke:var(--anatomy-red);stroke-width:1}
+.cr-seq-pam-txt{fill:var(--anatomy-red);font:600 10.5px var(--anatomy-mono)}
+.cr-seq-sub{fill:var(--anatomy-muted);font:9.5px var(--anatomy-mono)}
+.cr-tile-bg{fill:var(--anatomy-face);stroke:var(--anatomy-faint);stroke-width:.85;transition:fill .15s,stroke .15s}
+.cr-tile.is-seed .cr-tile-bg{stroke:var(--anatomy-lo)}
+.cr-tile-rna{fill:var(--anatomy-muted);font:600 10.5px var(--anatomy-mono)}
+.cr-tile-dna{fill:var(--anatomy-text);font:10.5px var(--anatomy-mono)}
+.cr-tile.is-lit .cr-tile-bg{fill:color-mix(in srgb,var(--anatomy-blue) 16%,var(--anatomy-face));stroke:var(--anatomy-blue)}
+.cr-tile.is-lit .cr-tile-rna{fill:var(--anatomy-blue)}
+.cr-tile.is-lit .cr-tile-dna{fill:var(--anatomy-strong)}
+.cr-tile.is-mm .cr-tile-bg{fill:color-mix(in srgb,var(--anatomy-red) 20%,var(--anatomy-face));stroke:var(--anatomy-red)}
+.cr-tile.is-mm .cr-tile-rna,.cr-tile.is-mm .cr-tile-dna{fill:var(--anatomy-red)}
+.cr-cut-caret{fill:var(--anatomy-green)}
+.cr-cut-lbl{fill:var(--anatomy-green);font:600 9.5px var(--anatomy-mono)}
+.cr-bracket{fill:none;stroke:var(--anatomy-mid);stroke-width:.85}
+.cr-bracket-faint{stroke:var(--anatomy-faint)}
+.cr-leader{fill:none;stroke:var(--anatomy-mid);stroke-width:.75}
+.cr-dot{fill:var(--anatomy-dot)}
+.cr-label{fill:var(--anatomy-text);font:11.5px var(--anatomy-mono);letter-spacing:.01em}
+.cr-status{fill:var(--anatomy-strong);font:600 12.5px var(--anatomy-mono)}
+.hot{cursor:help;outline:none}
+.hot.is-hot{filter:drop-shadow(0 0 3px var(--anatomy-lit))}
+.hot:focus-visible{outline:2px solid var(--anatomy-lit);outline-offset:3px}
+.cr-controls{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin:14px 2px 6px;font:12px var(--anatomy-mono);color:var(--anatomy-text)}
+.cr-mode{display:flex;flex-wrap:wrap;gap:6px 16px;border:1px solid var(--anatomy-faint);padding:6px 12px 8px;margin:0}
+.cr-mode legend{font:11px var(--anatomy-mono);color:var(--anatomy-muted);padding:0 6px}
+.cr-mode label{cursor:pointer;color:var(--anatomy-strong)}
+.cr-mode input{accent-color:var(--anatomy-lit);margin-right:5px}
+.cr-scrub-wrap{display:inline-flex;align-items:center;gap:8px;flex:1;min-width:180px;max-width:300px}
+.cr-scrub-wrap input{flex:1;accent-color:var(--anatomy-lit);cursor:pointer}
+.cr-btns{display:flex;gap:8px;margin-left:auto}
+.cr-controls button{border:1px solid var(--anatomy-faint);background:transparent;color:var(--anatomy-text);font:inherit;padding:6px 10px;cursor:pointer}
+.cr-controls :focus-visible{outline:2px solid var(--anatomy-lit);outline-offset:3px}
+.cr-summary{font:12.5px/1.55 var(--anatomy-mono);color:var(--anatomy-strong);margin:8px 2px;min-height:4.6em}
+.cr-info{min-height:3.8em;font:12.5px/1.55 var(--anatomy-mono);color:var(--anatomy-text);margin:8px 2px;border-left:2px solid var(--anatomy-faint);padding-left:10px}
+.bio-sources{margin:20px 2px;color:var(--anatomy-muted);font-size:12.5px;line-height:1.65}
+.bio-sources h2{font:600 13px var(--anatomy-mono);color:var(--anatomy-text);margin:0 0 8px}
+.bio-sources ul{padding-left:18px}.bio-sources li{margin:6px 0}
+.bio-sources a{color:var(--anatomy-text);text-underline-offset:2px}
+@media(prefers-reduced-motion:reduce){.cr-lobe-sub,.cr-pocket,.cr-hnh-body,.cr-hybrid-rung,.cr-tile-bg{transition:none}}
+</style><figure class="iso-figure"><div class="iso-plate"><div class="iso-plate-corners" aria-hidden="true"><span class="iso-plate-corner" data-corner="fig">Fig 1</span><span class="iso-plate-corner" data-corner="title">SPCAS9: R-LOOP &amp; DNA CLEAVAGE</span><span class="iso-plate-corner" data-corner="hint">HOVER OR FOCUS A PART · SPACE: PAUSE · 1/2: TARGET</span><span class="iso-plate-corner" data-corner="readout" data-readout>R-loop: 20/20 bp · HNH: cleaved</span></div><svg xmlns="http://www.w3.org/2000/svg" class="iso-svg cr-fig" viewBox="0 0 1000 660" role="img" aria-label="SpCas9 CRISPR endonuclease R-loop formation, HNH conformational checkpoint, and DNA cleavage">
+    <ellipse class="cr-halo" cx="485" cy="522" rx="340" ry="38"/>
+
+    <g class="cr-seq-rail"><rect class="cr-seq-pam-box" x="170" y="60" width="72" height="34" rx="3"/><text class="cr-seq-pam-txt" x="206" y="73" text-anchor="middle">5'-TGG-3'</text><text class="cr-seq-sub" x="206" y="87" text-anchor="middle">PAM (ACC)</text><g class="cr-tile is-seed" data-tile="0">
+      <rect class="cr-tile-bg" x="241.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="250" y="73" text-anchor="middle" data-match="G" data-mismatch="G">G</text>
+      <text class="cr-tile-dna" x="250" y="87" text-anchor="middle">C</text>
+      
+    </g><g class="cr-tile is-seed" data-tile="1">
+      <rect class="cr-tile-bg" x="262.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="271" y="73" text-anchor="middle" data-match="U" data-mismatch="U">U</text>
+      <text class="cr-tile-dna" x="271" y="87" text-anchor="middle">A</text>
+      
+    </g><g class="cr-tile is-seed" data-tile="2">
+      <rect class="cr-tile-bg" x="283.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="292" y="73" text-anchor="middle" data-match="A" data-mismatch="A">A</text>
+      <text class="cr-tile-dna" x="292" y="87" text-anchor="middle">T</text>
+      <path class="cr-cut-caret" d="M302.5 53 L299.5 58 L305.5 58 Z"/><text class="cr-cut-lbl" x="302.5" y="50" text-anchor="middle">cut (−3)</text>
+    </g><g class="cr-tile is-seed is-mm-tile" data-tile="3">
+      <rect class="cr-tile-bg" x="304.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="313" y="73" text-anchor="middle" data-match="G" data-mismatch="C">G</text>
+      <text class="cr-tile-dna" x="313" y="87" text-anchor="middle">C</text>
+      
+    </g><g class="cr-tile is-seed" data-tile="4">
+      <rect class="cr-tile-bg" x="325.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="334" y="73" text-anchor="middle" data-match="C" data-mismatch="C">C</text>
+      <text class="cr-tile-dna" x="334" y="87" text-anchor="middle">G</text>
+      
+    </g><g class="cr-tile is-seed" data-tile="5">
+      <rect class="cr-tile-bg" x="346.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="355" y="73" text-anchor="middle" data-match="C" data-mismatch="C">C</text>
+      <text class="cr-tile-dna" x="355" y="87" text-anchor="middle">G</text>
+      
+    </g><g class="cr-tile is-seed" data-tile="6">
+      <rect class="cr-tile-bg" x="367.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="376" y="73" text-anchor="middle" data-match="U" data-mismatch="U">U</text>
+      <text class="cr-tile-dna" x="376" y="87" text-anchor="middle">A</text>
+      
+    </g><g class="cr-tile is-seed" data-tile="7">
+      <rect class="cr-tile-bg" x="388.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="397" y="73" text-anchor="middle" data-match="A" data-mismatch="A">A</text>
+      <text class="cr-tile-dna" x="397" y="87" text-anchor="middle">T</text>
+      
+    </g><g class="cr-tile" data-tile="8">
+      <rect class="cr-tile-bg" x="409.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="418" y="73" text-anchor="middle" data-match="C" data-mismatch="C">C</text>
+      <text class="cr-tile-dna" x="418" y="87" text-anchor="middle">G</text>
+      
+    </g><g class="cr-tile" data-tile="9">
+      <rect class="cr-tile-bg" x="430.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="439" y="73" text-anchor="middle" data-match="G" data-mismatch="G">G</text>
+      <text class="cr-tile-dna" x="439" y="87" text-anchor="middle">C</text>
+      
+    </g><g class="cr-tile" data-tile="10">
+      <rect class="cr-tile-bg" x="451.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="460" y="73" text-anchor="middle" data-match="U" data-mismatch="U">U</text>
+      <text class="cr-tile-dna" x="460" y="87" text-anchor="middle">A</text>
+      
+    </g><g class="cr-tile" data-tile="11">
+      <rect class="cr-tile-bg" x="472.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="481" y="73" text-anchor="middle" data-match="C" data-mismatch="C">C</text>
+      <text class="cr-tile-dna" x="481" y="87" text-anchor="middle">G</text>
+      
+    </g><g class="cr-tile" data-tile="12">
+      <rect class="cr-tile-bg" x="493.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="502" y="73" text-anchor="middle" data-match="A" data-mismatch="A">A</text>
+      <text class="cr-tile-dna" x="502" y="87" text-anchor="middle">T</text>
+      
+    </g><g class="cr-tile" data-tile="13">
+      <rect class="cr-tile-bg" x="514.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="523" y="73" text-anchor="middle" data-match="G" data-mismatch="G">G</text>
+      <text class="cr-tile-dna" x="523" y="87" text-anchor="middle">C</text>
+      
+    </g><g class="cr-tile" data-tile="14">
+      <rect class="cr-tile-bg" x="535.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="544" y="73" text-anchor="middle" data-match="U" data-mismatch="U">U</text>
+      <text class="cr-tile-dna" x="544" y="87" text-anchor="middle">A</text>
+      
+    </g><g class="cr-tile" data-tile="15">
+      <rect class="cr-tile-bg" x="556.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="565" y="73" text-anchor="middle" data-match="U" data-mismatch="U">U</text>
+      <text class="cr-tile-dna" x="565" y="87" text-anchor="middle">A</text>
+      
+    </g><g class="cr-tile" data-tile="16">
+      <rect class="cr-tile-bg" x="577.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="586" y="73" text-anchor="middle" data-match="A" data-mismatch="A">A</text>
+      <text class="cr-tile-dna" x="586" y="87" text-anchor="middle">T</text>
+      
+    </g><g class="cr-tile" data-tile="17">
+      <rect class="cr-tile-bg" x="598.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="607" y="73" text-anchor="middle" data-match="C" data-mismatch="C">C</text>
+      <text class="cr-tile-dna" x="607" y="87" text-anchor="middle">G</text>
+      
+    </g><g class="cr-tile" data-tile="18">
+      <rect class="cr-tile-bg" x="619.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="628" y="73" text-anchor="middle" data-match="U" data-mismatch="U">U</text>
+      <text class="cr-tile-dna" x="628" y="87" text-anchor="middle">A</text>
+      
+    </g><g class="cr-tile" data-tile="19">
+      <rect class="cr-tile-bg" x="640.5" y="60" width="17" height="34" rx="2"/>
+      <text class="cr-tile-rna" x="649" y="73" text-anchor="middle" data-match="G" data-mismatch="G">G</text>
+      <text class="cr-tile-dna" x="649" y="87" text-anchor="middle">C</text>
+      
+    </g><path class="cr-bracket" d="M242 98 V102 H405 V98"/><text class="cr-seq-sub" x="323.5" y="114" text-anchor="middle">seed region (nt 1–8)</text><path class="cr-bracket cr-bracket-faint" d="M410 98 V102 H657 V98"/><text class="cr-seq-sub" x="533.5" y="114" text-anchor="middle">PAM-distal protospacer (nt 9–20)</text></g>
+
+    <g id="cr-rec" class="hot cr-domain" tabindex="0" data-info="REC lobe (REC1–REC3): alpha-helical cradle that wraps the 20-nt sgRNA:DNA heteroduplex. REC3 senses complete PAM-distal pairing to license HNH activation.">
+      <path class="cr-lobe-base" d="M272 288 C236 232, 294 166, 466 164 C612 162, 728 206, 708 278 C694 316, 636 336, 558 336 C452 336, 316 330, 272 288 Z"/>
+      <path class="cr-lobe-sub" d="M276 238 C246 226, 240 264, 266 286 C294 298, 306 258, 276 238 Z"/>
+      <path id="cr-rec3" class="cr-lobe-sub cr-rec3" d="M604 206 C672 198, 722 232, 702 278 C674 294, 626 254, 604 206 Z"/>
+      <path class="cr-contour" d="M332 204 C412 184, 514 188, 602 212"/>
+      <path class="cr-contour" d="M318 228 C414 208, 524 214, 616 242"/>
+      <path class="cr-contour" d="M338 256 C428 242, 526 248, 612 272"/>
+    </g>
+
+    <g id="cr-bh" class="hot cr-domain" tabindex="0" data-info="Bridge helix (Arg63–Lys94): conserved arginine-rich alpha-helix linking REC and NUC lobes and contacting the sgRNA seed.">
+      <path class="cr-bh-body" d="M402 316 C446 300, 502 302, 552 320"/>
+      <path class="cr-bh-core" d="M402 316 C446 300, 502 302, 552 320"/>
+      <path class="cr-bh-ticks" d="M420 307 L425 316 M444 301 L448 310 M470 299 L473 309 M496 301 L498 311 M522 307 L522 317"/>
+    </g>
+
+    <g id="cr-pi" class="hot cr-domain" tabindex="0" data-info="PAM-interacting (PI) domain: reads the 5'-NGG-3' protospacer adjacent motif in the major groove via Arg1333 and Arg1335 before unwinding begins.">
+      <path class="cr-lobe-nuc" d="M244 342 C214 366, 214 434, 258 468 C298 492, 344 472, 354 434 C362 400, 342 356, 308 338 C286 326, 260 330, 244 342 Z"/>
+      <line class="cr-pam-finger" x1="274" y1="406" x2="294" y2="392"/>
+      <line class="cr-pam-finger" x1="286" y1="414" x2="306" y2="394"/>
+      <circle class="cr-pam-tip" cx="294" cy="392" r="2.2"/>
+      <circle class="cr-pam-tip" cx="306" cy="394" r="2.2"/>
+    </g>
+
+    <g id="cr-ruvc" class="hot cr-domain" tabindex="0" data-info="RuvC catalytic core (Asp10, Glu762, His983, Asp986): cleaves the displaced non-target DNA strand 3 nt upstream of PAM using catalytic Mg²⁺.">
+      <path class="cr-lobe-nuc" d="M352 396 C332 454, 382 518, 466 516 C532 514, 578 478, 562 426 C546 382, 480 374, 424 382 C386 386, 362 386, 352 396 Z"/>
+      <ellipse id="cr-ruvc-pocket" class="cr-pocket" cx="370" cy="421.5" rx="26" ry="16"/>
+      <circle class="cr-mg" cx="370" cy="423.5" r="4"/>
+      <text class="cr-micro" x="370" y="455.5" text-anchor="middle">Mg²⁺ · D10</text>
+    </g>
+
+    <g id="cr-dna-left" class="hot" tabindex="0" data-info="PAM-proximal duplex and 5'-NGG-3' PAM site: PAM recognition by the PI domain licenses local DNA melting and R-loop nucleation.">
+      <line class="cr-dna-rung" x1="171" y1="374.9" x2="171" y2="389.1"/><line class="cr-dna-rung" x1="194" y1="374.6" x2="194" y2="389.4"/><line class="cr-dna-rung" x1="217" y1="371.5" x2="217" y2="392.5"/><line class="cr-dna-rung" x1="240" y1="369" x2="240" y2="395"/><line class="cr-dna-rung" x1="263" y1="369.7" x2="263" y2="394.3"/><line class="cr-dna-rung" x1="286" y1="373" x2="286" y2="391"/><path class="cr-dna-ts" d="M148 372L159.5 373.7L171 374.9L182.5 375.2L194 374.6L205.5 373.2L217 371.5L228.5 369.9L240 369L251.5 368.9L263 369.7L274.5 371.3L286 373L297.5 374.4L309 375.2"/><path class="cr-dna-nts" d="M148 392L159.5 390.3L171 389.1L182.5 388.8L194 389.4L205.5 390.8L217 392.5L228.5 394.1L240 395L251.5 395.1L263 394.3L274.5 392.7L286 391L297.5 389.6L309 388.8"/>
+      <rect class="cr-pam-frame" x="278" y="362" width="38" height="38" rx="3"/>
+    </g>
+
+    <g id="cr-dna-right" class="hot" tabindex="0" data-info="PAM-distal B-form target DNA extending beyond the 20-bp protospacer.">
+      <line class="cr-dna-rung" x1="691" y1="313.2" x2="691" y2="326.8"/><line class="cr-dna-rung" x1="714" y1="311.1" x2="714" y2="328.9"/><line class="cr-dna-rung" x1="737" y1="307.8" x2="737" y2="332.2"/><line class="cr-dna-rung" x1="760" y1="306.9" x2="760" y2="333.1"/><line class="cr-dna-rung" x1="783" y1="309.4" x2="783" y2="330.6"/><line class="cr-dna-rung" x1="806" y1="312.5" x2="806" y2="327.5"/><line class="cr-dna-rung" x1="829" y1="312.9" x2="829" y2="327.1"/><path class="cr-dna-ts" d="M668 311.8L679.5 312.9L691 313.2L702.5 312.5L714 311.1L725.5 309.3L737 307.8L748.5 306.9L760 306.9L771.5 307.9L783 309.4L794.5 311.1L806 312.5L817.5 313.2L829 312.9L840.5 311.7L852 310.1"/><path class="cr-dna-nts" d="M668 328.2L679.5 327.1L691 326.8L702.5 327.5L714 328.9L725.5 330.7L737 332.2L748.5 333.1L760 333.1L771.5 332.1L783 330.6L794.5 328.9L806 327.5L817.5 326.8L829 327.1L840.5 328.3L852 329.9"/>
+    </g>
+
+    <g id="cr-nts" class="hot" tabindex="0" data-info="Non-target strand (NTS): displaced during R-loop invasion and threaded across the RuvC active site, cleaved at −3 nt upstream of PAM.">
+      <path id="cr-nts-pre" class="cr-dna-nts" d="M309 388.8 C318 394, 324 396, 330 396 L330 396 L346 403.3 L362 410.3"/>
+      <path id="cr-nts-post" class="cr-dna-nts" d="M378 416.7 L394 422.2 L410 426.7 L426 429.8 L442 431.4 L458 431.3 L474 429.6 L490 426 L506 420.6 L522 413.5 L538 404.7 L554 394.5 L570 382.9 L586 370.1 L602 356.6 L618 342.4 L634 328 C650 324, 658 328.2, 668 328.2"/>
+      <line id="cr-nts-bridge" class="cr-dna-nts" x1="362" y1="410.3" x2="378" y2="416.7"/>
+      <circle id="cr-nts-scissile" class="cr-scissile" cx="370" cy="413.5" r="3.6"/>
+    </g>
+
+    <g id="cr-rloop" class="hot" tabindex="0" data-info="RNA:DNA heteroduplex (R-loop): 20-nt guide RNA spacer base-pairs sequentially with the target strand from PAM (+1) to distal (+20).">
+      <path id="cr-ts-pre" class="cr-dna-ts" d="M309 375.2 C316 364, 322 354, 330 348 L330 348 L346 343.4 L362 338.8"/>
+      <path id="cr-ts-post" class="cr-dna-ts" d="M378 334.4 L394 330.1 L410 326.1 L426 322.4 L442 319 L458 315.9 L474 313.2 L490 310.9 L506 309 L522 307.4 L538 306.2 L554 305.3 L570 304.7 L586 304.3 L602 304.1 L618 304 L634 304 C648 306, 658 311.8, 668 311.8"/>
+      <line id="cr-ts-bridge" class="cr-dna-ts" x1="362" y1="338.8" x2="378" y2="334.4"/>
+      <g id="cr-rungs"><g class="cr-rung-wrap" data-rung="0">
+    <line class="cr-hybrid-rung" x1="330" y1="332" x2="330" y2="346"/>
+    <circle class="cr-rung-dot" cx="330" cy="330" r="1.7"/>
+    <circle class="cr-rung-dot" cx="330" cy="348" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="1">
+    <line class="cr-hybrid-rung" x1="346" y1="327.4" x2="346" y2="341.4"/>
+    <circle class="cr-rung-dot" cx="346" cy="325.4" r="1.7"/>
+    <circle class="cr-rung-dot" cx="346" cy="343.4" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="2">
+    <line class="cr-hybrid-rung" x1="362" y1="322.8" x2="362" y2="336.8"/>
+    <circle class="cr-rung-dot" cx="362" cy="320.8" r="1.7"/>
+    <circle class="cr-rung-dot" cx="362" cy="338.8" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="3">
+    <line class="cr-hybrid-rung is-mm-site" x1="378" y1="318.4" x2="378" y2="332.4"/>
+    <circle class="cr-rung-dot" cx="378" cy="316.4" r="1.7"/>
+    <circle class="cr-rung-dot" cx="378" cy="334.4" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="4">
+    <line class="cr-hybrid-rung" x1="394" y1="314.1" x2="394" y2="328.1"/>
+    <circle class="cr-rung-dot" cx="394" cy="312.1" r="1.7"/>
+    <circle class="cr-rung-dot" cx="394" cy="330.1" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="5">
+    <line class="cr-hybrid-rung" x1="410" y1="310.1" x2="410" y2="324.1"/>
+    <circle class="cr-rung-dot" cx="410" cy="308.1" r="1.7"/>
+    <circle class="cr-rung-dot" cx="410" cy="326.1" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="6">
+    <line class="cr-hybrid-rung" x1="426" y1="306.4" x2="426" y2="320.4"/>
+    <circle class="cr-rung-dot" cx="426" cy="304.4" r="1.7"/>
+    <circle class="cr-rung-dot" cx="426" cy="322.4" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="7">
+    <line class="cr-hybrid-rung" x1="442" y1="303" x2="442" y2="317"/>
+    <circle class="cr-rung-dot" cx="442" cy="301" r="1.7"/>
+    <circle class="cr-rung-dot" cx="442" cy="319" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="8">
+    <line class="cr-hybrid-rung" x1="458" y1="299.9" x2="458" y2="313.9"/>
+    <circle class="cr-rung-dot" cx="458" cy="297.9" r="1.7"/>
+    <circle class="cr-rung-dot" cx="458" cy="315.9" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="9">
+    <line class="cr-hybrid-rung" x1="474" y1="297.2" x2="474" y2="311.2"/>
+    <circle class="cr-rung-dot" cx="474" cy="295.2" r="1.7"/>
+    <circle class="cr-rung-dot" cx="474" cy="313.2" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="10">
+    <line class="cr-hybrid-rung" x1="490" y1="294.9" x2="490" y2="308.9"/>
+    <circle class="cr-rung-dot" cx="490" cy="292.9" r="1.7"/>
+    <circle class="cr-rung-dot" cx="490" cy="310.9" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="11">
+    <line class="cr-hybrid-rung" x1="506" y1="293" x2="506" y2="307"/>
+    <circle class="cr-rung-dot" cx="506" cy="291" r="1.7"/>
+    <circle class="cr-rung-dot" cx="506" cy="309" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="12">
+    <line class="cr-hybrid-rung" x1="522" y1="291.4" x2="522" y2="305.4"/>
+    <circle class="cr-rung-dot" cx="522" cy="289.4" r="1.7"/>
+    <circle class="cr-rung-dot" cx="522" cy="307.4" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="13">
+    <line class="cr-hybrid-rung" x1="538" y1="290.2" x2="538" y2="304.2"/>
+    <circle class="cr-rung-dot" cx="538" cy="288.2" r="1.7"/>
+    <circle class="cr-rung-dot" cx="538" cy="306.2" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="14">
+    <line class="cr-hybrid-rung" x1="554" y1="289.3" x2="554" y2="303.3"/>
+    <circle class="cr-rung-dot" cx="554" cy="287.3" r="1.7"/>
+    <circle class="cr-rung-dot" cx="554" cy="305.3" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="15">
+    <line class="cr-hybrid-rung" x1="570" y1="288.7" x2="570" y2="302.7"/>
+    <circle class="cr-rung-dot" cx="570" cy="286.7" r="1.7"/>
+    <circle class="cr-rung-dot" cx="570" cy="304.7" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="16">
+    <line class="cr-hybrid-rung" x1="586" y1="288.3" x2="586" y2="302.3"/>
+    <circle class="cr-rung-dot" cx="586" cy="286.3" r="1.7"/>
+    <circle class="cr-rung-dot" cx="586" cy="304.3" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="17">
+    <line class="cr-hybrid-rung" x1="602" y1="288.1" x2="602" y2="302.1"/>
+    <circle class="cr-rung-dot" cx="602" cy="286.1" r="1.7"/>
+    <circle class="cr-rung-dot" cx="602" cy="304.1" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="18">
+    <line class="cr-hybrid-rung" x1="618" y1="288" x2="618" y2="302"/>
+    <circle class="cr-rung-dot" cx="618" cy="286" r="1.7"/>
+    <circle class="cr-rung-dot" cx="618" cy="304" r="1.7"/>
+  </g><g class="cr-rung-wrap" data-rung="19">
+    <line class="cr-hybrid-rung" x1="634" y1="288" x2="634" y2="302"/>
+    <circle class="cr-rung-dot" cx="634" cy="286" r="1.7"/>
+    <circle class="cr-rung-dot" cx="634" cy="304" r="1.7"/>
+  </g></g>
+      <path id="cr-rna-spacer" class="cr-rna-spacer" d="M330 330 L346 325.4 L362 320.8 L378 316.4 L394 312.1 L410 308.1 L426 304.4 L442 301 L458 297.9 L474 295.2 L490 292.9 L506 291 L522 289.4 L538 288.2 L554 287.3 L570 286.7 L586 286.3 L602 286.1 L618 286 L634 286"/>
+      <circle id="cr-ts-scissile" class="cr-scissile" cx="370" cy="336.6" r="3.6"/>
+      <g id="cr-mm-mark" class="cr-mm-mark" transform="translate(378 325.4)">
+        <circle class="cr-mm-halo" r="11"/>
+        <path class="cr-mm-x" d="M-4 -4 L4 4 M4 -4 L-4 4"/>
+      </g>
+    </g>
+
+    <g id="cr-sgrna" class="hot" tabindex="0" data-info="Single-guide RNA (sgRNA) scaffold: crRNA:tracrRNA repeat:anti-repeat tetraloop and stem loops 1–3 anchored across the REC and NUC surfaces.">
+      <path class="cr-rna-scaffold" d="M472 288 C462 248, 412 184, 424 148 C436 124, 474 132, 480 162 C486 202, 502 254, 528 278"/>
+      <path class="cr-rna-scaffold" d="M528 278 C562 296, 588 386, 616 404 C644 418, 666 382, 644 342 C622 308, 582 286, 550 280"/>
+      <line class="cr-stem-bar" x1="436" y1="158" x2="468" y2="164"/>
+      <line class="cr-stem-bar" x1="440" y1="180" x2="472" y2="188"/>
+      <line class="cr-stem-bar" x1="446" y1="204" x2="476" y2="212"/>
+      <line class="cr-stem-bar" x1="600" y1="348" x2="626" y2="338"/>
+      <line class="cr-stem-bar" x1="612" y1="370" x2="638" y2="358"/>
+    </g>
+
+    <path id="cr-hnh-arc" class="cr-hnh-arc" d="M525 360 Q454 316 372 334"/>
+
+    <g id="cr-hnh-move" transform="translate(0 0)">
+      <g id="cr-hnh" class="hot cr-domain" tabindex="0" data-info="HNH mobile nuclease domain (Asp839, His840, Asn863): held in an inactive checkpoint until full 20-nt R-loop pairing triggers a ~30 Å (~180°) conformational dock onto the target strand −3 phosphate.">
+        <ellipse id="cr-hnh-body" class="cr-hnh-body" cx="525" cy="360" rx="56" ry="42"/>
+        <path class="cr-contour" d="M491 348 C515 334, 543 338, 561 356"/>
+        <path class="cr-contour" d="M495 372 C519 384, 545 380, 559 366"/>
+        <circle class="cr-mg" cx="501" cy="360" r="3.8"/>
+        <text class="cr-hnh-tag" x="535" y="358" text-anchor="middle">HNH</text>
+        <text class="cr-micro" x="535" y="372" text-anchor="middle">H840 · Mg²⁺</text>
+      </g>
+    </g>
+
+    <g id="cr-cleave-fx" class="cr-cleave-fx">
+      <circle class="cr-cut-ring" cx="370" cy="336.6" r="11"/>
+      <circle class="cr-cut-ring" cx="370" cy="413.5" r="11"/>
+      <text class="cr-cut-end" x="354" y="288.6" text-anchor="end">3'-OH</text>
+      <text class="cr-cut-end" x="386" y="288.6" text-anchor="start">5'-P</text>
+      <text class="cr-cut-end" x="342" y="437.5" text-anchor="end">3'-OH</text>
+      <text class="cr-cut-end" x="398" y="437.5" text-anchor="start">5'-P</text>
+    </g>
+
+    <g class="cr-callout "><path class="cr-leader" d="M424 152L224 152"/><circle class="cr-dot" cx="424" cy="152" r="2.2"/><text class="cr-label" x="218" y="156" text-anchor="end"><tspan x="218" dy="0">sgRNA scaffold</tspan><tspan x="218" dy="14">(tetraloop · stem loops)</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M370 336.6L206 272"/><circle class="cr-dot" cx="370" cy="336.6" r="2.2"/><text class="cr-label" x="200" y="276" text-anchor="end"><tspan x="200" dy="0">target strand (TS)</tspan><tspan x="200" dy="14">−3 scissile phosphate</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M286 398L206 424"/><circle class="cr-dot" cx="286" cy="398" r="2.2"/><text class="cr-label" x="200" y="428" text-anchor="end"><tspan x="200" dy="0">PAM (5'-NGG-3')</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M254 458L206 476"/><circle class="cr-dot" cx="254" cy="458" r="2.2"/><text class="cr-label" x="200" y="480" text-anchor="end"><tspan x="200" dy="0">PI domain</tspan><tspan x="200" dy="14">(Arg1333 / Arg1335)</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M624 182L746 172"/><circle class="cr-dot" cx="624" cy="182" r="2.2"/><text class="cr-label" x="752" y="176" text-anchor="start"><tspan x="752" dy="0">REC lobe (REC1–REC3)</tspan><tspan x="752" dy="14">helical cradle</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M586 286.3L746 256"/><circle class="cr-dot" cx="586" cy="286.3" r="2.2"/><text class="cr-label" x="752" y="260" text-anchor="start"><tspan x="752" dy="0">RNA:DNA heteroduplex</tspan><tspan x="752" dy="14">(20-nt R-loop)</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M748 320L748 360"/><circle class="cr-dot" cx="748" cy="320" r="2.2"/><text class="cr-label" x="754" y="364" text-anchor="start"><tspan x="754" dy="0">PAM-distal dsDNA</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M538 404.7L746 438"/><circle class="cr-dot" cx="538" cy="404.7" r="2.2"/><text class="cr-label" x="752" y="442" text-anchor="start"><tspan x="752" dy="0">non-target strand (NTS)</tspan></text></g>
+    <g class="cr-callout "><path class="cr-leader" d="M472 502L588 532"/><circle class="cr-dot" cx="472" cy="502" r="2.2"/><text class="cr-label" x="594" y="536" text-anchor="start"><tspan x="594" dy="0">RuvC catalytic core</tspan><tspan x="594" dy="14">(cleaves NTS at −3)</tspan></text></g>
+
+    <text id="cr-status" class="cr-status" x="500" y="592" text-anchor="middle"></text>
+  </svg></div></figure>
+<div class="cr-controls">
+  <fieldset class="cr-mode">
+    <legend>Target fidelity</legend>
+    <label><input type="radio" name="fidelity" value="match" checked> On-target (20/20 match)</label>
+    <label><input type="radio" name="fidelity" value="mismatch"> Seed mismatch (pos 4)</label>
+  </fieldset>
+  <label class="cr-scrub-wrap">
+    <span>Cycle</span>
+    <input id="cr-scrub" type="range" min="0" max="1000" value="0" aria-label="Reaction cycle progress">
+    <span id="cr-pct">0%</span>
+  </label>
+  <div class="cr-btns">
+    <button id="cr-replay" type="button">Replay</button>
+    <button id="cr-pause" type="button" aria-pressed="false">Pause motion</button>
+  </div>
+</div>
+<p class="cr-summary" id="cr-summary"></p>
+<p class="cr-info" id="cr-info">Hover or focus any domain, strand, or catalytic pocket for its biochemical role.</p>
+
+<section class="bio-sources">
+  <h2>Sources and limits</h2>
+  <ul>
+    <li><strong>Crystal structures:</strong> <em>Streptococcus pyogenes</em> Cas9–sgRNA–PAM DNA complex (<a href="https://www.rcsb.org/structure/4UN3" target="_blank" rel="noopener">PDB 4UN3</a>, 2.59 Å, Anders et al., <em>Nature</em> 2014) and Cas9 R-loop complex primed for cleavage (<a href="https://www.rcsb.org/structure/5F9R" target="_blank" rel="noopener">PDB 5F9R</a>, Jiang et al., <em>Science</em> 2016).</li>
+    <li><strong>Dual-strand cleavage:</strong> HNH (Asp839, His840, Asn863) cleaves the target strand and RuvC (Asp10, Glu762, His983, Asp986) cleaves the non-target strand, each 3 nt upstream of the 5'-NGG-3' PAM, generating a predominantly blunt double-strand break (Jinek et al., <em>Science</em> 2012, <a href="https://doi.org/10.1126/science.1225829" target="_blank" rel="noopener">doi:10.1126/science.1225829</a>).</li>
+    <li><strong>HNH conformational checkpoint:</strong> Complete 20-nt R-loop propagation drives an allosteric transition moving HNH (~180° rotation, ~30 Å displacement) from an inactive checkpoint into the catalytic conformation (Sternberg et al., <em>Nature</em> 2015, <a href="https://pubmed.ncbi.nlm.nih.gov/26524520/" target="_blank" rel="noopener">PMID 26524520</a>; Dagdas et al., <em>Science Advances</em> 2017, <a href="https://doi.org/10.1126/sciadv.aao0027" target="_blank" rel="noopener">doi:10.1126/sciadv.aao0027</a>).</li>
+    <li><strong>Seed-mismatch stalling:</strong> PAM-proximal seed mismatches (positions 1–8) stall directional R-loop zippering and trap HNH in the inactive checkpoint, preventing cleavage (Szczelkun et al., <em>PNAS</em> 2014).</li>
+    <li><strong>What is simplified (illustrative):</strong> Schematic cross-section; domain outlines, the 9 s cycle duration, and the exact stall at 6/20 bp in the mismatch state are teaching simplifications rather than measured kinetics or atomic coordinates.</li>
+    <li><strong>Educational use only:</strong> Explains molecular mechanism only. Not clinical guidance, gene-editing protocol, or therapeutic advice.</li>
+  </ul>
+</section>
+</main><script type="module">
+const DATA = {"duration":9,"hnhDx":-153,"hnhDy":-26,"hnhOrigin":{"x":525,"y":360}};
+const svg = document.querySelector(".cr-fig");
+const readout = document.querySelector('[data-corner="readout"]');
+const statusEl = document.getElementById("cr-status");
+const summaryEl = document.getElementById("cr-summary");
+const infoEl = document.getElementById("cr-info");
+const scrub = document.getElementById("cr-scrub");
+const pctEl = document.getElementById("cr-pct");
+const pauseBtn = document.getElementById("cr-pause");
+const replayBtn = document.getElementById("cr-replay");
+const radios = [...document.querySelectorAll('input[name="fidelity"]')];
+const hnhMove = document.getElementById("cr-hnh-move");
+const hnhBody = document.getElementById("cr-hnh-body");
+const ruvcPocket = document.getElementById("cr-ruvc-pocket");
+const rec3 = document.getElementById("cr-rec3");
+const rnaSpacer = document.getElementById("cr-rna-spacer");
+const tsBridge = document.getElementById("cr-ts-bridge");
+const ntsBridge = document.getElementById("cr-nts-bridge");
+const cleaveFx = document.getElementById("cr-cleave-fx");
+const mmMark = document.getElementById("cr-mm-mark");
+const rungs = [...document.querySelectorAll("[data-rung]")];
+const tiles = [...document.querySelectorAll("[data-tile]")];
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+let fidelity = "match";
+let time = reduce.matches ? 7.6 : 0;
+let playing = !reduce.matches;
+let visible = true;
+let frame = 0;
+let last = 0;
+
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = (x) => { const t = clamp(x); return t * t * (3 - 2 * t); };
+
+function render() {
+  const p = time / DATA.duration;
+  const isMatch = fidelity === "match";
+  const rawPair = clamp((p - 0.06) / 0.44);
+  const pairing = isMatch ? rawPair : Math.min(0.3, rawPair);
+  const pairs = Math.round(pairing * 20);
+  const dock = isMatch ? ease((p - 0.50) / 0.24) : 0;
+  const cut = isMatch && p > 0.78;
+  const cutPulse = cut ? 0.55 + 0.45 * Math.sin((p - 0.78) * 34) ** 2 : 0;
+  const mmHit = !isMatch && p >= 0.14;
+  const lockShake = !isMatch && p > 0.34 ? Math.sin((p - 0.34) * 28) * 3.5 * clamp(1 - (p - 0.34) / 0.35) : 0;
+
+  svg.dataset.fidelity = fidelity;
+  svg.dataset.state = cut ? "cleaved" : !isMatch && mmHit ? "blocked" : dock > 0.9 ? "docked" : dock > 0.05 ? "docking" : "zippering";
+
+  const tx = DATA.hnhDx * dock + lockShake;
+  const ty = DATA.hnhDy * dock;
+  const rot = -22 * dock;
+  hnhMove.setAttribute("transform", "translate(" + tx.toFixed(1) + " " + ty.toFixed(1) + ") rotate(" + rot.toFixed(1) + " " + DATA.hnhOrigin.x + " " + DATA.hnhOrigin.y + ")");
+
+  rungs.forEach((g, i) => {
+    const lit = pairs > i;
+    g.classList.toggle("is-lit", lit);
+    g.classList.toggle("is-mm", !isMatch && i === 3 && mmHit);
+  });
+  tiles.forEach((g, i) => {
+    const lit = pairs > i;
+    g.classList.toggle("is-lit", lit);
+    g.classList.toggle("is-mm", !isMatch && i === 3 && mmHit);
+    const rnaTxt = g.querySelector(".cr-tile-rna");
+    if (rnaTxt) rnaTxt.textContent = isMatch ? rnaTxt.dataset.match : rnaTxt.dataset.mismatch;
+  });
+
+  rnaSpacer.style.opacity = (0.38 + 0.62 * pairing).toFixed(2);
+  rec3.classList.toggle("is-active", isMatch && pairing >= 0.95);
+  hnhBody.classList.toggle("is-active", dock > 0.85);
+  hnhBody.classList.toggle("is-locked", !isMatch && mmHit);
+  ruvcPocket.classList.toggle("is-active", cut);
+  tsBridge.style.opacity = cut ? "0" : "1";
+  ntsBridge.style.opacity = cut ? "0" : "1";
+  cleaveFx.style.opacity = cut ? cutPulse.toFixed(2) : "0";
+  mmMark.style.opacity = mmHit ? "1" : "0";
+
+  const phase = !isMatch ? "checkpoint" : cut ? "cleaved" : dock > 0.95 ? "docked" : dock > 0.05 ? "docking" : "zippering";
+  readout.textContent = "R-loop: " + pairs + "/20 bp · HNH: " + phase;
+
+  if (!isMatch) {
+    statusEl.textContent = mmHit
+      ? "Seed mismatch at pos 4 (C·C)  ·  R-loop stalled (6/20 bp)  ·  HNH locked at checkpoint"
+      : "PAM bound (5'-NGG-3')  ·  interrogating seed sequence (positions 1–8)";
+    summaryEl.textContent = "A single mismatch in the PAM-proximal seed region (positions 1–8) stalls directional R-loop zippering. Without full 20-nt duplex formation, REC3 cannot license HNH docking—so HNH stays locked at the conformational checkpoint and DNA remains uncut.";
+  } else if (cut) {
+    statusEl.textContent = "HNH + RuvC active  ·  blunt double-strand break at −3 nt upstream of PAM";
+    summaryEl.textContent = "With the 20-nt R-loop complete and HNH docked on the target strand, HNH (His840) and RuvC (Asp10) cleave both strands 3 nucleotides upstream of the PAM, creating a blunt double-strand break while Cas9 stays bound to the DNA ends.";
+  } else if (dock > 0.05) {
+    statusEl.textContent = "R-loop complete (20/20 bp)  ·  REC3 licenses HNH docking onto TS (−3)";
+    summaryEl.textContent = "Complete 20-bp guide RNA:target DNA pairing acts as an allosteric switch through REC3, releasing the HNH catalytic domain to swing across the cleft onto the target-strand scissile phosphate.";
+  } else {
+    statusEl.textContent = "PAM bound (5'-NGG-3')  ·  directional R-loop zippering (" + pairs + "/20 bp)  ·  HNH undocked";
+    summaryEl.textContent = "After the PI domain recognizes the 5'-NGG-3' PAM, Cas9 melts the adjacent duplex and zippers the guide RNA onto the target strand from PAM-proximal (+1) toward PAM-distal (+20), displacing the non-target strand across RuvC.";
+  }
+
+  scrub.value = String(Math.round(p * 1000));
+  pctEl.textContent = Math.round(p * 100) + "%";
+}
+
+function setFidelity(next) {
+  fidelity = next;
+  radios.forEach((r) => (r.checked = r.value === next));
+  time = next === "mismatch" ? 3.2 : 0;
+  if (!reduce.matches) setPlaying(true);
+  render();
+}
+
+function tick(now) {
+  frame = 0;
+  if (!playing || !visible) return;
+  const dt = Math.min(0.064, (now - (last || now)) / 1000);
+  last = now;
+  time = (time + dt) % DATA.duration;
+  render();
+  frame = requestAnimationFrame(tick);
+}
+function start() { if (playing && visible && !frame) { last = 0; frame = requestAnimationFrame(tick); } }
+function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; }
+function setPlaying(v) {
+  playing = v;
+  pauseBtn.textContent = v ? "Pause motion" : "Play motion";
+  pauseBtn.setAttribute("aria-pressed", String(!v));
+  if (v) start(); else stop();
+}
+
+radios.forEach((r) => r.addEventListener("change", () => { if (r.checked) setFidelity(r.value); }));
+scrub.addEventListener("input", () => { time = (Number(scrub.value) / 1000) * DATA.duration; setPlaying(false); render(); });
+pauseBtn.addEventListener("click", () => setPlaying(!playing));
+replayBtn.addEventListener("click", () => { time = 0; setPlaying(!reduce.matches); render(); });
+document.addEventListener("keydown", (e) => {
+  if (e.target.closest("textarea, select")) return;
+  if (e.code === "Space" && !e.target.closest("button, a, input")) { e.preventDefault(); setPlaying(!playing); return; }
+  if (e.key === "1" && !e.target.closest("input")) setFidelity("match");
+  if (e.key === "2" && !e.target.closest("input")) setFidelity("mismatch");
+  if (e.key && e.key.toLowerCase() === "r" && !e.target.closest("input")) { time = 0; setPlaying(!reduce.matches); render(); }
+});
+reduce.addEventListener("change", () => setPlaying(!reduce.matches));
+const idleInfo = infoEl.textContent;
+svg.querySelectorAll(".hot").forEach((el) => {
+  const on = () => { infoEl.textContent = el.dataset.info; el.classList.add("is-hot"); };
+  const off = () => { infoEl.textContent = idleInfo; el.classList.remove("is-hot"); };
+  el.addEventListener("pointerenter", on); el.addEventListener("pointerleave", off);
+  el.addEventListener("focus", on); el.addEventListener("blur", off);
+});
+new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else stop(); }).observe(svg);
+if (reduce.matches) { pauseBtn.textContent = "Play motion"; pauseBtn.setAttribute("aria-pressed", "true"); }
+render();
+start();
+window.__cr = { setFidelity, setTime: (t) => { time = clamp(t, 0, DATA.duration); render(); }, setPlaying };
+</script></body></html>
